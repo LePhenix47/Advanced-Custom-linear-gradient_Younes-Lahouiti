@@ -9,30 +9,23 @@ import { log, table } from "./console.functions";
  *
  * @returns {HTMLElement[]|[]} A collection of elements with the specified class name.
  */
-export function selectByClass(
+export function selectByClass<T extends HTMLElement | SVGElement>(
   className: string,
   container?: any
-): HTMLElement[] | [] {
+): T[] | [] {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return Array.from(
-      document.getElementsByClassName(className)
-    ) as HTMLElement[];
+    return Array.from(document.getElementsByClassName(className)) as T[];
   }
 
-  /**
-   * We check if it's a web component, they always have a hyphen in their tag name
-   */
   const containerIsWebComponent: boolean = container?.tagName?.includes("-");
 
   if (containerIsWebComponent) {
     return Array.from(
       container.shadowRoot.getElementsByClassName(className)
-    ) as HTMLElement[];
+    ) as T[];
   }
-  return Array.from(
-    container.getElementsByClassName(className)
-  ) as HTMLElement[];
+  return Array.from(container.getElementsByClassName(className)) as T[];
 }
 
 /**
@@ -44,21 +37,21 @@ export function selectByClass(
  *
  * @returns {HTMLElement} The element with the specified ID.
  */
-export function selectById(id: string, container?: any): HTMLElement {
+export function selectById<T extends HTMLElement | SVGElement>(
+  id: string,
+  container?: any
+): T | null {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return document.getElementById(id);
+    return document.getElementById(id) as T | null;
   }
 
-  /**
-   * We check if it's a web component, they always have a hyphen in their tag name
-   */
   const containerIsWebComponent: boolean = container?.tagName?.includes("-");
 
   if (containerIsWebComponent) {
-    return container.shadowRoot.getElementById(id);
+    return container.shadowRoot.getElementById(id) as T | null;
   }
-  return container.getElementById(id);
+  return container.getElementById(id) as T | null;
 }
 
 /**
@@ -69,22 +62,22 @@ export function selectById(id: string, container?: any): HTMLElement {
  *
  * @returns {HTMLElement} - The element selected or `null` if the element doesn't exist
  */
-
-export function selectQuery(query: string, container?: any): HTMLElement {
+export function selectQuery<T extends HTMLElement | SVGElement>(
+  query: string,
+  container?: any
+): T | null {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return document.querySelector(query);
+    return document.querySelector(query) as T | null;
   }
-  /**
-   * We check if it's a web component, they always have a hyphen in their tag name
-   */
+
   const containerIsWebComponent: boolean = container?.tagName?.includes("-");
 
   if (containerIsWebComponent) {
-    return container.shadowRoot.querySelector(query);
+    return container.shadowRoot.querySelector(query) as T | null;
   }
 
-  return container.querySelector(query);
+  return container.querySelector(query) as T | null;
 }
 
 /**
@@ -94,22 +87,22 @@ export function selectQuery(query: string, container?: any): HTMLElement {
  * @param {any} container - HTML Element to select the query from
  * @returns {HTMLElement[] | []} - An array with all the elements selected or `null` if the element doesn't exist
  */
-export function selectQueryAll(
+export function selectQueryAll<T extends HTMLElement | SVGElement>(
   query: string,
   container?: any
-): HTMLElement[] | [] {
+): T[] | [] {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return Array.from(document.querySelectorAll(query));
+    return Array.from(document.querySelectorAll(query)) as T[];
   }
 
   const isWebComponent: boolean = container.tagName.includes("-");
 
   if (isWebComponent) {
-    return Array.from(container.shadowRoot.querySelectorAll(query));
+    return Array.from(container.shadowRoot.querySelectorAll(query)) as T[];
   }
 
-  return Array.from(container.querySelectorAll(query));
+  return Array.from(container.querySelectorAll(query)) as T[];
 }
 
 /**

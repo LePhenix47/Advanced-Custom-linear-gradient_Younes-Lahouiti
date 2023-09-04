@@ -177,8 +177,11 @@ svg {
 }
 
 //Reset for all the input types
-//Advanced input reset
+//I'm adding an underscore to point out that they're private variables
 input {
+    --_caret-color: currentColor;
+    caret-color: var(--_caret-color);
+
     &[type="text"] {
         &:hover {
             cursor: text;
@@ -192,6 +195,12 @@ input {
     }
 
     &[type="date"] {
+        --_calendar-color: red;
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--_calendar-color);
+        }
+
         &:hover {
             cursor: text;
         }
@@ -204,6 +213,12 @@ input {
     }
 
     &[type="datetime-local"] {
+        --_calendar-color: red;
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--_calendar-color);
+        }
+
         &:hover {
             cursor: text;
         }
@@ -216,12 +231,24 @@ input {
     }
 
     &[type="month"] {
+        --_calendar-color: red;
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--_calendar-color);
+        }
+
         &:hover {
             cursor: text;
         }
     }
 
     &[type="week"] {
+        --_calendar-color: red;
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--_calendar-color);
+        }
+
         &:hover {
             cursor: text;
         }
@@ -242,6 +269,12 @@ input {
     &[type="time"] {
         &:hover {
             cursor: text;
+        }
+
+        --_calendar-color: red;
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: var(--_calendar-color);
         }
     }
 
@@ -310,10 +343,8 @@ input {
 
         --_color-swatch-border-width: 0px;
         --_color-swatch-border-color: transparent;
-
         --_color-swatch-border-radius: 0px;
         border-radius: var(--_color-swatch-border-radius);
-
 
         &::-moz-color-swatch {
             display: var(--_color-swatch-display);
@@ -341,12 +372,20 @@ input {
             cursor: text;
         }
 
+        --_reset-button-display: initial;
+
+        &::-webkit-clear-button {
+            display: var(--_reset-button-display);
+            // appearance: var(--_reset-button-display);
+        }
+
         --_cancel-button-display: initial;
-        --_results-button-display: initial;
 
         &::-webkit-search-cancel-button {
             display: var(--_cancel-button-display);
         }
+
+        --_results-button-display: initial;
 
         &::-webkit-search-results-button {
             display: var(--_results-button-display);
@@ -359,21 +398,32 @@ input {
         }
 
         --_inner-spin-appearance: auto;
+        --_inner-spin-hover-cursor: pointer;
+
         --_outer-spin-appearance: auto;
+        --_outer-spin-hover-cursor: pointer;
 
         --_moz-appearance: initial;
 
         /*
-        Ignore the warning, this is to reset the input on Firefox
+            Ignore the warning, this is to reset the input on Firefox
         */
         -moz-appearance: var(--_moz-appearance);
 
         &::-webkit-inner-spin-button {
             appearance: var(--_inner-spin-appearance);
+
+            &:hover {
+                cursor: var(--_inner-spin-hover-cursor);
+            }
         }
 
         &::-webkit-outer-spin-button {
             appearance: var(--_outer-spin-appearance);
+
+            &:hover {
+                cursor: var(--_outer-spin-hover-cursor);
+            }
         }
     }
 

@@ -3,12 +3,12 @@ import {
   cssReset,
   lightThemeVariables,
   darkThemeVariables,
-} from "@utils/variables/web-component.variables";
+} from "../../utils/variables/web-component.variables";
 
 const templateElement = document.createElement("template");
 
 const templateStyle = /* css */ `
- user-component{
+ web-component{
   isolation: isolate;
   /* Other CSS styles here */
  }

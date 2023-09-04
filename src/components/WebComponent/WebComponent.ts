@@ -3,17 +3,17 @@ import {
   cssReset,
   lightThemeVariables,
   darkThemeVariables,
-} from "../../utils/variables/web-component.variables";
+} from "@utils/variables/web-component.variables";
 
 const templateElement = document.createElement("template");
 
-const templateStyle = /* css */ `
+const templateStyle: string = /* css */ `
  web-component{
   isolation: isolate;
   /* Other CSS styles here */
  }
 `;
-const templateContent = /*html */ `
+const templateContent: string = /*html */ `
  <figure>
   <slot name="title"></slot>
   <slot name="image"></slot>

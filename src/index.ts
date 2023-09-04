@@ -3,4 +3,4 @@ import { selectQuery } from "@utils/helpers/dom.helpers";
 
 console.log("Hello world");
 
-const svg = selectQuery<SVGElement>("svg");
+const svgGradient = selectQuery<SVGElement>("svg");

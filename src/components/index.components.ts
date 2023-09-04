@@ -1,1 +1,1 @@
-import "./WebComponent/web-component.component";
+import "./WebComponent/WebComponent";

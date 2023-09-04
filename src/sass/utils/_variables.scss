@@ -1,0 +1,37 @@
+:root {
+    --bg-primary: rgb(255, 255, 255);
+    --bg-secondary: #f0efef;
+    --bg-tertiary: #676767;
+
+
+    --test: #406273;
+    --test: rgb(64, 98, 115);
+    --test: hsl(200, 28%, 35%);
+    --test: hwb(200, 25%, 55%);
+
+    --semi-transparent-bg: rgba(255, 255, 255, 50%);
+
+    --color-primary: black;
+    --color-secondary: gray;
+
+    --scrollbar-track-bg-color: white;
+
+    --disabled-button-bg: #afafaf;
+
+    --scrollbar-thumb-bg-color: #545454;
+    --scrollbar-thumb-bg-color--hover: #757575;
+    --scrollbar-thumb-bg-color--active: #b0b0b0;
+
+    --selection-bg-color: hwb(240 0% 0%);
+    --selection-color: white;
+}
+
+::backdrop {
+    --backdrop-bg-color: rgba(255, 255, 255, 0.5);
+
+    --scrollbar-track-bg-color: white;
+
+    --scrollbar-thumb-bg-color: #545454;
+    --scrollbar-thumb-bg-color--hover: #757575;
+    --scrollbar-thumb-bg-color--active: #b0b0b0;
+}

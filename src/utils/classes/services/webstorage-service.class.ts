@@ -10,7 +10,7 @@
  * @static
  * @public
  */
-export class WebStorageService {
+class WebStorageService {
   /**
    * Stores a key-value pair in the WebStorage.
    *
@@ -103,3 +103,5 @@ export class WebStorageService {
     return storage.key(index);
   }
 }
+
+export default WebStorageService;

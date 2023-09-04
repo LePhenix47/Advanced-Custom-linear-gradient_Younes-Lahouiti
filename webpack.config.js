@@ -1,19 +1,17 @@
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const autoprefixer = require("autoprefixer");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
-    index: ["./src/index.ts", "./src/sass/main.scss"],
+    index: "./src/index.ts", // Entry point for your TypeScript files
+    style: "./src/sass/main.scss", // Entry point for your SASS file
   },
   mode: "production",
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "./dist"),
     clean: true,
-    assetModuleFilename: "css/style[ext]",
   },
   module: {
     rules: [
@@ -24,43 +22,20 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: { importLoaders: 1 },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [
-                  autoprefixer({
-                    grid: true,
-                  }),
-                ],
-              },
-            },
-          },
-          "sass-loader",
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: "style.css",
-      ignoreOrder: true,
-    }),
-  ],
   optimization: {
     minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new TerserPlugin(), // Add TerserPlugin to minimize JS
-    ],
+    minimizer: [new TerserPlugin()],
   },
   resolve: {
     extensions: [".ts", ".js"],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "style.css", // Specify the output CSS filename
+    }),
+  ],
 };

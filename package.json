@@ -1,5 +1,5 @@
 {
-  "name": "skeleton-sass-ts-project",
+  "name": "advanced-linear-gradient",
   "version": "1.0.0",
   "description": "Small TS-SASS compiled with Webpack project skeleton",
   "main": "dist/index.js",
@@ -17,9 +17,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.1",
     "css-loader": "^6.5.2",
-    "css-minimizer-webpack-plugin": "^5.0.0",
     "mini-css-extract-plugin": "^2.4.5",
-    "node-sass": "^6.0.1",
     "postcss": "^8.4.23",
     "postcss-loader": "^6.2.1",
     "sass": "^1.62.0",

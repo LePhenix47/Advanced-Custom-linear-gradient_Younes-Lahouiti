@@ -3,7 +3,7 @@ import {
   cssReset,
   lightThemeVariables,
   darkThemeVariables,
-} from "../utils/variables/web-component.variables";
+} from "@utils/variables/web-component.variables";
 
 const templateElement = document.createElement("template");
 
@@ -15,8 +15,8 @@ const templateStyle = /* css */ `
 `;
 const templateContent = /*html */ `
  <figure>
-  <slot name="title" />
-  <slot name="image" />
+  <slot name="title"></slot>
+  <slot name="image"></slot>
  </figure>
 `;
 

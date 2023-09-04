@@ -1,3 +1,6 @@
 @use "../utils/" as *;
 
-.index {}
+.index {
+    height: 100%;
+    flex: 1
+}

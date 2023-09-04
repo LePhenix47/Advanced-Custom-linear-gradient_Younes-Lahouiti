@@ -1,12 +1,9 @@
-import { log } from "../../functions/helper-functions/console.functions";
+import { log } from "../../helpers/console.helpers";
 import {
   decimalToHexadecimal,
   hexadecimalToDecimal,
-} from "../../functions/helper-functions/number.functions";
-import {
-  sliceString,
-  getSubtring,
-} from "../../functions/helper-functions/string.functions";
+} from "../../helpers/number.helpers";
+import { sliceString, getSubtring } from "../../helpers/string.helpers";
 import {
   HueSaturationLightness,
   HueSaturationValue,

@@ -1,6 +1,3 @@
-import { error, warn } from "./console.functions";
-import { abs, floor, random } from "./math.functions";
-
 /**
  * Generates a random number within a specified range.
  * @param {number} min - The minimum value of the range.
@@ -32,14 +29,14 @@ export function getRandomNumber(
   const mustIncludeOnlyMax: boolean = !includeMin && includeMax;
 
   if (mustIncludeBoth) {
-    return floor(random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   } else if (mustIncludeOnlyMin) {
-    return floor(random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min)) + min;
   } else if (mustIncludeOnlyMax) {
-    return floor(random() * (max - min)) + min + 1;
+    return Math.floor(Math.random() * (max - min)) + min + 1;
   } else {
     //We don't include either
-    return floor(random() * (max - min - 1)) + min + 1;
+    return Math.floor(Math.random() * (max - min - 1)) + min + 1;
   }
 }
 
@@ -75,7 +72,7 @@ export function nthRoot(value: number, root: number = 2): number {
   //To avoid JS returning us a NaN even with odd roots of negative values
   //We set the value to be positive by taking their absolute value: |x|
   //Then we use the formula ⁿ√(x) = x^(1/n)
-  let calculatedRoot: number = abs(value) ** (1 / root);
+  let calculatedRoot: number = Math.abs(value) ** (1 / root);
 
   //And we now return the nth root of a positive or negative value
   return value > 0 ? calculatedRoot : -1 * calculatedRoot;

@@ -1,4 +1,4 @@
-import { log, table } from "./console.functions";
+import { log, table } from "./console.helpers";
 
 /**
  * Simpler version of `document.getElementsByClassName()`
@@ -68,7 +68,7 @@ export function selectQuery<T extends HTMLElement | SVGElement>(
 ): T | null {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return document.querySelector(query) as T | null;
+    return document.querySelector<T | null>(query);
   }
 
   const containerIsWebComponent: boolean = container?.tagName?.includes("-");

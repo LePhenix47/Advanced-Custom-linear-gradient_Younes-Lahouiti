@@ -1,4 +1,4 @@
-import { splitString } from "./string.functions";
+import { splitString } from "./string.helpers";
 
 /**
  * Checks if a given file has the expected type.

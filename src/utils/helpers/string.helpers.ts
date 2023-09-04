@@ -1,6 +1,6 @@
 //Utils
 
-import { log } from "./console.functions";
+import { log } from "./console.helpers";
 /**
  *Function that formats a given string in 3 cases: lowercase, uppercase and titlecase
  *

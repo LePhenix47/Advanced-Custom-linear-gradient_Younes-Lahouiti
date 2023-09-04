@@ -1,5 +1,3 @@
-import { log } from "./console.functions";
-
 /**
  * Plays the video element
  * @param {HTMLVideoElement} video - The HTML video element to be played

@@ -37,7 +37,7 @@
 
 <body>
   <header class="header">
-    <h1 class="header__title" title="Title">
+    <h1 class="header__title" title="Advanced linear gradient creator">
       Advanced linear gradient creator
     </h1>
   </header>
@@ -49,58 +49,87 @@
           + Add Color
         </button>
 
-        <table class="menu__table">
-          <tbody class="menu__table-body">
-            <tr class="menu__table-row">
-              <td class="menu__table-cell">
-                <button class="menu__top-button">↑</button>
-                <button class="menu__bottom-button">↓</button>
-              </td>
-              <td class="menu__table-cell">1.</td>
-              <td class="menu__table-cell">
-                <label for="" class="menu__label">#FFF</label>
-                <input type="color" class="menu__input-color" value="#FF0000" />
-              </td>
-              <td class="menu__table-cell">
-                <label for="offset" class="menu__label"> Offset: </label>
-                <input type="number" class="menu__input" min="0" max="100" />
-              </td>
-              <td class="menu__table-cell">
-                <label for="offset" class="menu__label">
-                  Color opacity:
-                </label>
-                <input type="number" class="menu__input" min="0" max="100" />
-              </td>
-              <td class="menu__table-cell">
-                <button class="menu__delete-button">Delete btn</button>
-              </td>
-            </tr>
-            <tr class="menu__table-row">
-              <td class="menu__table-cell">
-                <button class="menu__top-button">↑</button>
-                <button class="menu__bottom-button">↓</button>
-              </td>
-              <td class="menu__table-cell">2.</td>
-              <td class="menu__table-cell">
-                <label for="" class="menu__label">#FFFF00</label>
-                <input type="color" class="menu__input-color" value="#FFFF00" />
-              </td>
-              <td class="menu__table-cell">
-                <label for="offset" class="menu__label"> Offset: </label>
-                <input type="number" class="menu__input" min="0" max="100" />
-              </td>
-              <td class="menu__table-cell">
-                <label for="offset" class="menu__label">
-                  Color opacity:
-                </label>
-                <input type="number" class="menu__input" min="0" max="100" />
-              </td>
-              <td class="menu__table-cell">
-                <button class="menu__delete-button">Delete btn</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="menu__table-container">
+          <table class="menu__table">
+            <caption class="menu__caption">Added gradients</caption>
+            <tbody class="menu__table-body">
+              <tr class="menu__table-row">
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <button class="menu__order-top-button menu__order-changer">↑</button>
+                    <button class="menu__order-bottom-button menu__order-changer">↓</button>
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <p class="menu__table-cell-index">1.</p>
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="" class="menu__label">#FFF</label>
+                    <input type="color" class="menu__input-color" value="#FF0000" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="offset" class="menu__label"> Offset: </label>
+                    <input type="number" class="menu__input" min="0" max="100" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="offset" class="menu__label">Color opacity:</label>
+                    <input type="number" class="menu__input" min="0" max="100" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <button class="menu__delete-button">Delete btn 🚮</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="menu__table-row">
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <button class="menu__order-top-button menu__order-changer">↑</button>
+                    <button class="menu__order-bottom-button menu__order-changer">↓</button>
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <p class="menu__table-cell-index">2.</p>
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="" class="menu__label">#FFFF00</label>
+                    <input type="color" class="menu__input-color" value="#FFFF00" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="offset" class="menu__label"> Offset: </label>
+                    <input type="number" class="menu__input" min="0" max="100" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <label for="offset" class="menu__label">Color opacity:</label>
+                    <input type="number" class="menu__input" min="0" max="100" />
+                  </div>
+                </td>
+                <td class="menu__table-cell">
+                  <div class="menu__table-cell-content">
+                    <button class="menu__delete-button">Delete btn 🚮</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
 
         <div class="menu__gradient-types">
           <h3 class="menu__gradient-types--title">Gradient type:</h3>
@@ -134,14 +163,15 @@
 
     <web-component></web-component>
 
+    <!--  -->
     <div class="index__css-gradient"></div>
 
-    <div class="index__svg-gradient">
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" class="">
+    <div class="index__svg-container">
+      <svg xmlns="http://www.w3.org/2000/svg" class="index__svg-gradient">
         <defs>
           <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" style="stop-color: #bdc3e1; stop-opacity: 1" />
-            <stop offset="100%" style="stop-color: #f9917e; stop-opacity: 1" />
+            <stop offset="50%" style="stop-color: #bdc3e1; stop-opacity: 1" />
+            <stop offset="50%" style="stop-color: #f9917e; stop-opacity: 1" />
           </linearGradient>
         </defs>
         <rect width="100%" height="100%" fill="url(#gradient)" />
@@ -149,6 +179,7 @@
     </div>
 
     <canvas class="index__canvas-gradient"></canvas>
+    <!--  -->
   </main>
   <footer class="footer">
     <p class="footer__paragraph">

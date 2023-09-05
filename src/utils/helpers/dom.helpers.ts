@@ -68,7 +68,7 @@ export function selectQuery<T extends HTMLElement | SVGElement>(
 ): T | null {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
-    return document.querySelector<T | null>(query);
+    return document.querySelector(query) as T | null;
   }
 
   const containerIsWebComponent: boolean = container?.tagName?.includes("-");
@@ -111,7 +111,9 @@ export function selectQueryAll<T extends HTMLElement | SVGElement>(
  * @param {HTMLElement} elementOfReference The parent HTML element whose children to select.
  * @returns {HTMLElement[]} An array containing all child nodes of the parent element or null if the parent element has no children.
  */
-export function getChildren(elementOfReference: any | null): HTMLElement[] {
+export function getChildren<TChildren extends HTMLElement | SVGElement>(
+  elementOfReference: any | null
+): TChildren[] {
   return Array.from(elementOfReference.children);
 }
 
@@ -122,6 +124,18 @@ export function getChildren(elementOfReference: any | null): HTMLElement[] {
  */
 export function getParent(elementOfReference: HTMLElement): HTMLElement {
   return elementOfReference.parentElement;
+}
+
+/**
+ * Creates a deep clone of an HTML element.
+ *
+ * @param {HTMLElement | SVGElement} elementOfReference - The HTML element to clone.
+ * @returns {HTMLElement | SVGElement} - A deep clone of the provided HTML element.
+ */
+export function getClone<T extends HTMLElement | SVGElement>(
+  elementOfReference: T
+): T {
+  return elementOfReference.cloneNode(true) as T;
 }
 
 /**
@@ -239,7 +253,7 @@ export function replaceChildInParent(
  * @param {string} property The name of the attribute to add
  * @param {any} value The value to set the attribute to
  */
-export function modifyAttribute(
+export function setAttributeFrom(
   property: string,
   value: any,
   element: HTMLElement
@@ -255,7 +269,7 @@ export function modifyAttribute(
  *
  * @returns {string} The value of the attribute
  */
-export function getAttribute(
+export function getAttributeFrom(
   attributeName: string,
   element: HTMLElement
 ): string {

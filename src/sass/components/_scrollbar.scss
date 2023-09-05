@@ -1,36 +1,45 @@
 @use "../utils/" as *;
 
 * {
-    &::-webkit-scrollbar {
-        background-color: var(--scrollbar-track-bg-color);
-        border-radius: 100vmax;
-        margin-block: 15px;
+    --_scrollbar-bg: var(--scrollbar-track-bg-color);
+    --_scrollbar-border-radius: 100vmax;
+    --_scrollbar-width: 10px;
 
-        width: 10px;
+    --_scrollbar-thumb-border-width: 3px;
+    --_scrollbar-thumb-border-style: solid;
+    --_scrollbar-thumb-border-color: var(--bg-primary);
+
+    --_scrollbar-thumb-bg: var(--scrollbar-thumb-bg-color);
+    --_scrollbar-thumb-bg-hover: var(--scrollbar-thumb-bg-color);
+    --_scrollbar-thumb-bg-active: var(--scrollbar-thumb-bg-color);
+
+    &::-webkit-scrollbar {
+        background-color: var(--_scrollbar-bg);
+        border-radius: var(--_scrollbar-border-radius);
+
+        width: var(--_scrollbar-width);
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: var(--scrollbar-thumb-bg-color);
-
-        border: 3px solid var(--bg-primary);
+        background-color: var(--_scrollbar-thumb-bg);
+        border: var(--_scrollbar-thumb-border-width) var(--_scrollbar-thumb-border-style) var(--_scrollbar-thumb-border-color);
         border-radius: 100vmax;
 
         &:hover {
-            background-color: var(--scrollbar-thumb-bg-color--hover);
+            background-color: var(--_scrollbar-thumb-bg-hover);
         }
 
         &:active {
-            background-color: var(--scrollbar-thumb-bg-color--active);
+            background-color: var(--_scrollbar-thumb-bg-active);
         }
+
     }
 }
 
-
-//Added this support for the scrollbar since the webkit pseudo::element doesn't work on Mozilla Firefox
+// FIX: Move the Firefox scrollbar styling inside this selector
 @supports (scrollbar-color: black white) {
-    :root {
+    * {
         scrollbar-width: thin;
-        // BGC thumb then BGC track
-        scrollbar-color: var(--scrollbar-thumb-bg-color) var(--scrollbar-track-bg-color);
+        scrollbar-color: var(--_scrollbar-thumb-bg) var(--_scrollbar-bg);
     }
 }

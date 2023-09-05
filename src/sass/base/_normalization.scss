@@ -178,8 +178,8 @@ svg {
 }
 
 //Reset for all the input types
-//I'm adding an underscore to point out that they're private variables
 input {
+    //I'm adding an underscore to point out that they're private variables
     --_caret-color: currentColor;
     caret-color: var(--_caret-color);
 

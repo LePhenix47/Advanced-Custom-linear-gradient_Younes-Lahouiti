@@ -21,29 +21,31 @@ $end: blue;
 
 // $color: color-mix(in $space, $start, $end);
 
-.gradient {
-    width: 100%;
-    height: 100px;
-    color: white;
-    font-family: sans-serif;
-    font-weight: bold;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 5px;
+// .gradient {
+//     width: 100%;
+//     height: 100px;
+//     color: white;
+//     font-family: sans-serif;
+//     font-weight: bold;
+//     padding: 10px;
+//     box-sizing: border-box;
+//     margin-bottom: 5px;
 
-    @each $space in srgb,
-    srgb-linear,
-    xyz-d50,
-    xyz-d65,
-    lab,
-    lch,
-    oklab,
-    oklch {
-        &.#{$space} {
-            background: gradient($space, 20);
-        }
-    }
-}
+//     @each $space in srgb,
+//     srgb-linear,
+//     xyz-d50,
+//     xyz-d65,
+//     lab,
+//     lch,
+//     oklab,
+//     oklch {
+
+//         // &.#{$space}
+//         {
+//             background: gradient($space, 20);
+//         }
+//     }
+// }
 
 
 // Rem to Pixel Conversion

@@ -12,7 +12,7 @@ $end: blue;
 
     @for $i from 1 through $stops {
         $percentage: math.div(100% * $i, ($stops + 1));
-        $color: color.mix($start, $end, $percentage); // Corrected the percentage here
+        $color: color.mix($start, $end, $percentage);
         $stops-list: list.join($stops-list, ($color $percentage));
     }
 

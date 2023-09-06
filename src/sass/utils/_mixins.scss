@@ -112,3 +112,10 @@
 @mixin child-border-radius-simple($parent-radius, $child-gap) {
     border-radius: calc(#{$parent-radius} - #{$child-gap});
 }
+
+// ---------------------------------------------------------------- //
+// Element specific mixins
+@mixin circle-style {
+    aspect-ratio: 1;
+    border-radius: 50%;
+}

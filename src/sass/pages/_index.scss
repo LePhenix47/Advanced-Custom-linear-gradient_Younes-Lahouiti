@@ -10,12 +10,12 @@
         backdrop-filter: blur(20px);
 
         position: fixed;
-        top: 80;
+        top: 50%;
 
         width: 85%;
-        height: 100dvh;
+        height: 80dvh;
 
-        translate: -100% 0%;
+        translate: -100% -50%;
         transition: translate 350ms ease-in-out;
 
         border: 2px solid rgb(212, 212, 212);
@@ -24,8 +24,10 @@
         padding: 10px;
         padding-right: 0;
 
+
+
         &.active {
-            translate: 0% 0%;
+            translate: 0% -50%;
         }
 
 
@@ -67,12 +69,42 @@
         --_scrollbar-thumb-border-width: 0;
         --_scrollbar-thumb-bg: white;
         --_scrollbar-thumb-bg-hover: rgba(255, 255, 255, 80%);
-        --_scrollbar-thumb-bg-active: #cfcfcf;
+        --_scrollbar-thumb-bg-active: rgba(255, 255, 255, 50%);
 
-        max-height: 300px;
+
+        min-height: 78px;
+        height: 250px;
+        max-height: 750px;
+
+        @include tablet-only {
+            min-height: 250px;
+            max-height: 500px;
+        }
+
+        @include mobile-only {
+            min-height: 250px;
+            max-height: 500px;
+        }
 
         overflow-y: auto;
         overflow-x: hidden;
+
+        resize: vertical;
+
+        &::-webkit-resizer {
+            background-color: transparent;
+            width: 10;
+            height: 10;
+            border-left: 10px solid transparent;
+            /* Adjust the size as needed */
+            border-top: 10px solid rgba(255, 255, 255, 50%);
+            /* Adjust the size and color as needed */
+            cursor: se-resize;
+            /* Set the cursor style for the resize handle */
+        }
+
+
+
     }
 
 
@@ -168,10 +200,96 @@
     }
 
 
-    &__gradient-types {}
+    &__gradient-types {
+        @include center-flex-column;
+
+        &--inputs {
+            @include center-flex(15px);
+
+        }
+
+        & label {
+            display: inline-flex;
+            gap: 5px;
+        }
+    }
 
     &__creation-language {}
 
     &__orientation {}
+
+
+    &__angle-picker {
+        @include circle-style;
+
+        border: 2px solid currentColor;
+
+        height: 100px;
+
+        background: green;
+
+        position: relative;
+
+        &--center-dot {
+            content: "";
+            @include circle-style;
+
+            position: absolute;
+            @include absolute-center;
+
+            height: 5px;
+
+
+            background-color: currentColor;
+        }
+
+
+        &--marker {
+            position: absolute;
+            height: var(--_size);
+
+            &:nth-child(odd) {
+                height: calc(var(--_size)/1.5);
+            }
+
+            aspect-ratio: 1/2;
+
+
+
+            top: var(--_top);
+            left: var(--_left);
+
+            translate: -50% -50%;
+
+            rotate: var(--_initial-degrees);
+
+            background-color: red;
+        }
+
+        @each $angle in 0,
+        45,
+        90,
+        135,
+        180,
+        225,
+        270,
+        315 {
+            &--marker-#{$angle}-deg {
+                --_size: 8px;
+
+                --_initial-degrees: #{$angle}deg;
+                --_degrees: #{$angle - 90}deg;
+
+
+                // Define the offset in pixels
+                --_offset: 44px; // Adjust this value as needed
+
+                // Calculate the top and left positions with the offset
+                --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+                --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+            }
+        }
+
+    }
 
 }

@@ -6,15 +6,14 @@
 
     &__title {
         text-align: center;
+        text-wrap: balance;
 
         color: transparent;
 
         background-image: linear-gradient(135deg, #bdc3e1 0%, #f9917e 100%);
-
         background-clip: text;
-
         background-size: 200%;
-
         background-position-x: 0%;
+
     }
 }

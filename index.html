@@ -49,8 +49,8 @@
           + Add Color
         </button>
 
-        <div class="menu__table-container">
-          <table class="menu__table">
+        <div class="menu__table-container" contenteditable="true">
+          <table class="menu__table" contenteditable="false">
             <caption class="menu__caption">Added gradients</caption>
             <tbody class="menu__table-body">
               <tr class="menu__table-row">
@@ -85,7 +85,7 @@
                 </td>
                 <td class="menu__table-cell">
                   <div class="menu__table-cell-content">
-                    <button class="menu__delete-button">Delete btn 🚮</button>
+                    <button class="menu__delete-button">🚮</button>
                   </div>
                 </td>
               </tr>
@@ -121,7 +121,7 @@
                 </td>
                 <td class="menu__table-cell">
                   <div class="menu__table-cell-content">
-                    <button class="menu__delete-button">Delete btn 🚮</button>
+                    <button class="menu__delete-button">🚮</button>
                   </div>
                 </td>
               </tr>
@@ -133,31 +133,53 @@
 
         <div class="menu__gradient-types">
           <h3 class="menu__gradient-types--title">Gradient type:</h3>
-          <label for="linear" class="menu__label"><input type="radio" id="linear"
-              name="gradient-type-group" />Linear</label>
-          <label for="radial" class="menu__label"><input type="radio" id="radial"
-              name="gradient-type-group" />Radial</label>
-          <!--  -->
-          <label for="repeating" class="menu__label"><input type="checkbox" id="repeating"
-              name="gradient-type-group" />Repeating?</label>
+
+          <div class="menu__gradient-types--inputs">
+            <label for="linear" class="menu__label"><input type="radio" id="linear"
+                name="gradient-type-group" />Linear</label>
+            <label for="radial" class="menu__label"><input type="radio" id="radial"
+                name="gradient-type-group" />Radial</label>
+            <!--  -->
+            <label for="repeating" class="menu__label"><input type="checkbox" id="repeating"
+                name="gradient-type-group" />Repeating?</label>
+          </div>
         </div>
 
-        <div class="menu__creation-language">
-          <label for="creation-language" class="menu__label">Creation language</label>
-          <select name="creation-language" id="creation-language">
-            <option value="svg">SVG</option>
-            <option value="css" selected>CSS</option>
-            <option value="canvas">Canvas</option>
-          </select>
+        <div class="menu__language-orientation">
+          <div class="menu__creation-language">
+            <label for="creation-language" class="menu__label">Creation language</label>
+            <select name="creation-language" id="creation-language">
+              <option value="svg">SVG</option>
+              <option value="css" selected>CSS</option>
+              <option value="canvas">Canvas</option>
+            </select>
+          </div>
+
+          <div class="menu__orientation">
+            <label for="orientation">Orientation (degrees):</label>
+            <p>ADD ANGLE PICKER HERE</p>
+
+            <div class="menu__angle-picker">
+              <div class="menu__angle-picker--center-dot"></div>
+              <!-- Angles for the angle picker -->
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-135-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-180-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-225-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-270-deg"></div>
+              <div class="menu__angle-picker--marker menu__angle-picker--marker-315-deg"></div>
+
+              <!-- Button to set the orientation in degrees in JS -->
+
+            </div>
+            <!-- The number input is only for mobile devices  -->
+            <input type="number" min="0" max="359" id="orientation" value="0" />
+            <output><span>45</span>°</output>
+          </div>
         </div>
 
-        <div class="menu__orientation">
-          <label for="orientation">Orientation (degrees):</label>
-          <p>ADD ANGLE PICKER HERE</p>
-          <!-- The number input is only for mobile devices  -->
-          <input type="number" min="0" max="359" id="orientation" value="0" />
-          <output><span>45</span>°</output>
-        </div>
       </div>
     </section>
 

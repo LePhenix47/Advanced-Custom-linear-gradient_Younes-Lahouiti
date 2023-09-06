@@ -188,6 +188,7 @@
 
     &__input {
         //
+        max-width: 60px;
     }
 
 
@@ -214,9 +215,13 @@
         }
     }
 
-    &__creation-language {}
+    &__creation-language {
+        @include center-flex-column(15px);
+    }
 
-    &__orientation {}
+    &__orientation {
+        @include center-flex-column(15px);
+    }
 
 
     &__angle-picker {

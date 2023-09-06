@@ -14,6 +14,6 @@ function testTableScroll() {
     tbody.appendChild(clonedRow);
   }
 }
-testTableScroll();
+// testTableScroll();
 
 const svgGradient = selectQuery<SVGElement>("svg");

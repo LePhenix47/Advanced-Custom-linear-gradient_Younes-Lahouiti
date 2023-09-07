@@ -22,9 +22,8 @@
         border-left: none;
 
         padding: 10px;
-        padding-right: 0;
 
-
+        overflow: hidden;
 
         &.active {
             translate: 0% -50%;
@@ -34,7 +33,10 @@
     }
 
     &__css-gradient {
-        background-image: linear-gradient(90deg, #bdc3e1 50%, #f9917e 50%);
+
+        --_gradient: linear-gradient(45deg, #bdc3e1 0%, #f9917e 100%);
+
+        background-image: var(--_gradient);
         height: 100%;
     }
 
@@ -55,12 +57,21 @@
     color: white;
 
     &__add-color-button {
-        background-color: blue;
+        background-color: #3b3b3b;
 
         padding-inline: 10px;
         padding-block: 5px;
 
         border-radius: 100vmax;
+
+        &:hover {
+            filter: contrast(80%);
+        }
+
+        &:active {
+
+            filter: contrast(65%);
+        }
     }
 
     &__table-container {
@@ -86,25 +97,10 @@
             max-height: 500px;
         }
 
-        overflow-y: auto;
         overflow-x: hidden;
+        overflow-y: auto;
 
         resize: vertical;
-
-        &::-webkit-resizer {
-            background-color: transparent;
-            width: 10;
-            height: 10;
-            border-left: 10px solid transparent;
-            /* Adjust the size as needed */
-            border-top: 10px solid rgba(255, 255, 255, 50%);
-            /* Adjust the size and color as needed */
-            cursor: se-resize;
-            /* Set the cursor style for the resize handle */
-        }
-
-
-
     }
 
 
@@ -119,7 +115,10 @@
 
     &__table-body {
         // 
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
         flex: 1;
 
     }
@@ -138,11 +137,6 @@
         border: 2px solid transparent;
         transition: border-color .25s;
 
-        padding: 4px 6px;
-
-        &:not(:last-child) {
-            margin-bottom: 10px;
-        }
 
 
         @include tablet-only {
@@ -162,19 +156,37 @@
         // 
         width: min-content;
         text-align: center;
-
+        padding: 4px 6px;
         // background-color: var(--semi-transparent-bg);
         // border-radius: 8px;
-        // border: 2px solid transparent;
-        // transition: border-color .25s;
 
-        // padding: 4px 6px;
+        border-inline-end: 2px solid currentColor;
 
+        &:last-child {
+            border-inline-end: none;
+        }
 
+        @include tablet-only {
+            //
+            width: 100%;
+            border: none;
 
+            &:last-child {
+                border-block-end: none;
+            }
+        }
 
-        font-family: inherit;
+        @include mobile-only {
+            //
+            width: 100%;
+            border: none;
 
+            border-block-end: 1px solid currentColor;
+
+            &:last-child {
+                border-block-end: none;
+            }
+        }
     }
 
     &__table-cell-content {
@@ -197,6 +209,8 @@
         font-weight: 500;
 
         border: 2px solid currentColor;
+        border-radius: 10px;
+
         padding: 10px;
     }
 

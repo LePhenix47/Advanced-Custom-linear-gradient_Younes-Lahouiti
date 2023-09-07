@@ -41,6 +41,39 @@ export function getRandomNumber(
 }
 
 /**
+ * Rounds a number to a specified number of decimal places.
+ *
+ * @param {number} number - The number to round.
+ * @param {number} [float=3] - The number of decimal places to round to (default is 3).
+ *
+ * @throws {TypeError} Throws a TypeError if either argument is not a valid number.
+ * @returns {number} The rounded number.
+ */
+export function roundToFloat(number: number, float: number = 3): number {
+  const hasInvalidArgumentTypes: boolean =
+    typeof number !== "number" || typeof float !== "number";
+  if (hasInvalidArgumentTypes) {
+    throw new TypeError(`Expected both arguments to be of type number, instead got:
+ Number: ${number} of type ${typeof number}
+ Float: ${float} of type ${typeof float}
+ `);
+  }
+
+  const { isNaN } = Number;
+  const areNotValidNumbers: boolean = isNaN(number) || isNaN(float);
+  if (areNotValidNumbers) {
+    throw new TypeError(`Got NaN number values:
+Number: ${number} of type ${typeof number}
+Float: ${float} of type ${typeof float}
+    `);
+  }
+
+  const nthPowerOfTen: number = 10 ** float;
+
+  return Math.trunc(number * nthPowerOfTen) / nthPowerOfTen;
+}
+
+/**
  * Calculates the nth root of a number.
  *
  * By default acts as a square root `√(x)`

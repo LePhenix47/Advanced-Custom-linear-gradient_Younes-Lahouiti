@@ -177,6 +177,14 @@ svg {
     max-width: 100%;
 }
 
+/* Remove focus styles from content-editable element */
+*:not(input, textarea)[contenteditable]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+[draggable] {}
+
 //Reset for all the input types
 input {
     //I'm adding an underscore to point out that they're private variables

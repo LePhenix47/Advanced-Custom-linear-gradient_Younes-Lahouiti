@@ -23,7 +23,15 @@
 
         padding: 10px;
 
-        overflow: hidden;
+        overflow-y: auto;
+
+        --_scrollbar-bg: rgba(255, 255, 255, 25%);
+        --_scrollbar-border-radius: 10px;
+
+        --_scrollbar-thumb-border: none;
+        --_scrollbar-thumb-bg: white;
+        --_scrollbar-thumb-bg-hover: rgba(255, 255, 255, 80%);
+        --_scrollbar-thumb-bg-active: rgba(255, 255, 255, 50%);
 
         &.active {
             translate: 0% -50%;
@@ -77,7 +85,8 @@
     &__table-container {
         --_scrollbar-bg: rgba(255, 255, 255, 25%);
 
-        --_scrollbar-thumb-border-width: 0;
+
+        --_scrollbar-thumb-border: none;
         --_scrollbar-thumb-bg: white;
         --_scrollbar-thumb-bg-hover: rgba(255, 255, 255, 80%);
         --_scrollbar-thumb-bg-active: rgba(255, 255, 255, 50%);
@@ -149,6 +158,16 @@
             @include center-flex-column(5px);
 
             text-align: center;
+        }
+    }
+
+    &__delete-button {
+        &:hover {
+            color: red
+        }
+
+        &:active {
+            filter: contrast(75%)
         }
     }
 

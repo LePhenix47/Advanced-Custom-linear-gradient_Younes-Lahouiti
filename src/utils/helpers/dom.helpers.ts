@@ -29,6 +29,25 @@ export function selectByClass<T extends HTMLElement | SVGElement>(
 }
 
 /**
+ * Selects the first element with the specified class name within the given container.
+ *
+ * @template T - The generic type of element to select (HTMLElement or SVGElement).
+ *
+ * @param {string} className - The class name of the element to select.
+ *
+ * @param {HTMLElement | ShadowRoot | undefined} [container] - The container element to search within.
+ *
+ * @returns {T | null} - The selected element or null if not found.
+ *
+ */
+export function selectFirstByClass<T extends HTMLElement | SVGElement>(
+  className: string,
+  container?: any
+): T | null {
+  return selectByClass<T>(className, container)[0];
+}
+
+/**
  * Simpler version of `document.getElementById()`
  * Selects an element with a given ID inside a given container or the whole document.
  *
@@ -136,6 +155,18 @@ export function getClone<T extends HTMLElement | SVGElement>(
   elementOfReference: T
 ): T {
   return elementOfReference.cloneNode(true) as T;
+}
+
+/**
+ * Get the content of a template element as a `DocumentFragment`
+ *
+ * @param {HTMLTemplateElement} template - The template element
+ * @returns {DocumentFragment} - The content of the template as a `DocumentFragment`
+ */
+export function getContentOfTemplate(
+  template: HTMLTemplateElement
+): DocumentFragment {
+  return document.importNode(template.content, true);
 }
 
 /**

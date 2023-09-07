@@ -5,9 +5,7 @@
     --_scrollbar-border-radius: 100vmax;
     --_scrollbar-width: 10px;
 
-    --_scrollbar-thumb-border-width: 3px;
-    --_scrollbar-thumb-border-style: solid;
-    --_scrollbar-thumb-border-color: var(--bg-primary);
+    --_scrollbar-thumb-border: 3px solid var(--bg-primary);
 
     --_scrollbar-thumb-bg: var(--scrollbar-thumb-bg-color);
     --_scrollbar-thumb-bg-hover: var(--scrollbar-thumb-bg-color);
@@ -22,8 +20,8 @@
 
     &::-webkit-scrollbar-thumb {
         background-color: var(--_scrollbar-thumb-bg);
-        border: var(--_scrollbar-thumb-border-width) var(--_scrollbar-thumb-border-style) var(--_scrollbar-thumb-border-color);
-        border-radius: 100vmax;
+        border: var(--_scrollbar-thumb-border);
+        border-radius: var(--_scrollbar-border-radius);
 
         &:hover {
             background-color: var(--_scrollbar-thumb-bg-hover);
@@ -33,6 +31,13 @@
             background-color: var(--_scrollbar-thumb-bg-active);
         }
 
+    }
+
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+
+        border-top: none;
+        border-left: none;
     }
 }
 

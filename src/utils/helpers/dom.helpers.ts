@@ -230,6 +230,22 @@ export function getClassListValues(elementOfReference: HTMLElement): string[] {
 }
 
 /**
+ * Get the computed style property value of an HTML element.
+ *
+ * @param {string} property - The name of the CSS property to retrieve.
+ * @param {HTMLElement} [element=document.body] - The HTML element to get the style property from.
+ *                                                Defaults to the `document.body` if not specified.
+ * @returns {string} The value of the specified CSS property for the given element.
+ */
+export function getStyleProperty(
+  property: string,
+  element: HTMLElement = document.body
+): string {
+  const computedStyle: CSSStyleDeclaration = getComputedStyle(element);
+  return computedStyle.getPropertyValue(property);
+}
+
+/**
  * Sets the value of a specified CSS property for the given HTML element.
  *
  * @param {string} property - The name of the style property to set.

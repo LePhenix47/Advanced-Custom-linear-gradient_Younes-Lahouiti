@@ -1,6 +1,6 @@
 import "@components/index.components";
 import {
-  addNewColor,
+  addNewRowEntry,
   setTableRowsByDelegation,
 } from "@utils/event-listeners/table-event-listeners";
 import { log } from "@utils/helpers/console.helpers";
@@ -68,7 +68,7 @@ const addButton = selectFirstByClass<HTMLButtonElement>(
   "menu__add-color-button"
 );
 
-addButton.addEventListener("click", addNewColor);
+addButton.addEventListener("click", addNewRowEntry);
 
 const tableBody =
   selectFirstByClass<HTMLTableSectionElement>("menu__table-body");

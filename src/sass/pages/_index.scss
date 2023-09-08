@@ -176,7 +176,12 @@
         width: min-content;
         text-align: center;
         padding: 4px 6px;
-        // background-color: var(--semi-transparent-bg);
+
+        &:nth-child(3) {
+            --_cell-bg-color: black;
+            background-color: var(--_cell-bg-color);
+        }
+
         // border-radius: 8px;
 
         border-inline-end: 2px solid currentColor;
@@ -200,6 +205,14 @@
 
     &__table-cell-content {
         @include center-flex(5px);
+
+
+        &>label {
+            --_label-color: #ffffff;
+            color: var(--_label-color);
+
+            transition: color 350ms ease-in-out;
+        }
     }
 
 

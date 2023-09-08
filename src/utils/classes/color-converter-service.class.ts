@@ -14,7 +14,7 @@ import {
 /**
  * Abstract class containing conversion methods for various color models.
  */
-class AbstractConversionMethods {
+abstract class AbstractConversionMethods {
   /**
    * Converts RGB color to hexadecimal format.
    * @param {RedGreenBlue} color - The RGB color object.

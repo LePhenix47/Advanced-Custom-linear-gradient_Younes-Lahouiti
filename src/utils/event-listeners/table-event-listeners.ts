@@ -1,14 +1,19 @@
+import { log } from "@utils/helpers/console.helpers";
 import {
   getAncestor,
   getClassListValues,
   getClone,
   getContentOfTemplate,
+  getStyleProperty,
   removeChildInParent,
   selectById,
   selectFirstByClass,
   selectQuery,
   selectQueryAll,
+  setAttributeFrom,
+  setStyleProperty,
 } from "@utils/helpers/dom.helpers";
+import { calculateContrast } from "@utils/helpers/math.helpers";
 import { formatStringCase } from "@utils/helpers/string.helpers";
 
 // Initialized with the starting index
@@ -18,7 +23,7 @@ import { formatStringCase } from "@utils/helpers/string.helpers";
  *
  * @returns {number} - The count of rows in the table body.
  */
-function getAmountOfRowsInTbody(): number {
+export function getAmountOfRowsInTbody(): number {
   return selectQueryAll<HTMLTableRowElement>("tbody>tr").length + 1;
 }
 
@@ -28,20 +33,86 @@ function getAmountOfRowsInTbody(): number {
  * @param {HTMLTableSectionElement} tbody - The table body element containing the rows.
  * @returns {void}
  */
-function changeRowsIndexes(tbody: HTMLTableSectionElement): void {
+function updateRows(tbody: HTMLTableSectionElement): void {
   const tableRowsArray = selectQueryAll<HTMLTableRowElement>("tr", tbody);
+
+  const inputTypes: string[] = ["color", "offset", "opacity"];
 
   for (let i = 0; i < tableRowsArray.length; i++) {
     const row: HTMLTableRowElement = tableRowsArray[i];
 
     const cells = selectQueryAll<HTMLTableCellElement>("td", row);
 
+    const currentOrder: number = i + 1;
+    // Second cell for the index
     const paragraph = selectQuery<HTMLParagraphElement>("p", cells[1]);
+    paragraph.textContent = `${currentOrder}.`;
 
-    paragraph.textContent = `${i + 1}.`;
+    // For the third, fourth and fifth cells with the inputs
+    for (let j = 0; j < inputTypes.length; j++) {
+      const inputType: string = inputTypes[j];
+
+      const label = selectQuery<HTMLLabelElement>("label", cells[j + 2]);
+      const input = selectQuery<HTMLInputElement>("input", cells[j + 2]);
+
+      const labelForAttributeValue: string = `input-${inputType}-${currentOrder}`;
+      setAttributeFrom("for", labelForAttributeValue, label);
+      setAttributeFrom("id", labelForAttributeValue, input);
+    }
+
+    // Fourth cell for the opacity
   }
 
-  console.log(tableRowsArray);
+  log(tableRowsArray);
+}
+
+/**
+ * Clamps the value of an HTML input element within a specified range.
+ *
+ * @param {HTMLInputElement} input - The input element to clamp the value of.
+ * @param {number} min - The minimum allowed value.
+ * @param {number} max - The maximum allowed value.
+ * @throws {Error} If the `input` parameter is not an HTMLInputElement.
+ * @throws {Error} If `min` or `max` is not a valid number, or if `min` is greater than `max`.
+ */
+export function clampInputValue(
+  input: HTMLInputElement,
+  min: number,
+  max: number
+): void {
+  const notAnInput: boolean = !(input instanceof HTMLInputElement);
+  if (notAnInput) {
+    throw new TypeError(`Input parameter must be an input element`);
+  }
+
+  const areNotNumbers: boolean =
+    typeof min !== "number" || typeof max !== "number";
+  if (areNotNumbers) {
+    throw new TypeError(`Invalid min and max values. Both must be numbers`);
+  }
+
+  const { isNaN } = Number;
+  const areNaNValues: boolean = isNaN(min) || isNaN(max);
+  if (areNaNValues) {
+    throw new TypeError(`Invalid min and max values. Both must not be NaN`);
+  }
+
+  const hasInvalidRange: boolean = min > max;
+  if (hasInvalidRange) {
+    throw new RangeError(
+      `Invalid min and max values, min > max: ${min} and max: ${max}`
+    );
+  }
+
+  const overflows: boolean = input.valueAsNumber > max;
+  if (overflows) {
+    input.valueAsNumber = max;
+  }
+
+  const underflows: boolean = input.valueAsNumber < min;
+  if (underflows) {
+    input.valueAsNumber = min;
+  }
 }
 
 /**
@@ -49,7 +120,7 @@ function changeRowsIndexes(tbody: HTMLTableSectionElement): void {
  *
  * @returns {void}
  */
-export function addNewColor(): void {
+export function addNewRowEntry(): void {
   const tableBody =
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
@@ -62,16 +133,55 @@ export function addNewColor(): void {
 
   const row = selectQuery<HTMLTableRowElement>("tr", clonedRowDocumentFragment);
 
-  // Modify the index in the 2nd cell of the row
-  const cellIndex = selectFirstByClass<HTMLParagraphElement>(
-    "menu__table-cell-index",
+  // Attach event listeners to color and number inputs in the new row
+  const colorInput = selectQuery<HTMLInputElement>("input[type='color']", row);
+  const numberInputs = selectQueryAll<HTMLInputElement>(
+    "input[type='number']",
     row
   );
 
-  const currentIndex: number = getAmountOfRowsInTbody();
-  cellIndex.textContent = `${currentIndex}.`; // Update the index in the cell
+  // Handle color input changes
+  colorInput.addEventListener("input", (e) => {
+    const inputElement = e.currentTarget as HTMLInputElement;
+
+    const cell = getAncestor<HTMLTableCellElement>(inputElement, "td");
+
+    const hexColorValue: string = inputElement.value;
+
+    const label = selectQuery<HTMLLabelElement>("label", cell);
+    const labelHexColor: string = getStyleProperty("--_label-color", label);
+
+    const { contrastRatio, respectsW3CGuidelines } = calculateContrast(
+      hexColorValue,
+      labelHexColor
+    );
+
+    const hasLowContrast: boolean = !respectsW3CGuidelines;
+    if (hasLowContrast) {
+      setStyleProperty(
+        "--_label-color",
+        labelHexColor === "#ffffff" ? "#000000" : "#ffffff",
+        label
+      );
+    }
+
+    label.textContent = formatStringCase(hexColorValue, "UPPERCASE");
+
+    setStyleProperty("--_cell-bg-color", hexColorValue, cell);
+    // Handle the color change (newValue) for this row.
+  });
+
+  for (const numberInput of numberInputs) {
+    numberInput.addEventListener("input", (e) => {
+      log((e.target as HTMLInputElement).valueAsNumber);
+
+      // Handle the number change (newValue) for this row.
+    });
+  }
 
   tableBody.appendChild(row);
+
+  updateRows(tableBody);
 }
 
 /**
@@ -89,8 +199,8 @@ export function setTableRowsByDelegation(e: MouseEvent): void {
   const isDownOrderChanger: boolean = elementClasses[0].includes("bottom");
   const isDeleteButton: boolean = elementClasses[0].includes("delete");
 
-  console.log(clickedElement);
-  console.log(elementClasses);
+  log(clickedElement);
+  log(elementClasses);
 
   const clickedTheTBodyItself: boolean = formatStringCase(
     clickedElement.tagName,
@@ -134,7 +244,7 @@ function incrementOrderOfRow(
     // Swap rows with the previous row to increment the order
     tbody.insertBefore(rowElement, previousRow);
     // Update the row indexes
-    changeRowsIndexes(tbody);
+    updateRows(tbody);
   }
 }
 
@@ -157,7 +267,7 @@ function decrementOrderOfRow(
     // Swap rows with the next row to decrement the order
     tbody.insertBefore(nextRow, rowElement);
     // Update the row indexes
-    changeRowsIndexes(tbody);
+    updateRows(tbody);
   }
 }
 
@@ -172,9 +282,9 @@ function deleteRow(
   rowElement: HTMLTableRowElement,
   tbody: HTMLTableSectionElement
 ): void {
-  console.log("deleteRow", rowElement, "tbody", tbody);
+  log("deleteRow", rowElement, "tbody", tbody);
 
   removeChildInParent(tbody, rowElement);
 
-  changeRowsIndexes(tbody);
+  updateRows(tbody);
 }

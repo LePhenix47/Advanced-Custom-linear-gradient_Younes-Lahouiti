@@ -51,92 +51,9 @@
 
         <div class="menu__table-container" contenteditable="true">
           <table class="menu__table" contenteditable="false">
-            <caption class="menu__caption">Added gradients</caption>
+            <caption class="menu__caption">Color for gradients</caption>
             <tbody class="menu__table-body">
-              <tr class="menu__table-row" draggable="true">
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <button class="menu__order-top-button menu__order-changer">↑</button>
-                    <button class="menu__order-bottom-button menu__order-changer">↓</button>
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <p class="menu__table-cell-index">1.</p>
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="input-color-1" class="menu__label">#FFF</label>
-                    <input type="color" class="menu__input-color hide" id="input-color-1" value="#FF0000" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="offset" class="menu__label"> Offset: </label>
-                    <input type="number" class="menu__input" min="0" max="100" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="offset" class="menu__label">Color opacity:</label>
-                    <input type="number" class="menu__input" min="0" max="100" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <button class="menu__delete-button">
-                      <svg class="no-pointer-events" xmlns="http://www.w3.org/2000/svg" height="25px"
-                        viewBox="0 0 448 512" fill="currentColor">
-                        <path
-                          d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr class="menu__table-row" draggable="true">
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <button class="menu__order-top-button menu__order-changer">↑</button>
-                    <button class="menu__order-bottom-button menu__order-changer">↓</button>
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <p class="menu__table-cell-index">2.</p>
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="input-color-1" class="menu__label">#FFFF00</label>
-                    <input type="color" class="menu__input-color hide" id="input-color-1" value="#FF0000" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="offset" class="menu__label"> Offset: </label>
-                    <input type="number" class="menu__input" min="0" max="100" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <label for="offset" class="menu__label">Color opacity:</label>
-                    <input type="number" class="menu__input" min="0" max="100" />
-                  </div>
-                </td>
-                <td class="menu__table-cell">
-                  <div class="menu__table-cell-content">
-                    <button class="menu__delete-button">
-                      <svg class="no-pointer-events" xmlns="http://www.w3.org/2000/svg" height="25px"
-                        viewBox="0 0 448 512" fill="currentColor">
-                        <path
-                          d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+
 
             </tbody>
           </table>
@@ -173,9 +90,9 @@
 
             <div class="menu__angle-picker">
               <!-- Center point for the circle -->
-
               <div class="menu__angle-picker--center-dot"></div>
-              <!-- Angles for the angle picker -->
+
+              <!-- Angles markers -->
               <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
               <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
               <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
@@ -251,20 +168,20 @@
         </td>
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
-            <label for="input-color-2" class="menu__label">#FFFF00</label>
-            <input type="color" class="menu__input-color hide" id="input-color-2" value="#FFFF00" />
+            <label for="input-color-2" class="menu__label">#000000</label>
+            <input type="color" class="menu__input-color hide" id="input-color-2" value="#000000" />
           </div>
         </td>
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
-            <label for="offset" class="menu__label"> Offset: </label>
-            <input type="number" class="menu__input" />
+            <label for="input-offset-2" class="menu__label">Offset: </label>
+            <input type="number" class="menu__input" id="input-offset-2" value="0" />
           </div>
         </td>
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
-            <label for="offset" class="menu__label">Color opacity:</label>
-            <input type="number" class="menu__input" min="0" max="100" />
+            <label for="input-opacity-2" class="menu__label">Color opacity:</label>
+            <input type="number" class="menu__input" id="input-opacity-2" min="0" max="100" value="0" />
           </div>
         </td>
         <td class="menu__table-cell">

@@ -26,9 +26,9 @@
 *::selection {
     -webkit-text-stroke: transparent;
 
-    color: var(--_selection-color);
+    color: var(--selection-color);
 
-    background-color: var(--_selection-bg-color);
+    background-color: var(--selection-bg-color);
 }
 
 html {
@@ -183,7 +183,7 @@ svg {
     box-shadow: none;
 }
 
-[draggable] {}
+*[draggable] {}
 
 //Reset for all the input types
 input {

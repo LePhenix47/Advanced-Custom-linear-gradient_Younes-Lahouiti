@@ -189,22 +189,12 @@
             //
             width: 100%;
             border: none;
-
-            &:last-child {
-                border-block-end: none;
-            }
         }
 
         @include mobile-only {
             //
             width: 100%;
             border: none;
-
-            border-block-end: 1px solid currentColor;
-
-            &:last-child {
-                border-block-end: none;
-            }
         }
     }
 

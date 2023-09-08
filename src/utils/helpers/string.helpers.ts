@@ -2,20 +2,30 @@
 
 import { log } from "./console.helpers";
 /**
- *Function that formats a given string in 3 cases: lowercase, uppercase and titlecase
+ * **Formats a given string into different cases:**
  *
- * @param {string} string - The string to format.
- * @param {string} option - The option to use for formatting. Valid options are "lowercase", "uppercase", "titlecase" or "titlecase2".
+ * `lowercase, UPPERCASE, Title Case and Sentence case`
  *
- * titlecase is for every word in the string and titlecase 2 only for the first word
+ * @param {string} string - The string to format
+ * @param {string} option - The option to use for formatting. Valid options are `"lowercase"`, `"uppercase"`, `"titlecase"`, or `"sentencecase"`
  *
  * @returns {string} The formatted string
  *
- * @throws {Error} If an invalid option is provided.
- * @throws {TypeError} If either the string or the option parameter is not a string.
+ * @throws {Error} If an invalid option is provided
+ * @throws {TypeError} If either the string or the option parameter is not a string
+ * @throws {TypeError} If either the string or the option parameter is not a string
+ * @throws {Error} If an invalid option is provided
  */
-export function formatText(string: string, option: string): string | never {
-  let formattedOption: string = option.toLowerCase().trim();
+export function formatStringCase(string: string, option: string): string {
+  const hasInvalidArguments =
+    typeof string !== "string" || typeof option !== "string";
+  if (hasInvalidArguments) {
+    throw new TypeError(
+      `Invalid arguments, expected string and option to be strings, instead got respective types: ${typeof string} and ${typeof option}`
+    );
+  }
+
+  const formattedOption: string = option.toLowerCase().trim();
 
   switch (formattedOption) {
     case "lowercase": {
@@ -27,60 +37,61 @@ export function formatText(string: string, option: string): string | never {
     }
 
     case "titlecase": {
-      let stringArray: string[] = string.split(" ");
+      const words = string.split(" ");
 
-      for (let i = 0; i < stringArray.length; i++) {
-        const uppercasedFirstLetter: string = stringArray[i]
-          .substring(0, 1)
-          .toUpperCase();
+      for (let i = 0; i < words.length; i++) {
+        const firstLetter = words[i].charAt(0).toUpperCase();
 
-        const lowercasedRemainingLetters: string = stringArray[i]
-          .slice(1)
-          .toLowerCase();
+        const remainingLetters = words[i].slice(1).toLowerCase();
 
-        stringArray[i] = uppercasedFirstLetter + lowercasedRemainingLetters;
+        words[i] = firstLetter + remainingLetters;
       }
 
-      stringArray = stringArray.concat();
-      return stringArray.toString();
+      return words.join(" ");
     }
 
-    case "titlecase2": {
-      let firstLetter = string.substring(0, 1).toUpperCase();
-      let rest = string.substring(1).toLowerCase();
+    case "sentencecase": {
+      const sentences = string.split(/(?<=[.?!])/);
 
-      return firstLetter + rest;
+      for (let i = 0; i < sentences.length; i++) {
+        const sentence = sentences[i];
+
+        const trimmedSentence = sentence.trim();
+
+        const sentenceHasNoWords = trimmedSentence.length === 0;
+        if (sentenceHasNoWords) {
+          sentences[i] = "";
+          continue;
+        }
+
+        // We only make the first letter of the sentence uppercased
+        const firstChar = trimmedSentence.charAt(0).toUpperCase();
+
+        // We only make the rest of the sentence lowercased
+        const restOfSentence = trimmedSentence.slice(1).toLowerCase();
+
+        sentences[i] = firstChar + restOfSentence;
+      }
+
+      return sentences.join(" ");
     }
 
     default: {
       throw new Error(
-        "Formatting text error: unknown option passed in argument"
+        `Formatting text error, option not available for: ${option}`
       );
     }
   }
 }
 
 /**
- * Function that normalizes a string by removing diacritical marks
- * (replaces letters with accents by their "non-accented" counter-part).
+ * Removes diacritical marks (accents) from a string.
  *
- * Example:
- * ```md
- * "crème brûlée" → "creme brulee"
- * ```
- * @param {string} string - The string to be normalized.
- *
- * @returns {string|null} - The normalized string or null if the argument is not a string.
+ * @param {string} string - The string to remove diacritical marks from.
+ * @returns {string} The string without diacritical marks.
  */
-export function normalize(string: string): string | null {
-  const argumentIsNotAString: boolean = typeof string !== "string";
-  if (argumentIsNotAString) {
-    log("Value passed in argument is not a string !");
-    return null;
-  }
-  return string
-    .normalize("NFD") //returns the unicode NORMALIZATION FORM of the string using a canonical DECOMPOSITION (NFD).
-    .replace(/[\u0300-\u036f]/g, "");
+export function removeAccents(string: string): string {
+  return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 /**

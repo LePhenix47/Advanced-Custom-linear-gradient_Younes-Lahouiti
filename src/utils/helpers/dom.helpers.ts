@@ -104,12 +104,12 @@ export function selectQuery<T extends HTMLElement | SVGElement>(
  *
  * @param {string} query - CSS query of the HTML Elements to select
  * @param {any} container - HTML Element to select the query from
- * @returns {HTMLElement[] | []} - An array with all the elements selected or `null` if the element doesn't exist
+ * @returns {HTMLElement[]} - An array with all the elements selected or `null` if the element doesn't exist
  */
 export function selectQueryAll<T extends HTMLElement | SVGElement>(
   query: string,
   container?: any
-): T[] | [] {
+): T[] {
   const hasNoParentContainer: boolean = !container;
   if (hasNoParentContainer) {
     return Array.from(document.querySelectorAll(query)) as T[];
@@ -178,11 +178,11 @@ export function getContentOfTemplate(
  * @returns {HTMLElement|null} The closest ancestor element that matches the CSS selector, or null if no ancestor element matches the selector.
  */
 
-export function getAncestor(
+export function getAncestor<T extends HTMLElement | SVGElement>(
   elementOfReference: HTMLElement,
   cssSelector: string
-): HTMLElement | null {
-  return elementOfReference.closest(cssSelector);
+): T | null {
+  return elementOfReference.closest(cssSelector) as T;
 }
 
 /**
@@ -274,7 +274,21 @@ export function replaceChildInParent(
   oldChild: HTMLElement
 ): void {
   oldChild.remove();
-  appendChildToParent(newChild, parentElement);
+  parentElement.appendChild(newChild);
+}
+
+/**
+ * Removes a child element from its parent.
+ *
+ * @param {HTMLElement} parentElement - The parent element from which to remove the child.
+ * @param {HTMLElement} childToRemove - The child element to be removed from the parent.
+ * @returns {void}
+ */
+export function removeChildInParent(
+  parentElement: HTMLElement,
+  childToRemove: HTMLElement
+): void {
+  parentElement.removeChild(childToRemove);
 }
 
 /**

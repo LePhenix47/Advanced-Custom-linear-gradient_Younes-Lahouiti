@@ -1,15 +1,15 @@
-import { log } from "../helpers/console.helpers";
+import { log } from "../../helpers/console.helpers";
 import {
   decimalToHexadecimal,
   hexadecimalToDecimal,
-} from "../helpers/number.helpers";
-import { sliceString, getSubtring } from "../helpers/string.helpers";
+} from "../../helpers/number.helpers";
+import { sliceString, getSubtring } from "../../helpers/string.helpers";
 import {
   HueSaturationLightness,
   HueSaturationValue,
   HueWhitenessBlackness,
   RedGreenBlue,
-} from "../variables/color-types.variables";
+} from "../../variables/color-types.variables";
 
 /**
  * Abstract class containing conversion methods for various color models.

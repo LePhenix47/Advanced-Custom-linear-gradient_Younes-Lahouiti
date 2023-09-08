@@ -1,6 +1,7 @@
 import { log } from "@utils/helpers/console.helpers";
 import {
   getAncestor,
+  getAttributeFrom,
   getClassListValues,
   getClone,
   getContentOfTemplate,
@@ -72,8 +73,8 @@ function updateRows(tbody: HTMLTableSectionElement): void {
  * @param {HTMLInputElement} input - The input element to clamp the value of.
  * @param {number} min - The minimum allowed value.
  * @param {number} max - The maximum allowed value.
- * @throws {Error} If the `input` parameter is not an HTMLInputElement.
- * @throws {Error} If `min` or `max` is not a valid number, or if `min` is greater than `max`.
+ * @throws {TypeError} If the `input` parameter is not an HTMLInputElement.
+ * @throws {TypeError|RangeError} If `min` or `max` is not a valid number, or if `min` is greater than `max`.
  */
 export function clampInputValue(
   input: HTMLInputElement,
@@ -113,6 +114,8 @@ export function clampInputValue(
   if (underflows) {
     input.valueAsNumber = min;
   }
+
+  log(overflows, underflows);
 }
 
 /**
@@ -173,7 +176,16 @@ export function addNewRowEntry(): void {
 
   for (const numberInput of numberInputs) {
     numberInput.addEventListener("input", (e) => {
-      log((e.target as HTMLInputElement).valueAsNumber);
+      const input = e.currentTarget as HTMLInputElement;
+      log(input.valueAsNumber);
+
+      const isOpacityInput = input.id.includes("opacity");
+      if (isOpacityInput) {
+        const min: number = Number(getAttributeFrom("min", input));
+        const max: number = Number(getAttributeFrom("max", input));
+
+        clampInputValue(input, min, max);
+      }
 
       // Handle the number change (newValue) for this row.
     });

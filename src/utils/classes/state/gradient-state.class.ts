@@ -3,57 +3,26 @@
  * @abstract
  */
 class CSSGradient {
+  static gradientType: "linear" | "radial" | "conic" = "linear";
   /**
-   * The type of gradient (linear, radial, or conic)
-   * @type {string}
+   * Factory method to create CSS gradient instances based on the type
+   * @param {"linear" | "radial" | "conic"} gradientType - The type of gradient
+   * @returns {CSSGradient} - An instance of the specific CSS gradient type
    */
-  gradientType: string = "linear";
-
-  /**
-   * The orientation for linear gradients in degrees (e.g., "45deg")
-   * @type {number}
-   */
-  orientation: number = 0;
-
-  /**
-   * The shape for radial gradients (e.g., "circle" or "ellipse")
-   * @type {"circle" | "ellipse"}
-   */
-  shape: "circle" | "ellipse" = "circle";
-
-  /**
-   * The position for radial gradients (e.g., "at 50% 50%")
-   * @type {string}
-   */
-  position: string = "";
-
-  /**
-   * The angle for conic gradients (e.g., "at 50% 50%, 45deg")
-   * @type {string}
-   */
-  angle: string = "";
-
-  /**
-   * An array to store color stops
-   * @type {Array}
-   */
-  colorStops: Array<any> = [];
-
-  /**
-   * Indicates whether the gradient is repeating
-   * @type {boolean}
-   */
-  isRepeating: boolean = false;
-
-  /**
-   * Generate the CSS gradient string based on the set parameters
-   * @returns {string} - The CSS gradient string
-   */
-  generateCSSGradient() {
-    // Implement logic to generate the CSS gradient string based on parameters
-    // You can use this.gradientType, this.orientation, this.shape, etc.
-    // to construct the gradient string.
-    // Be sure to handle the color stops and whether it's repeating.
+  static create(gradientType) {
+    switch (gradientType) {
+      case "linear": {
+        return new CSSLinearGradient();
+      }
+      case "radial": {
+        return new CSSRadialGradient();
+      }
+      case "conic": {
+        return new CSSConicGradient();
+      }
+      default:
+        throw new Error(`Unsupported gradient type: ${gradientType}`);
+    }
   }
 }
 
@@ -62,14 +31,14 @@ class CSSGradient {
  * @extends CSSGradient
  */
 class CSSLinearGradient extends CSSGradient {
+  orientation: number;
   constructor() {
     super();
+
+    this.orientation = 0;
   }
 
-  /**
-   * Set the orientation for linear gradients (e.g., "45deg")
-   * @param {number} orientation - The orientation angle in degrees
-   */
+  // Add methods specific to linear gradients here
   setOrientation(orientation: number) {
     this.orientation = orientation;
   }
@@ -80,8 +49,21 @@ class CSSLinearGradient extends CSSGradient {
  * @extends CSSGradient
  */
 class CSSRadialGradient extends CSSGradient {
+  shape: string;
+  position: { start: string; end: string };
   constructor() {
     super();
+
+    this.shape = "circle";
+  }
+
+  // Add methods specific to radial gradients here
+  setShape(shape: "ellipse" | "circle") {
+    this.shape = shape;
+  }
+
+  setPosition(position: { start: string; end: string }) {
+    this.position = position;
   }
 }
 
@@ -90,7 +72,27 @@ class CSSRadialGradient extends CSSGradient {
  * @extends CSSGradient
  */
 class CSSConicGradient extends CSSGradient {
+  position: { start: string; end: string };
   constructor() {
     super();
   }
+
+  centerCoordinates(coordinates: { start: string; end: string }) {
+    this.position = coordinates;
+  }
 }
+
+// Example usage:
+const linearGradient1 = CSSGradient.create("linear") as CSSLinearGradient;
+linearGradient1.setOrientation(270);
+console.log(linearGradient1);
+
+// const linearGradient = CSSGradient.create("linear") as CSSLinearGradient;
+// linearGradient.isReapeating = false;
+// linearGradient.setOrientation(270);
+// linearGradient.addStopColor({color: "#ff0000", offset: null, opacity: "100%"});
+// linearGradient.addStopColor({color: "#00ff00", offset: "25%", opacity: "50%"});
+// linearGradient.addStopColor({color: "#0000ff", offset: "100%", opacity: "50%"});
+
+// console.log(linearGradient.generateGradient())
+// output: linear-gradient(270deg, #ff0000, #00ff0080 25%, #0000ff80 100%)

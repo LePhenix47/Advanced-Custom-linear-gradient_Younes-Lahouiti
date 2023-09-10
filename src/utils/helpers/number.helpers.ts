@@ -158,3 +158,50 @@ export function hexadecimalToDecimal(hexadecimal: string): number {
 export function decimalToHexadecimal(decimal: number): string {
   return decimal.toString(16);
 }
+
+/**
+ * Converts a percentage value to its hexadecimal representation as an alpha channel.
+ * @param {number | string} percentage - The percentage value to convert.
+ * @returns {string} - The hexadecimal alpha channel representation.
+ * @throws {Error} If the input is not a valid percentage (e.g., "-50%", "0.5%", "100%%").
+ */
+export function percentageToHexAlpha(percentage: number | string): string {
+  // If the input is a string, check if it's a valid percentage
+  const percentageIsAString: boolean = typeof percentage === "string";
+  if (percentageIsAString) {
+    percentage = percentage as string;
+
+    const percentageRegex: RegExp = /^(-?\d+(\.\d+)?%)$/;
+
+    const isNotAPercentage: boolean = !percentageRegex.test(percentage);
+    if (isNotAPercentage) {
+      throw new Error(`Invalid string percentage: ${percentage}`);
+    }
+
+    percentage = Number(percentage.replace("%", ""));
+  }
+
+  percentage = percentage as number;
+  // Ensure the input is between 0 and 100%
+  const underflows: boolean = percentage < 0;
+  if (underflows) {
+    percentage = 0;
+  }
+
+  const overflows: boolean = percentage > 100;
+  if (overflows) {
+    percentage = 100;
+  }
+
+  // Convert the percentage to a decimal value between 0 and 1
+  const decimalValue = percentage / 100;
+
+  // Multiply by 255 and round to the nearest integer
+  const alphaValue = Math.round(decimalValue * 255);
+
+  // Convert the alpha value to its hexadecimal representation
+  const hexAlpha = alphaValue.toString(16).toUpperCase();
+
+  // Ensure the result is always two digits
+  return hexAlpha.length === 1 ? `0${hexAlpha}` : hexAlpha;
+}

@@ -1,4 +1,4 @@
-import { percentageToHexAlpha } from "@utils/helpers/number.helpers";
+import { percentageToHex } from "@utils/helpers/number.helpers";
 import CSSGradient from "../index-css.class";
 
 /**
@@ -20,26 +20,38 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
   */
 
+  isRepeating: boolean;
   orientation: number;
   stopColors: LinearGradientColorStop[];
-  isRepeating: boolean;
 
   constructor() {
     super();
 
-    this.stopColors = [];
+    this.isRepeating = false;
 
     this.orientation = 0;
 
-    this.isRepeating = false;
+    this.stopColors = [];
   }
 
-  // Orientation in degrees
+  /**
+   * Set the orientation angle for the linear gradient.
+   * @param {number} orientation - The orientation angle in degrees.
+   */
   setOrientation(orientation: number) {
     this.orientation = orientation;
   }
 
-  addStopColor(stopColor: LinearGradientColorStop) {
+  /**
+   * Add a stop color to the linear gradient.
+   * @param {LinearGradientColorStop} stopColor - The stop color to add.
+   *
+   * @throws {TypeError} If the stopColor object is missing required properties.
+   *
+   * @returns {void}
+   *
+   */
+  addStopColor(stopColor: LinearGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
     const properties: string[] = ["id", "color", "offset", "opacity"];
@@ -47,41 +59,64 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       const doesNotHaveProperty: boolean = !stopColor.hasOwnProperty(property);
       if (doesNotHaveProperty) {
         throw new TypeError(
-          `Invalid stop color for the linear gradient, ${property} does not exist on the passed`
+          `Invalid stop color for the linear gradient, ${property} does not exist on the passed object`
         );
       }
     }
 
-    const { id, color: hexColor, offset, opacity } = stopColor;
-
-    const hexOpacity: string = percentageToHexAlpha(opacity);
-
-    const fullColor: string = `${hexColor}${hexOpacity}`;
-
-    const normalizedOffset: string = !offset ? "" : offset;
-
-    stopColor.color = fullColor;
-    stopColor.offset = normalizedOffset;
+    this.normalizeStopColorValues(stopColor);
 
     this.stopColors.push(stopColor);
 
     this.sortStopColorsArrayById();
   }
 
+  /**
+   * Normalizes the values of a stop color by converting opacity to a hexadecimal alpha value
+   * and changing the offset value from `null` to an empty string
+   *
+   * @param {LinearGradientColorStop} stopColor - The stop color to normalize.
+   *
+   * @returns {void}
+   *
+   * @private
+   */
+  private normalizeStopColorValues(stopColor: LinearGradientColorStop): void {
+    const { color: hexColor, offset, opacity } = stopColor;
+
+    const hexOpacity: string = percentageToHex(opacity);
+    const fullColor: string = `${hexColor}${hexOpacity}`;
+    stopColor.color = fullColor;
+
+    const normalizedOffset: string = !offset ? "" : offset;
+    stopColor.offset = normalizedOffset;
+  }
+
+  /**
+   * Sorts the stop colors array by their `id` property in ascending order.
+   *
+   * @private
+   */
   private sortStopColorsArrayById() {
     this.stopColors.sort((obj1, obj2) => {
       return obj1.id - obj2.id;
     });
-    // this.stopColors = this.stopColors.toSorted((obj1, obj2) => {
-    //   return obj1.id - obj2.id;
-    // });
   }
 
-  setRepeating(repeatValue: boolean) {
+  /**
+   * Set whether the linear gradient should repeat.
+   * @param {boolean} repeatValue - If true, the gradient will repeat.
+   * @returns {void}
+   */
+  setRepeating(repeatValue: boolean): void {
     this.isRepeating = repeatValue;
   }
 
-  generateCssGradient() {
+  /**
+   * Generate the CSS linear gradient string based on the set parameters.
+   * @returns {string} - The CSS linear gradient string.
+   */
+  generateCssGradient(): string {
     const cannotCreateGradient: boolean = this.stopColors.length < 2;
     if (cannotCreateGradient) {
       return "none";
@@ -101,9 +136,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       const isLastIndex: boolean = i === this.stopColors.length - 1;
       const commaSeparator: string = isLastIndex ? "" : ", ";
 
-      const normalizedOffset: string = !!offset ? ` ${offset}` : "";
-
-      linearGradientString += `${color}${normalizedOffset}${commaSeparator}`;
+      linearGradientString += `${color}${offset}${commaSeparator}`;
     }
     linearGradientString += ")";
     return linearGradientString;

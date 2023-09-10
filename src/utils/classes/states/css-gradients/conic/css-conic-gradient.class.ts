@@ -6,12 +6,22 @@ import CSSGradient from "../index-css.class";
  */
 class CSSConicGradient extends CSSGradient {
   position: { start: string; end: string };
+  isRepeating: boolean;
   constructor() {
     super();
   }
 
   centerCoordinates(coordinates: { start: string; end: string }) {
     this.position = coordinates;
+  }
+
+  /**
+   * Set whether the linear gradient should repeat.
+   * @param {boolean} repeatValue - If true, the gradient will repeat.
+   * @returns {void}
+   */
+  setRepeating(repeatValue: boolean): void {
+    this.isRepeating = repeatValue;
   }
 }
 

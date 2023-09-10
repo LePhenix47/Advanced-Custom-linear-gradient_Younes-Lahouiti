@@ -165,7 +165,7 @@ export function decimalToHexadecimal(decimal: number): string {
  * @returns {string} - The hexadecimal alpha channel representation.
  * @throws {Error} If the input is not a valid percentage (e.g., "-50%", "0.5%", "100%%").
  */
-export function percentageToHexAlpha(percentage: number | string): string {
+export function percentageToHex(percentage: number | string): string {
   // If the input is a string, check if it's a valid percentage
   const percentageIsAString: boolean = typeof percentage === "string";
   if (percentageIsAString) {

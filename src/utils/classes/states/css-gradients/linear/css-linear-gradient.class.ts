@@ -136,7 +136,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       const isLastIndex: boolean = i === this.stopColors.length - 1;
       const commaSeparator: string = isLastIndex ? "" : ", ";
 
-      linearGradientString += `${color}${offset}${commaSeparator}`;
+      linearGradientString += `${color} ${offset}${commaSeparator}`;
     }
     linearGradientString += ")";
     return linearGradientString;

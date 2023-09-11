@@ -167,34 +167,41 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 export default CSSRadialGradient;
 
 // Example usage:
-const radialGradient = CSSGradient.create("radial") as CSSRadialGradient;
-// background: repeating-radial-gradient(circle at 50% 50%, #333333FF , #333333FF 10px, #eeeeee1A 10px, #eeeeee1A 20px)
-radialGradient.setRepeating(true);
-radialGradient.setShape("circle");
-radialGradient.setPositionCoordinates({ start: "50%", end: null });
-radialGradient.addStopColor({
+const cssRadialGradient = CSSGradient.create("radial") as CSSRadialGradient;
+
+/*
+background-image: conic-gradient(
+   transparent 180deg,
+   turquoise 180deg 260deg,
+   white 360deg
+ );
+*/
+cssRadialGradient.setRepeating(true);
+cssRadialGradient.setShape("circle");
+cssRadialGradient.setPositionCoordinates({ start: "50%", end: null });
+cssRadialGradient.addStopColor({
   id: 0,
   color: "#333333",
   offset: null,
   opacity: "100%",
 });
-radialGradient.addStopColor({
+cssRadialGradient.addStopColor({
   id: 1,
   color: "#333333",
   offset: "10px",
   opacity: "100%",
 });
-radialGradient.addStopColor({
+cssRadialGradient.addStopColor({
   id: 2,
   color: "#eeeeee",
   offset: "10px",
   opacity: "10%",
 });
-radialGradient.addStopColor({
+cssRadialGradient.addStopColor({
   id: 3,
   color: "#eeeeee",
   offset: "20px",
   opacity: "10%",
 });
 
-const generatedGradient = radialGradient.generateCssGradient();
+const generatedGradient = cssRadialGradient.generateCssGradient();

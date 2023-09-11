@@ -241,19 +241,19 @@ class CSSConicGradient extends CSSGradient {
 export default CSSConicGradient;
 
 // Example usage:
-const conicGradient = CSSGradient.create("conic") as CSSConicGradient;
+const cssConicGradient = CSSGradient.create("conic") as CSSConicGradient;
 
 // Set the orientation angle
-conicGradient.setOrientation(0);
+cssConicGradient.setOrientation(0);
 
 // Set the position coordinates
-conicGradient.setPositionCoordinates({
+cssConicGradient.setPositionCoordinates({
   start: "50%",
   end: "50%",
 });
 
 // Add stop colors
-conicGradient.addStopColor({
+cssConicGradient.addStopColor({
   id: 1,
   color: "#000000",
   startAngle: 180,
@@ -262,7 +262,7 @@ conicGradient.addStopColor({
   opacity: "0%",
 });
 
-conicGradient.addStopColor({
+cssConicGradient.addStopColor({
   id: 2,
   color: "#40e0d0",
   startAngle: 180,
@@ -271,7 +271,7 @@ conicGradient.addStopColor({
   opacity: "100%",
 });
 
-conicGradient.addStopColor({
+cssConicGradient.addStopColor({
   id: 3,
   color: "#ffffff",
   startAngle: 360,
@@ -281,7 +281,7 @@ conicGradient.addStopColor({
 });
 
 // Generate the CSS gradient string
-const cssGradientString = conicGradient.generateCssGradient();
+const cssGradientString = cssConicGradient.generateCssGradient();
 
 // You can use cssGradientString as your background-image property
 console.log(cssGradientString);

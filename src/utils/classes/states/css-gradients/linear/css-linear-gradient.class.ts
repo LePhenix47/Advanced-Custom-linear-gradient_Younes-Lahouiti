@@ -5,7 +5,7 @@ import CSSGradient from "../index-css.class";
  * Class for CSS Linear Gradient
  * @extends CSSGradient
  */
-type LinearGradientColorStop = {
+type CSSLinearGradientColorStop = {
   id: number;
   color: string;
   offset: string | null;
@@ -22,7 +22,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
   isRepeating: boolean;
   orientation: number;
-  stopColors: LinearGradientColorStop[];
+  stopColors: CSSLinearGradientColorStop[];
 
   constructor() {
     super();
@@ -44,14 +44,14 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
   /**
    * Add a stop color to the linear gradient.
-   * @param {LinearGradientColorStop} stopColor - The stop color to add.
+   * @param {CSSLinearGradientColorStop} stopColor - The stop color to add.
    *
    * @throws {TypeError} If the stopColor object is missing required properties.
    *
    * @returns {void}
    *
    */
-  addStopColor(stopColor: LinearGradientColorStop): void {
+  addStopColor(stopColor: CSSLinearGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
     const properties: string[] = ["id", "color", "offset", "opacity"];
@@ -75,13 +75,15 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
    * Normalizes the values of a stop color by converting opacity to a hexadecimal alpha value
    * and changing the offset value from `null` to an empty string
    *
-   * @param {LinearGradientColorStop} stopColor - The stop color to normalize.
+   * @param {CSSLinearGradientColorStop} stopColor - The stop color to normalize.
    *
    * @returns {void}
    *
    * @private
    */
-  private normalizeStopColorValues(stopColor: LinearGradientColorStop): void {
+  private normalizeStopColorValues(
+    stopColor: CSSLinearGradientColorStop
+  ): void {
     const { color: hexColor, offset, opacity } = stopColor;
 
     const hexOpacity: string = percentageToHex(opacity);
@@ -130,7 +132,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: LinearGradientColorStop = this.stopColors[i];
+      const stopColor: CSSLinearGradientColorStop = this.stopColors[i];
       const { color, offset } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;
@@ -146,29 +148,29 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 export default CSSLinearGradient;
 
 // Example usage:
-const linearGradient = CSSGradient.create("linear") as CSSLinearGradient;
-linearGradient.setRepeating(false);
-linearGradient.setOrientation(135);
-linearGradient.addStopColor({
+const cssLinearGradient = CSSGradient.create("linear") as CSSLinearGradient;
+cssLinearGradient.setRepeating(false);
+cssLinearGradient.setOrientation(135);
+cssLinearGradient.addStopColor({
   id: 0,
   color: "#ff0000",
   offset: null,
   opacity: "100%",
 });
-linearGradient.addStopColor({
+cssLinearGradient.addStopColor({
   id: 1,
   color: "#00ff00",
   offset: null,
   opacity: "10%",
 });
-linearGradient.addStopColor({
+cssLinearGradient.addStopColor({
   id: 2,
   color: "#0000ff",
   offset: null,
   opacity: "50%",
 });
 
-// linearGradient.
+// cssLinearGradient.
 
-const generatedGradient = linearGradient.generateCssGradient();
+const generatedGradient = cssLinearGradient.generateCssGradient();
 console.log(generatedGradient);

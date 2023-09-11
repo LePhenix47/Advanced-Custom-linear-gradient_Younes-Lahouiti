@@ -167,7 +167,6 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 export default CSSRadialGradient;
 
 // Example usage:
-// Example usage:
 const radialGradient = CSSGradient.create("radial") as CSSRadialGradient;
 // background: repeating-radial-gradient(circle at 50% 50%, #333333FF , #333333FF 10px, #eeeeee1A 10px, #eeeeee1A 20px)
 radialGradient.setRepeating(true);

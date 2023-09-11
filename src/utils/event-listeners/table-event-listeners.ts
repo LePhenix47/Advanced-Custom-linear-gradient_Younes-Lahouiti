@@ -14,7 +14,7 @@ import {
   setAttributeFrom,
   setStyleProperty,
 } from "@utils/helpers/dom.helpers";
-import { calculateContrast } from "@utils/helpers/math.helpers";
+import { calculateContrast } from "@utils/helpers/number.helpers";
 import { formatStringCase } from "@utils/helpers/string.helpers";
 
 // Initialized with the starting index

@@ -205,3 +205,65 @@ export function percentageToHex(percentage: number | string): string {
   // Ensure the result is always two digits
   return hexAlpha.length === 1 ? `0${hexAlpha}` : hexAlpha;
 }
+
+/**
+ * Calculates the contrast ratio between two colors.
+ *
+ * @param {string} color1 - The first color in hexadecimal format (e.g., '#RRGGBB').
+ * @param {string} color2 - The second color in hexadecimal format (e.g., '#RRGGBB').
+ * @returns {{
+ *   contrastRatio: number,
+ *   respectsW3CGuidelines: boolean
+ * }} An object containing the contrast ratio and whether it respects W3C guidelines for contrast ratio for text
+ */
+export function calculateContrast(
+  color1: string,
+  color2: string
+): {
+  contrastRatio: number;
+  respectsW3CGuidelines: boolean;
+} {
+  // Convert colors to RGB arrays [R, G, B]
+  const rgbColor1: number[] = [
+    hexadecimalToDecimal(color1.slice(1, 3)),
+    hexadecimalToDecimal(color1.slice(3, 5)),
+    hexadecimalToDecimal(color1.slice(5, 7)),
+  ];
+
+  const rgbColor2: number[] = [
+    hexadecimalToDecimal(color2.slice(1, 3)),
+    hexadecimalToDecimal(color2.slice(3, 5)),
+    hexadecimalToDecimal(color2.slice(5, 7)),
+  ];
+
+  const luminance1: number = getRelativeLuminance(rgbColor1);
+  const luminance2: number = getRelativeLuminance(rgbColor2);
+
+  let contrastRatio: number =
+    luminance1 > luminance2
+      ? (luminance1 + 0.05) / (luminance2 + 0.05)
+      : (luminance2 + 0.05) / (luminance1 + 0.05);
+
+  contrastRatio = roundToFloat(contrastRatio, 2);
+
+  return {
+    contrastRatio,
+    respectsW3CGuidelines: contrastRatio >= 4.5,
+  };
+}
+/**
+ * Helper function to calculate relative luminance.
+ *
+ * @param {number[]} color - An array representing the color in [R, G, B] format (each component in [0, 255]).
+ * @returns {number} The relative luminance.
+ */
+export function getRelativeLuminance(color: number[]): number {
+  const [R, G, B] = color.map((component) => {
+    component /= 255; // Normalize to [0, 1] range
+    return component <= 0.03928
+      ? component / 12.92
+      : ((component + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+}

@@ -9,9 +9,9 @@ type ConicGradientPosition = {
 type ConicGradientColorStop = {
   id: number;
   color: string;
-  startAngle: number | null;
-  endAngle: number | null;
-  transitionAngle: number | null;
+  startAngle: number | null; // % or px
+  endAngle: number | null; // % or px
+  transitionAngle: number | null; // % or px
   opacity: string;
 };
 
@@ -188,18 +188,104 @@ class CSSConicGradient extends CSSGradient {
       const doesNotHaveProperty: boolean = !stopColor.hasOwnProperty(property);
       if (doesNotHaveProperty) {
         throw new TypeError(
-          `Invalid stop color for the radial gradient, ${property} does not exist on the passed object`
+          `Invalid stop color for the conic gradient, ${property} does not exist on the passed object`
         );
       }
     }
 
     this.normalizeStopColorValues(stopColor);
 
+    const { startAngle, endAngle, transitionAngle } = stopColor;
+    this.isTransitionAngleValid(startAngle, endAngle, transitionAngle);
+
     this.stopColors.push(stopColor);
 
     this.sortStopColorsArrayById();
   }
 
-  generateCssGradient(): string {}
+  generateCssGradient(): string {
+    const cannotCreateGradient: boolean = this.stopColors.length < 2;
+    if (cannotCreateGradient) {
+      return "none";
+    }
+
+    let conicGradientString: string = this.isRepeating
+      ? "repeating-conic-gradient("
+      : "conic-gradient(";
+
+    conicGradientString += `from ${this.orientation}deg at ${this.position.start} ${this.position.end}, `;
+
+    for (let i = 0; i < this.stopColors.length; i++) {
+      //
+      const stopColor: ConicGradientColorStop = this.stopColors[i];
+      const { color, startAngle, endAngle, transitionAngle } = stopColor;
+
+      const isLastIndex: boolean = i === this.stopColors.length - 1;
+      const commaSeparator: string = isLastIndex ? "" : ", ";
+
+      const formattedStartAngle: string = !startAngle ? "" : `${startAngle}deg`;
+      const formattedEndAngle: string = !endAngle ? "" : `, ${endAngle}deg`;
+
+      const formattedTransitionAngle = !transitionAngle
+        ? ""
+        : `${transitionAngle}deg`;
+
+      const formattedAngles = `${formattedStartAngle} ${formattedEndAngle} ${formattedTransitionAngle}`;
+
+      conicGradientString += `${color} ${formattedAngles}${commaSeparator}`;
+    }
+    conicGradientString += ")";
+    return conicGradientString;
+  }
 }
 export default CSSConicGradient;
+
+// Example usage:
+const conicGradient = CSSGradient.create("conic") as CSSConicGradient;
+
+// Set the orientation angle
+conicGradient.setOrientation(0);
+
+// Set the position coordinates
+conicGradient.setPositionCoordinates({
+  start: "50%",
+  end: "50%",
+});
+
+// Add stop colors
+conicGradient.addStopColor({
+  id: 1,
+  color: "#000000",
+  startAngle: 180,
+  endAngle: null,
+  transitionAngle: null,
+  opacity: "0%",
+});
+
+conicGradient.addStopColor({
+  id: 2,
+  color: "#40e0d0",
+  startAngle: 180,
+  endAngle: 260,
+  transitionAngle: null,
+  opacity: "100%",
+});
+
+conicGradient.addStopColor({
+  id: 3,
+  color: "#ffffff",
+  startAngle: 360,
+  endAngle: null,
+  transitionAngle: null,
+  opacity: "100%",
+});
+
+// Generate the CSS gradient string
+const cssGradientString = conicGradient.generateCssGradient();
+
+// You can use cssGradientString as your background-image property
+console.log(cssGradientString);
+
+const div = document.querySelector("div");
+
+// div.style.setProperty("--_bg-img", generatedGradient);

@@ -14,7 +14,7 @@ SVG Radial gradient formal syntax:
 
 [ORIENTATION IN RADIANS] = [ORIENTATION IN DEGREES] × π ÷ 180
 
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100dvh">
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100" width="100%" height="100dvh">
       <defs>
         <radialGradient id="svg-radial-gradient" cx=[CENTER X] cy=[CENTER X] r=[CIRCLE RADIUS] fr=[FOCAL RADIUS] fx=[FOCAL POINT X] fy=[FOCAL POINT Y]>
           <stop offset=[OFFSET1]% style="stop-color: #[COLOR1]; stop-opacity: [OPACITY1]%" />
@@ -216,7 +216,7 @@ SVG Radial gradient formal syntax:
   `;
 
     const svg: string = /* html */ `
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="none">
   <defs>
     ${radialGradient}
   </defs>

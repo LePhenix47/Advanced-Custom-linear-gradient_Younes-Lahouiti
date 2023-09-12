@@ -18,7 +18,7 @@ SVG Linear gradient formal syntax:
 
 [ORIENTATION IN RADIANS] = [ORIENTATION IN DEGREES] × π ÷ 180
 
-      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100dvh">
+      <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100" width="100%" height="100dvh">
         <defs>
           <linearGradient id="gradient" 
             x1=[(cos([ORIENTATION IN RADIANS]) + 1) / 2] 
@@ -133,22 +133,28 @@ SVG Linear gradient formal syntax:
    * @returns {void}
    */
   setGradientTransform(transform: SVGGradientTransformObject): void {
-    const appliedTransforms: Set<string> = new Set();
-    let transformString: SVGGradientTransformString = this.IDENTITY_TRANSFORM;
+    const appliedTransforms: Set<string> = new Set(this.gradientTransform);
 
+    let transformString: SVGGradientTransformString[] = [
+      this.IDENTITY_TRANSFORM,
+    ];
     // Iterate through the transform object and add unique transform functions
     for (const [key, value] of Object.entries(transform)) {
-      const transformFunction = `${key}(${value})`;
+      const transformFunction =
+        `${key}(${value})` as SVGGradientTransformString;
 
       // Check if this transform has not been applied before
-      if (!appliedTransforms.has(transformFunction)) {
-        transformString += ` ${transformFunction} `;
+      const hasNotAppliedTransform: boolean =
+        !appliedTransforms.has(transformFunction);
+      if (hasNotAppliedTransform) {
+        transformString.push(transformFunction);
         appliedTransforms.add(transformFunction);
       }
     }
 
-    this.gradientTransform =
-      transformString.trim() as SVGGradientTransformString; // Remove trailing space
+    this.gradientTransform = transformString.join(
+      " "
+    ) as SVGGradientTransformString; // Remove trailing space
   }
 
   /**
@@ -208,7 +214,7 @@ SVG Linear gradient formal syntax:
 `;
 
     const svg: string = /* html */ `
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="none">
   <defs>
     ${linearGradient}
   </defs>

@@ -4,15 +4,16 @@ import SVGGradient, {
   SVGGradientTransformObject,
   SVGGradientTransformString,
   SVGGradientUnits,
-  SVGLinearGradientColorStop,
+  SVGGradientColorStop,
   SVGSpreadMethods,
 } from "../index-svg.class";
 import {
   calculateCoordsFromRadian,
   degreesToRadians,
 } from "@utils/helpers/math.helpers";
+import SVGGradientBase from "../class-base/svg-gradient-base.class";
 
-class SVGLinearGradient extends SVGGradient {
+class SVGLinearGradient extends SVGGradientBase {
   /*
 SVG Linear gradient formal syntax:
 
@@ -38,17 +39,9 @@ SVG Linear gradient formal syntax:
       - We MIGHT need to swap the y1 and y2 values since JS uses the SVG coords system, I haven't tested that yet
   */
 
-  spreadMethod: SVGSpreadMethods;
   orientationCoords: SVGCoordsFromRadian;
-  stopColors: SVGLinearGradientColorStop[];
-  gradientTransform: SVGGradientTransformString;
-  gradientUnits: SVGGradientUnits;
-  IDENTITY_TRANSFORM: SVGGradientTransformString;
-
   constructor() {
     super();
-
-    this.spreadMethod = "pad";
 
     this.orientationCoords = {
       x1: 0,
@@ -56,14 +49,6 @@ SVG Linear gradient formal syntax:
       x2: 1,
       y2: 1,
     };
-
-    this.IDENTITY_TRANSFORM = "rotate(0)";
-
-    this.gradientTransform = this.IDENTITY_TRANSFORM; // Need to add a method to set this value
-
-    this.gradientUnits = "objectBoundingBox"; // Need to add a method to set this value too
-
-    this.stopColors = [];
   }
 
   /**
@@ -80,14 +65,14 @@ SVG Linear gradient formal syntax:
 
   /**
    * Add a stop color to the linear gradient.
-   * @param {SVGLinearGradientColorStop} stopColor - The stop color to add.
+   * @param {SVGGradientColorStop} stopColor - The stop color to add.
    *
    * @throws {TypeError} If the stopColor object is missing required properties.
    *
    * @returns {void}
    *
    */
-  addStopColor(stopColor: SVGLinearGradientColorStop): void {
+  addStopColor(stopColor: SVGGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
     const properties: string[] = ["id", "color", "offset", "opacity"];
@@ -106,24 +91,13 @@ SVG Linear gradient formal syntax:
   }
 
   /**
-   * Sorts the stop colors array by their `id` property in ascending order.
-   *
-   * @private
-   */
-  private sortStopColorsArrayById() {
-    this.stopColors.sort((obj1, obj2) => {
-      return obj1.id - obj2.id;
-    });
-  }
-
-  /**
    * Sets the spreading method for the SVG linear gradient
    * @param {SVGSpreadMethods} methodValue - Can be `"pad"`, `"reflect"` or `"repeat"`
    * @returns {void}
    */
-  setSpreadMethod(methodValue: SVGSpreadMethods): void {
-    this.spreadMethod = methodValue;
-  }
+  // setSpreadMethod(methodValue: SVGSpreadMethods): void {
+  //   this.spreadMethod = methodValue;
+  // }
 
   /**
    * Set the gradient transform using an object with transform functions.
@@ -132,30 +106,30 @@ SVG Linear gradient formal syntax:
    *
    * @returns {void}
    */
-  setGradientTransform(transform: SVGGradientTransformObject): void {
-    const appliedTransforms: Set<string> = new Set(this.gradientTransform);
+  // setGradientTransform(transform: SVGGradientTransformObject): void {
+  //   const appliedTransforms: Set<string> = new Set(this.gradientTransform);
 
-    let transformString: SVGGradientTransformString[] = [
-      this.IDENTITY_TRANSFORM,
-    ];
-    // Iterate through the transform object and add unique transform functions
-    for (const [key, value] of Object.entries(transform)) {
-      const transformFunction =
-        `${key}(${value})` as SVGGradientTransformString;
+  //   let transformString: SVGGradientTransformString[] = [
+  //     this.IDENTITY_TRANSFORM,
+  //   ];
+  //   // Iterate through the transform object and add unique transform functions
+  //   for (const [key, value] of Object.entries(transform)) {
+  //     const transformFunction =
+  //       `${key}(${value})` as SVGGradientTransformString;
 
-      // Check if this transform has not been applied before
-      const hasNotAppliedTransform: boolean =
-        !appliedTransforms.has(transformFunction);
-      if (hasNotAppliedTransform) {
-        transformString.push(transformFunction);
-        appliedTransforms.add(transformFunction);
-      }
-    }
+  //     // Check if this transform has not been applied before
+  //     const hasNotAppliedTransform: boolean =
+  //       !appliedTransforms.has(transformFunction);
+  //     if (hasNotAppliedTransform) {
+  //       transformString.push(transformFunction);
+  //       appliedTransforms.add(transformFunction);
+  //     }
+  //   }
 
-    this.gradientTransform = transformString.join(
-      " "
-    ) as SVGGradientTransformString; // Remove trailing space
-  }
+  //   this.gradientTransform = transformString.join(
+  //     " "
+  //   ) as SVGGradientTransformString; // Remove trailing space
+  // }
 
   /**
    * Generate the SVG linear gradient string based on the set parameters.
@@ -172,7 +146,7 @@ SVG Linear gradient formal syntax:
     let colorStops: string = "";
 
     for (let i = 0; i < amountOfStopColors; i++) {
-      const stopColor: SVGLinearGradientColorStop = this.stopColors[i];
+      const stopColor: SVGGradientColorStop = this.stopColors[i];
       const { offset, color, opacity, id } = stopColor;
 
       let normalizedOffset: string = offset;

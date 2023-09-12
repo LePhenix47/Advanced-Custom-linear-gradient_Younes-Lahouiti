@@ -44,7 +44,7 @@ export type SVGGradientUnits = "objectBoundingBox" | "userSpaceOnUse";
  * Class for CSS Linear Gradient
  * @extends CSSGradient
  */
-export type SVGLinearGradientColorStop = {
+export type SVGGradientColorStop = {
   id: number;
   color: string;
   offset: string | null;
@@ -96,5 +96,4 @@ abstract class SVGGradient {
 
   abstract addStopColor(stopColor: unknown): void;
 }
-
 export default SVGGradient;

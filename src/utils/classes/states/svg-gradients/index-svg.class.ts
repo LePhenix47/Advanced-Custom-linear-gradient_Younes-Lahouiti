@@ -7,7 +7,7 @@ export type SVGSpreadMethods = "pad" | "reflect" | "repeat";
 
 // Not type safe enough as you can set it to "lol(69)" and TS won't throw an error
 export type SVGGradientTransformObject = {
-  [TTransformFunction in SVGGradientTransformFunctions]?: string;
+  [TTransformFunction in SVGGradientTransformFunctions]?: number;
 };
 
 export type SVGGradientTransformFunctions =
@@ -35,7 +35,9 @@ export type SVGGradientTransformFunctions =
 
 // Not type safe enough as you can set it to "lol(69)" and TS won't throw an error
 export type SVGGradientTransformString =
-  `${SVGGradientTransformFunctions}(${string})`;
+  `${SVGGradientTransformFunctions}(${number})`;
+
+const test: SVGGradientTransformString = "rotate(90)";
 
 export type SVGGradientUnits = "objectBoundingBox" | "userSpaceOnUse";
 /**
@@ -54,6 +56,15 @@ export type SVGCoordsFromRadian = {
   y1: number;
   x2: number;
   y2: number;
+};
+
+export type SVGRadialGradientAttributes = {
+  centerX: string;
+  centerY: string;
+  radius: string;
+  focalRadius: string;
+  focalX: string;
+  focalY: string;
 };
 /**
  * Base class for SVG Gradients

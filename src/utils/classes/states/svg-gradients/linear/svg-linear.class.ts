@@ -57,7 +57,7 @@ SVG Linear gradient formal syntax:
       y2: 1,
     };
 
-    this.IDENTITY_TRANSFORM = "matrix(1 0 0 1 0 0)";
+    this.IDENTITY_TRANSFORM = "rotate(0)";
 
     this.gradientTransform = this.IDENTITY_TRANSFORM; // Need to add a method to set this value
 
@@ -169,7 +169,7 @@ SVG Linear gradient formal syntax:
       const stopColor: SVGLinearGradientColorStop = this.stopColors[i];
       const { offset, color, opacity, id } = stopColor;
 
-      let normalizedOffset = offset;
+      let normalizedOffset: string = offset;
       const colorHasNoOffset: boolean = offset === null;
       if (colorHasNoOffset) {
         console.log(i / (amountOfStopColors - 1));
@@ -197,6 +197,8 @@ SVG Linear gradient formal syntax:
   y1="${y1}"
   x2="${x2}"
   y2="${y2}"
+
+  spreadMethod="${this.spreadMethod}"
 
   gradientTransform="${this.gradientTransform}"
   gradientUnits="${this.gradientUnits}"
@@ -242,7 +244,7 @@ linearGradient.addStopColor({
 });
 
 linearGradient.setGradientTransform({
-  skewX: "25%",
+  skewX: 25,
 });
 
 // Generate the SVG linear gradient string

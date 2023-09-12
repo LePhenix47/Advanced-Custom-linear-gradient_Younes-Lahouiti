@@ -98,6 +98,31 @@ export function areArraysEqual<DataType>(
 }
 
 /**
+ * Check if two Sets are equal.
+ *
+ * @template T
+ * @param {Set<T>} set1 The first Set to compare.
+ * @param {Set<T>} set2 The second Set to compare.
+ * @returns {boolean} True if the Sets are equal, false otherwise.
+ */
+export function areSetsEqual<T>(set1: Set<T>, set2: Set<T>): boolean {
+  const haveDifferentLengths: boolean = set1.size !== set2.size;
+  if (haveDifferentLengths) {
+    return false;
+  }
+
+  for (const item of set1) {
+    const doesNotHaveItem: boolean =
+      typeof item !== "object" && !set2.has(item);
+    if (doesNotHaveItem) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * Removes elements from an array and optionally inserts new elements in their place using the `.splice()` method.
  *
  * @param {any[]} originalArray - The array to modify.

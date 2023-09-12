@@ -141,6 +141,37 @@ export function areObjectsEqual<DataType extends object>(
 }
 
 /**
+ * Check if two Maps are equal.
+ *
+ * @template TKey, TValue
+ * @param {Map<TKey, TValue>} map1 The first Map to compare.
+ * @param {Map<TKey, TValue>} map2 The second Map to compare.
+ * @returns {boolean} True if the Maps are equal, false otherwise.
+ */
+export function areMapsEqual<TKey, TValue>(
+  map1: Map<TKey, TValue>,
+  map2: Map<TKey, TValue>
+): boolean {
+  const haveDifferentLengths: boolean = map1.size !== map2.size;
+  if (haveDifferentLengths) {
+    return false;
+  }
+
+  for (const [key, value] of map1) {
+    const doesNotHaveProperty: boolean = !map2.has(key);
+    const doesNotHaveSameValue: boolean = map2.get(key) !== value;
+
+    const haveDifferentValues: boolean =
+      doesNotHaveProperty || doesNotHaveSameValue;
+    if (haveDifferentValues) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * Retrieves the values of an object inside an array using `Object.values()`
  *
  * @param {object} object The object to retrieve values from.
@@ -215,7 +246,7 @@ export function getObjectEntries<TObj, TKeyPair = TObj[keyof TObj]>(
  })
 
  console.log(res); 
-→ {
+Output → {
     even: [2, 4],
     odd: [1, 3]
   }

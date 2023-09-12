@@ -1,28 +1,17 @@
-import SVGGradient from "../index-svg.class";
+import { getObjectEntries } from "@utils/helpers/object.helpers";
+import SVGGradient, {
+  SVGCoordsFromRadian,
+  SVGGradientTransformObject,
+  SVGGradientTransformString,
+  SVGGradientUnits,
+  SVGLinearGradientColorStop,
+  SVGSpreadMethods,
+} from "../index-svg.class";
 import {
   calculateCoordsFromRadian,
   degreesToRadians,
 } from "@utils/helpers/math.helpers";
 
-type SVGSpreadMethods = "pad" | "reflect" | "repeat";
-
-type SVGCoordsFromRadian = {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-};
-
-/**
- * Class for CSS Linear Gradient
- * @extends CSSGradient
- */
-type SVGLinearGradientColorStop = {
-  id: number;
-  color: string;
-  offset: string | null;
-  opacity: string;
-};
 class SVGLinearGradient extends SVGGradient {
   /*
 SVG Linear gradient formal syntax:
@@ -52,6 +41,9 @@ SVG Linear gradient formal syntax:
   spreadMethod: SVGSpreadMethods;
   orientationCoords: SVGCoordsFromRadian;
   stopColors: SVGLinearGradientColorStop[];
+  gradientTransform: SVGGradientTransformString;
+  gradientUnits: SVGGradientUnits;
+  IDENTITY_TRANSFORM: SVGGradientTransformString;
 
   constructor() {
     super();
@@ -65,14 +57,22 @@ SVG Linear gradient formal syntax:
       y2: 1,
     };
 
+    this.IDENTITY_TRANSFORM = "matrix(1 0 0 1 0 0)";
+
+    this.gradientTransform = this.IDENTITY_TRANSFORM; // Need to add a method to set this value
+
+    this.gradientUnits = "objectBoundingBox"; // Need to add a method to set this value too
+
     this.stopColors = [];
   }
 
   /**
    * Set the orientation angle for the linear gradient.
    * @param {number} orientation - The orientation angle in degrees.
+   *
+   * @returns {void}
    */
-  setOrientation(orientation: number) {
+  setOrientation(orientation: number): void {
     const radAngle = degreesToRadians(orientation);
 
     this.orientationCoords = calculateCoordsFromRadian(radAngle);
@@ -117,8 +117,8 @@ SVG Linear gradient formal syntax:
   }
 
   /**
-   * Set whether the linear gradient should repeat.
-   * @param {SVGSpreadMethods} methodValue - If true, the gradient will repeat.
+   * Sets the spreading method for the SVG linear gradient
+   * @param {SVGSpreadMethods} methodValue - Can be `"pad"`, `"reflect"` or `"repeat"`
    * @returns {void}
    */
   setSpreadMethod(methodValue: SVGSpreadMethods): void {
@@ -126,10 +126,119 @@ SVG Linear gradient formal syntax:
   }
 
   /**
-   * Generate the CSS linear gradient string based on the set parameters.
-   * @returns {string} - The CSS linear gradient string.
+   * Set the gradient transform using an object with transform functions.
+   *
+   * @param {SVGGradientTransformObject} transform - The object with gradient transform functions.
+   *
+   * @returns {void}
    */
-  generateSvgGradient(): string {}
+  setGradientTransform(transform: SVGGradientTransformObject): void {
+    const transformFunctions =
+      getObjectEntries<SVGGradientTransformObject>(transform);
+
+    let transformString: SVGGradientTransformString = this.IDENTITY_TRANSFORM;
+    for (const [key, value] of transformFunctions) {
+      transformString += `${key}(${value})`;
+    }
+
+    this.gradientTransform = transformString;
+  }
+
+  /**
+   * Generate the SVG linear gradient string based on the set parameters.
+   * @returns {string} - The SVG linear gradient string.
+   */
+  generateSvgGradient(): string {
+    const amountOfStopColors: number = this.stopColors.length;
+
+    const cannotCreateGradient: boolean = amountOfStopColors < 2;
+    if (cannotCreateGradient) {
+      return "none";
+    }
+
+    let colorStops: string = "";
+
+    for (let i = 0; i < amountOfStopColors; i++) {
+      const stopColor: SVGLinearGradientColorStop = this.stopColors[i];
+      const { offset, color, opacity, id } = stopColor;
+
+      let normalizedOffset = offset;
+      const colorHasNoOffset: boolean = offset === null;
+      if (colorHasNoOffset) {
+        console.log(i / (amountOfStopColors - 1));
+        normalizedOffset = `${(i / (amountOfStopColors - 1)) * 100}%`;
+      }
+      /*
+      There's a problem, given the fact that the user can choose
+      not to add an offset, I need to give a proper default value for it
+
+      Imagine we had 2 colors stop and neither had an offset
+
+      Then the 1st one should have a default offset of 0% and the second of 100%
+      */
+      colorStops += `
+      <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" data-stop-id=${id} />
+      `;
+    }
+
+    const linearGradient: string = /* html */ `
+<linearGradient 
+  id="svg-linear-gradient" 
+
+  x1="${this.orientationCoords.x1}" 
+  y1="${this.orientationCoords.y1}"
+  x2="${this.orientationCoords.x2}"
+  y2="${this.orientationCoords.y2}"
+
+  gradientTransform="${this.gradientTransform}"
+  gradientUnits="${this.gradientUnits}"
+  >
+  ${colorStops}
+</linearGradient>
+`;
+
+    const svg: string = /* html */ `
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    ${linearGradient}
+  </defs>
+  <rect width="100%" height="100%" fill="url(#svg-linear-gradient)" />
+</svg>
+`;
+
+    return svg;
+  }
 }
 
 export default SVGLinearGradient;
+
+// Create an instance of SVGLinearGradient
+const linearGradient = SVGGradient.create("linear") as SVGLinearGradient;
+
+// Set the orientation to 45 degrees
+linearGradient.setOrientation(135);
+
+// Add the start and end stop colors
+linearGradient.addStopColor({
+  id: 0,
+  color: "#ff6600",
+  offset: null, // You can set the offset to null for the start color
+  opacity: "100%",
+});
+
+linearGradient.addStopColor({
+  id: 1,
+  color: "#3399ff",
+  offset: null, // Set the offset to 100% for the end color
+  opacity: "100%",
+});
+
+linearGradient.setGradientTransform({
+  skewX: "25%",
+});
+
+// Generate the SVG linear gradient string
+const svgGradientString = linearGradient.generateSvgGradient();
+
+const div = document.querySelector("div");
+div.innerHTML = svgGradientString;

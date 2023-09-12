@@ -189,13 +189,15 @@ export function getObjectProperties(object: object): any[] {
  * console.log(objectKeyValuePair) → [["foo", "hello"], ["bar", "salve"]]
  * ```
  */
-export function getObjectEntries(object: object): any[] {
+export function getObjectEntries<TObj>(
+  object: TObj
+): [keyof TObj, TObj[keyof TObj]][] {
   //We check that the object passed is indeed an object
   const objectIsDefined: boolean = !Array.isArray(object);
 
   if (objectIsDefined) {
     //Returns the property names and its values in pair inside an array
-    return Object.entries(object);
+    return Object.entries(object) as [keyof TObj, TObj[keyof TObj]][];
   }
   return [];
 }

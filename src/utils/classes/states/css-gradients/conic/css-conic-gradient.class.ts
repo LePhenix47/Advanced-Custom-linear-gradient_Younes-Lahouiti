@@ -1,3 +1,4 @@
+import CSSGradientBase from "../class-base/css-gradient-base.class";
 import CSSGradient from "../index-css.class";
 import { percentageToHex } from "@utils/helpers/number.helpers";
 
@@ -6,7 +7,7 @@ type ConicGradientPosition = {
   end: string | null;
 };
 
-type ConicGradientColorStop = {
+export type CSSConicGradientColorStop = {
   id: number;
   color: string;
   startAngle: number | null; // % or px
@@ -28,11 +29,11 @@ type ConicGradientColorStop = {
  * Class for CSS Conic Gradient
  * @extends CSSGradient
  */
-class CSSConicGradient extends CSSGradient {
+class CSSConicGradient extends CSSGradientBase {
   orientation: number;
   position: ConicGradientPosition;
   isRepeating: boolean;
-  stopColors: ConicGradientColorStop[];
+  stopColors: CSSConicGradientColorStop[];
 
   constructor() {
     super();
@@ -65,26 +66,18 @@ class CSSConicGradient extends CSSGradient {
    * Normalizes the values of a stop color by converting opacity to a hexadecimal alpha value
    * and checking if the transition angle is within the range of the color's start & end angle
    *
-   * @param {ConicGradientColorStop} stopColor - The stop color to normalize.
+   * @param {CSSConicGradientColorStop} stopColor - The stop color to normalize.
    *
    * @returns {void}
    *
    * @private
    */
-  private normalizeStopColorValues(stopColor: ConicGradientColorStop): void {
-    const {
-      color: hexColor,
-      opacity,
-      startAngle,
-      endAngle,
-      transitionAngle,
-    } = stopColor;
+  private normalizeStopColorValues(stopColor: CSSConicGradientColorStop): void {
+    const { color: hexColor, opacity } = stopColor;
 
     const hexOpacity: string = percentageToHex(opacity);
     const fullColor: string = `${hexColor}${hexOpacity}`;
     stopColor.color = fullColor;
-
-    this.isTransitionAngleValid(startAngle, endAngle, transitionAngle);
   }
 
   /**
@@ -134,25 +127,6 @@ class CSSConicGradient extends CSSGradient {
   }
 
   /**
-   * Sorts the stop colors array by their `id` property in ascending order.
-   *
-   * @private
-   */
-  private sortStopColorsArrayById(): void {
-    this.stopColors.sort((obj1, obj2) => {
-      return obj1.id - obj2.id;
-    });
-  }
-  /**
-   * Set whether the conic gradient should repeat.
-   * @param {boolean} repeatValue - If true, the gradient will repeat.
-   * @returns {void}
-   */
-  setRepeating(repeatValue: boolean): void {
-    this.isRepeating = repeatValue;
-  }
-
-  /**
    * Set the orientation angle for the conic gradient.
    * @param {number} orientation - The orientation angle in degrees.
    */
@@ -173,7 +147,7 @@ class CSSConicGradient extends CSSGradient {
     }
   }
 
-  addStopColor(stopColor: ConicGradientColorStop): void {
+  addStopColor(stopColor: CSSConicGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
     const properties: string[] = [
@@ -217,7 +191,7 @@ class CSSConicGradient extends CSSGradient {
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: ConicGradientColorStop = this.stopColors[i];
+      const stopColor: CSSConicGradientColorStop = this.stopColors[i];
       const { color, startAngle, endAngle, transitionAngle } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;

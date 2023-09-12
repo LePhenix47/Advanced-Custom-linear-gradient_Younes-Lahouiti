@@ -1,17 +1,18 @@
 import { percentageToHex } from "@utils/helpers/number.helpers";
 import CSSGradient from "../index-css.class";
+import CSSGradientBase from "../class-base/css-gradient-base.class";
 
 /**
  * Class for CSS Linear Gradient
  * @extends CSSGradient
  */
-type CSSLinearGradientColorStop = {
+export type CSSLinearGradientColorStop = {
   id: number;
   color: string;
   offset: string | null;
   opacity: string;
 };
-class CSSLinearGradient extends CSSGradient {
+class CSSLinearGradient extends CSSGradientBase {
   /*
   CSS Linear gradient formal syntax:
 linear-gradient([orientation]deg,#[stop-color1] [offset]%,#[stop-color2] [offset]%...)
@@ -92,26 +93,6 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     const normalizedOffset: string = !offset ? "" : offset;
     stopColor.offset = normalizedOffset;
-  }
-
-  /**
-   * Sorts the stop colors array by their `id` property in ascending order.
-   *
-   * @private
-   */
-  private sortStopColorsArrayById() {
-    this.stopColors.sort((obj1, obj2) => {
-      return obj1.id - obj2.id;
-    });
-  }
-
-  /**
-   * Set whether the linear gradient should repeat.
-   * @param {boolean} repeatValue - If true, the gradient will repeat.
-   * @returns {void}
-   */
-  setRepeating(repeatValue: boolean): void {
-    this.isRepeating = repeatValue;
   }
 
   /**

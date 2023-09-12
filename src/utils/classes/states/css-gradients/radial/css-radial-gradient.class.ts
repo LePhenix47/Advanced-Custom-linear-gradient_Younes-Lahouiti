@@ -1,12 +1,13 @@
 import { percentageToHex } from "@utils/helpers/number.helpers";
 import CSSGradient from "../index-css.class";
+import CSSGradientBase from "../class-base/css-gradient-base.class";
 
 type RadialGradientPosition = {
   start: string;
   end: string | null;
 };
 
-type RadialGradientColorStop = {
+export type CSSRadialGradientColorStop = {
   id: number;
   color: string;
   offset: string | null;
@@ -16,11 +17,11 @@ type RadialGradientColorStop = {
  * Class for CSS Radial Gradient
  * @extends CSSGradient
  */
-class CSSRadialGradient extends CSSGradient {
+class CSSRadialGradient extends CSSGradientBase {
   shape: "circle" | "ellipse";
   position: RadialGradientPosition;
   isRepeating: boolean;
-  stopColors: RadialGradientColorStop[];
+  stopColors: CSSRadialGradientColorStop[];
 
   /*
   CSS Radial gradient formal syntax:
@@ -69,14 +70,6 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
   }
 
   /**
-   * Set whether the radial gradient should repeat.
-   * @param {boolean} repeatValue - If true, the gradient will repeat.
-   * @returns {void}
-   */
-  setRepeating(repeatValue: boolean): void {
-    this.isRepeating = repeatValue;
-  }
-  /**
    * Add a stop color to the radial gradient.
    * @param {LinearGradientColorStop} stopColor - The stop color to add.
    *
@@ -85,7 +78,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
    * @returns {void}
    *
    */
-  addStopColor(stopColor: RadialGradientColorStop): void {
+  addStopColor(stopColor: CSSRadialGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
     const properties: string[] = ["id", "color", "offset", "opacity"];
@@ -115,7 +108,9 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
    *
    * @private
    */
-  private normalizeStopColorValues(stopColor: RadialGradientColorStop): void {
+  private normalizeStopColorValues(
+    stopColor: CSSRadialGradientColorStop
+  ): void {
     const { color: hexColor, offset, opacity } = stopColor;
 
     const hexOpacity: string = percentageToHex(opacity);
@@ -124,17 +119,6 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     const normalizedOffset: string = !offset ? "" : offset;
     stopColor.offset = normalizedOffset;
-  }
-
-  /**
-   * Sorts the stop colors array by their `id` property in ascending order.
-   *
-   * @private
-   */
-  private sortStopColorsArrayById() {
-    this.stopColors.sort((obj1, obj2) => {
-      return obj1.id - obj2.id;
-    });
   }
 
   generateCssGradient(): string {
@@ -151,7 +135,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: RadialGradientColorStop = this.stopColors[i];
+      const stopColor: CSSRadialGradientColorStop = this.stopColors[i];
       const { color, offset } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;

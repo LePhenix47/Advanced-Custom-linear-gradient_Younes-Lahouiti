@@ -37,8 +37,6 @@ export type SVGGradientTransformFunctions =
 export type SVGGradientTransformString =
   `${SVGGradientTransformFunctions}(${number})`;
 
-const test: SVGGradientTransformString = "rotate(90)";
-
 export type SVGGradientUnits = "objectBoundingBox" | "userSpaceOnUse";
 /**
  * Class for CSS Linear Gradient

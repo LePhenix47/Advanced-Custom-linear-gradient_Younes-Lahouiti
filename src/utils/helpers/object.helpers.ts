@@ -67,10 +67,12 @@ export function areObjectsEqual<DataType extends object>(
   const doNotHaveObjectType: boolean =
     typeof obj1 !== "object" || typeof obj2 !== "object";
 
+  const areNull: boolean = obj1 === null || obj2 === null;
+
   const areArrays: boolean = Array.isArray(obj1) || Array.isArray(obj2);
 
   const argumentsAreNotObjects: boolean =
-    areArrays || doNotHaveObjectType || argumentsAreFalsy;
+    areArrays || doNotHaveObjectType || argumentsAreFalsy || areNull;
   if (argumentsAreNotObjects) {
     const typeObj1 = `${typeof obj1} ${getPrototypeOf(obj1)}`;
     const typeObj2 = `${typeof obj2} ${getPrototypeOf(obj2)}`;
@@ -145,12 +147,12 @@ export function areObjectsEqual<DataType extends object>(
  *
  * @returns {any[]} An array containing the property values of the object.
  */
-export function getObjectValues(object: object): any[] {
-  //We check that the object passed is indeed an object
+export function getObjectValues<TObj>(object: TObj): TObj[keyof TObj][] {
+  // We check that the object passed is indeed an object
   const objectIsDefined: boolean = !Array.isArray(object);
 
   if (objectIsDefined) {
-    //Returns the property values of the object in an array
+    // Returns the property values of the object in an array
     return Object.values(object);
   }
   return [];
@@ -161,15 +163,15 @@ export function getObjectValues(object: object): any[] {
  *
  * @param {object} object The object to retrieve properties from.
  *
- * @returns An array containing the property names of the object.
+ * @returns {keyof TObj[]} An array containing the property names of the object.
  */
-export function getObjectProperties(object: object): any[] {
-  //We check that the object passed is indeed an object
+export function getObjectProperties<TObj>(object: TObj): (keyof TObj)[] {
+  // We check that the object passed is indeed an object
   const objectIsDefined: boolean = !Array.isArray(object);
 
   if (objectIsDefined) {
-    //Returns the property names of the object in an array
-    return Object.keys(object);
+    // Returns the property names of the object in an array
+    return Object.keys(object) as (keyof TObj)[];
   }
   return [];
 }
@@ -189,15 +191,15 @@ export function getObjectProperties(object: object): any[] {
  * console.log(objectKeyValuePair) → [["foo", "hello"], ["bar", "salve"]]
  * ```
  */
-export function getObjectEntries<TObj>(
+export function getObjectEntries<TObj, TKeyPair = TObj[keyof TObj]>(
   object: TObj
-): [keyof TObj, TObj[keyof TObj]][] {
+): [keyof TObj, TKeyPair][] {
   //We check that the object passed is indeed an object
   const objectIsDefined: boolean = !Array.isArray(object);
 
   if (objectIsDefined) {
     //Returns the property names and its values in pair inside an array
-    return Object.entries(object) as [keyof TObj, TObj[keyof TObj]][];
+    return Object.entries(object) as [keyof TObj, TKeyPair][];
   }
   return [];
 }

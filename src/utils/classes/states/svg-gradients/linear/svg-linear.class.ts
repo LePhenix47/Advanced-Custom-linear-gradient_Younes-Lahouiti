@@ -138,7 +138,7 @@ SVG Linear gradient formal syntax:
 
     let transformString: SVGGradientTransformString = this.IDENTITY_TRANSFORM;
     for (const [key, value] of transformFunctions) {
-      transformString += `${key}(${value})`;
+      transformString += `${key}(${value}) `;
     }
 
     this.gradientTransform = transformString;

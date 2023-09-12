@@ -12,6 +12,9 @@ import {
 } from "@utils/helpers/dom.helpers";
 import { radiansToDegrees } from "@utils/helpers/math.helpers";
 import { roundToFloat } from "@utils/helpers/number.helpers";
+import CSSGradient from "@utils/classes/states/css-gradients/index-css.class";
+import CSSLinearGradient from "@utils/classes/states/css-gradients/linear/css-linear-gradient.class";
+import CSSRadialGradient from "@utils/classes/states/css-gradients/radial/css-radial-gradient.class";
 
 export function calculateAngle(mouseX, mouseY) {
   const angleInRadians: number = Math.atan2(mouseX, mouseY);

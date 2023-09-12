@@ -214,52 +214,52 @@ class CSSConicGradient extends CSSGradientBase {
 }
 export default CSSConicGradient;
 
-// Example usage:
-const cssConicGradient = CSSGradient.create("conic") as CSSConicGradient;
+// // Example usage:
+// const cssConicGradient = CSSGradient.create("conic") as CSSConicGradient;
 
-// Set the orientation angle
-cssConicGradient.setOrientation(0);
+// // Set the orientation angle
+// cssConicGradient.setOrientation(0);
 
-// Set the position coordinates
-cssConicGradient.setPositionCoordinates({
-  start: "50%",
-  end: "50%",
-});
+// // Set the position coordinates
+// cssConicGradient.setPositionCoordinates({
+//   start: "50%",
+//   end: "50%",
+// });
 
-// Add stop colors
-cssConicGradient.addStopColor({
-  id: 1,
-  color: "#000000",
-  startAngle: 180,
-  endAngle: null,
-  transitionAngle: null,
-  opacity: "0%",
-});
+// // Add stop colors
+// cssConicGradient.addStopColor({
+//   id: 1,
+//   color: "#000000",
+//   startAngle: 180,
+//   endAngle: null,
+//   transitionAngle: null,
+//   opacity: "0%",
+// });
 
-cssConicGradient.addStopColor({
-  id: 2,
-  color: "#40e0d0",
-  startAngle: 180,
-  endAngle: 260,
-  transitionAngle: null,
-  opacity: "100%",
-});
+// cssConicGradient.addStopColor({
+//   id: 2,
+//   color: "#40e0d0",
+//   startAngle: 180,
+//   endAngle: 260,
+//   transitionAngle: null,
+//   opacity: "100%",
+// });
 
-cssConicGradient.addStopColor({
-  id: 3,
-  color: "#ffffff",
-  startAngle: 360,
-  endAngle: null,
-  transitionAngle: null,
-  opacity: "100%",
-});
+// cssConicGradient.addStopColor({
+//   id: 3,
+//   color: "#ffffff",
+//   startAngle: 360,
+//   endAngle: null,
+//   transitionAngle: null,
+//   opacity: "100%",
+// });
 
-// Generate the CSS gradient string
-const cssGradientString = cssConicGradient.generateCssGradient();
+// // Generate the CSS gradient string
+// const cssGradientString = cssConicGradient.generateCssGradient();
 
-// You can use cssGradientString as your background-image property
-console.log(cssGradientString);
+// // You can use cssGradientString as your background-image property
+// console.log(cssGradientString);
 
-const div = document.querySelector("div");
+// const div = document.querySelector("div");
 
 // div.style.setProperty("--_bg-img", generatedGradient);

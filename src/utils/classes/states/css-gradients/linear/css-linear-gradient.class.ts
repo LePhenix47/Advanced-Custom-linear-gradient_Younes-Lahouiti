@@ -128,30 +128,30 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
 export default CSSLinearGradient;
 
-// Example usage:
-const cssLinearGradient = CSSGradient.create("linear") as CSSLinearGradient;
-cssLinearGradient.setRepeating(false);
-cssLinearGradient.setOrientation(135);
-cssLinearGradient.addStopColor({
-  id: 0,
-  color: "#ff0000",
-  offset: null,
-  opacity: "100%",
-});
-cssLinearGradient.addStopColor({
-  id: 1,
-  color: "#00ff00",
-  offset: null,
-  opacity: "10%",
-});
-cssLinearGradient.addStopColor({
-  id: 2,
-  color: "#0000ff",
-  offset: null,
-  opacity: "50%",
-});
+// // Example usage:
+// const cssLinearGradient = CSSGradient.create("linear") as CSSLinearGradient;
+// cssLinearGradient.setRepeating(false);
+// cssLinearGradient.setOrientation(135);
+// cssLinearGradient.addStopColor({
+//   id: 0,
+//   color: "#ff0000",
+//   offset: null,
+//   opacity: "100%",
+// });
+// cssLinearGradient.addStopColor({
+//   id: 1,
+//   color: "#00ff00",
+//   offset: null,
+//   opacity: "10%",
+// });
+// cssLinearGradient.addStopColor({
+//   id: 2,
+//   color: "#0000ff",
+//   offset: null,
+//   opacity: "50%",
+// });
 
-// cssLinearGradient.
+// // cssLinearGradient.
 
-const generatedGradient = cssLinearGradient.generateCssGradient();
-console.log(generatedGradient);
+// const generatedGradient = cssLinearGradient.generateCssGradient();
+// console.log(generatedGradient);

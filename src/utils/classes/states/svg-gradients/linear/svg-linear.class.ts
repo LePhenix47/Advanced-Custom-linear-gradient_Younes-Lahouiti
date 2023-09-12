@@ -18,7 +18,7 @@ SVG Linear gradient formal syntax:
 
 [ORIENTATION IN RADIANS] = [ORIENTATION IN DEGREES] × π ÷ 180
 
-      <svg xmlns="http://www.w3.org/2000/svg">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100dvh">
         <defs>
           <linearGradient id="gradient" 
             x1=[(cos([ORIENTATION IN RADIANS]) + 1) / 2] 
@@ -133,15 +133,22 @@ SVG Linear gradient formal syntax:
    * @returns {void}
    */
   setGradientTransform(transform: SVGGradientTransformObject): void {
-    const transformFunctions =
-      getObjectEntries<SVGGradientTransformObject>(transform);
-
+    const appliedTransforms: Set<string> = new Set();
     let transformString: SVGGradientTransformString = this.IDENTITY_TRANSFORM;
-    for (const [key, value] of transformFunctions) {
-      transformString += `${key}(${value}) `;
+
+    // Iterate through the transform object and add unique transform functions
+    for (const [key, value] of Object.entries(transform)) {
+      const transformFunction = `${key}(${value})`;
+
+      // Check if this transform has not been applied before
+      if (!appliedTransforms.has(transformFunction)) {
+        transformString += ` ${transformFunction} `;
+        appliedTransforms.add(transformFunction);
+      }
     }
 
-    this.gradientTransform = transformString;
+    this.gradientTransform =
+      transformString.trim() as SVGGradientTransformString; // Remove trailing space
   }
 
   /**
@@ -176,19 +183,20 @@ SVG Linear gradient formal syntax:
 
       Then the 1st one should have a default offset of 0% and the second of 100%
       */
-      colorStops += `
+      colorStops += /* html */ `
       <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" data-stop-id=${id} />
       `;
     }
 
+    const { x1, x2, y1, y2 } = this.orientationCoords;
     const linearGradient: string = /* html */ `
 <linearGradient 
   id="svg-linear-gradient" 
 
-  x1="${this.orientationCoords.x1}" 
-  y1="${this.orientationCoords.y1}"
-  x2="${this.orientationCoords.x2}"
-  y2="${this.orientationCoords.y2}"
+  x1="${x1}" 
+  y1="${y1}"
+  x2="${x2}"
+  y2="${y2}"
 
   gradientTransform="${this.gradientTransform}"
   gradientUnits="${this.gradientUnits}"

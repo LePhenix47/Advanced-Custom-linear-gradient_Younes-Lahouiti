@@ -1,4 +1,5 @@
 import SVGLinearGradient from "./linear/svg-linear.class";
+import SVGRadialGradient from "./radial/svg-radial.class";
 
 type SVGGradientReturnType = SVGLinearGradient | SVGRadialGradient;
 

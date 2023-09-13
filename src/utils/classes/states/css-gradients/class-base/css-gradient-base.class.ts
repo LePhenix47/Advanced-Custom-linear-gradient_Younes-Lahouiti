@@ -2,6 +2,7 @@ import { percentageToHex } from "@utils/helpers/number.helpers";
 import { CSSConicGradientColorStop } from "../conic/css-conic-gradient.class";
 import { CSSLinearGradientColorStop } from "../linear/css-linear-gradient.class";
 import { CSSRadialGradientColorStop } from "../radial/css-radial-gradient.class";
+import Gradient from "../../index-gradients.class";
 
 type CSSGradientColorStop =
   | CSSLinearGradientColorStop
@@ -63,8 +64,8 @@ class CSSGradientBase {
     stopColor.transitionAngle = formattedTransitionAngle;
   }
 
-  protected sortStopColorsArrayById<TObj extends CSSGradientColorStop>(): void {
-    this.stopColors.sort((obj1: TObj, obj2: TObj) => {
+  protected sortStopColorsArrayById(): void {
+    this.stopColors.sort((obj1, obj2) => {
       return obj1.id - obj2.id;
     });
   }
@@ -79,14 +80,27 @@ class CSSGradientBase {
     });
 
     const hasInvalidArguments: boolean =
-      oldId < 0 ||
-      newId > this.stopColors.length ||
-      indexToReplace === -1 ||
-      indexToBeReplacedBy === -1;
+      indexToReplace === -1 || indexToBeReplacedBy === -1;
 
     if (hasInvalidArguments) {
-      throw new RangeError(`Invalid...`);
+      throw new RangeError(
+        `Invalid id arguments, expected both to ids to return their referring objects but couldn't find them, with oldId (${oldId}): ${
+          indexToBeReplacedBy !== 1
+            ? "found old object"
+            : "couldn't find old object"
+        } and with newId (${newId}): ${
+          indexToReplace !== 1 ? "found new object" : "couldn't find new object"
+        }`
+      );
     }
+
+    const objectToReplace: CSSGradientColorStop =
+      this.stopColors[indexToReplace];
+    this.stopColors.splice(indexToReplace, 1, objectToReplace);
+
+    const objectToBeReplacedBy: CSSGradientColorStop =
+      this.stopColors[indexToBeReplacedBy];
+    this.stopColors.splice(indexToBeReplacedBy, 1, objectToBeReplacedBy);
   }
 }
 

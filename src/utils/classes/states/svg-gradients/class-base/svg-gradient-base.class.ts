@@ -61,6 +61,39 @@ class SVGGradientBase {
       return obj1.id - obj2.id;
     });
   }
+
+  changeColorOrderById(oldId: number, newId: number): void {
+    const indexToReplace: number = this.stopColors.findIndex((stopCol) => {
+      return stopCol.id === oldId;
+    });
+
+    const indexToBeReplacedBy: number = this.stopColors.findIndex((stopCol) => {
+      return stopCol.id === newId;
+    });
+
+    const hasInvalidArguments: boolean =
+      indexToReplace === -1 || indexToBeReplacedBy === -1;
+
+    if (hasInvalidArguments) {
+      throw new RangeError(
+        `Invalid id arguments, expected both to ids to return their referring objects but couldn't find them, with oldId (${oldId}): ${
+          indexToBeReplacedBy !== 1
+            ? "found old object"
+            : "couldn't find old object"
+        } and with newId (${newId}): ${
+          indexToReplace !== 1 ? "found new object" : "couldn't find new object"
+        }`
+      );
+    }
+
+    const objectToReplace: SVGGradientColorStop =
+      this.stopColors[indexToReplace];
+    this.stopColors.splice(indexToReplace, 1, objectToReplace);
+
+    const objectToBeReplacedBy: SVGGradientColorStop =
+      this.stopColors[indexToBeReplacedBy];
+    this.stopColors.splice(indexToBeReplacedBy, 1, objectToBeReplacedBy);
+  }
 }
 
 export default SVGGradientBase;

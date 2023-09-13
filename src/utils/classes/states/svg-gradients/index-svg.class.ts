@@ -87,11 +87,5 @@ abstract class SVGGradient {
       }
     }
   }
-
-  abstract setSpreadMethod(methodValue: SVGSpreadMethods): void;
-
-  abstract generateSvgGradient(): string;
-
-  abstract addStopColor(stopColor: unknown): void;
 }
 export default SVGGradient;

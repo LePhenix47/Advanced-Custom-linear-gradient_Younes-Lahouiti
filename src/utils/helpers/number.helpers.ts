@@ -1,3 +1,5 @@
+import { PercentageString } from "@utils/variables/types/unit-types.variables";
+
 /**
  * Generates a random number within a specified range.
  * @param {number} min - The minimum value of the range.
@@ -13,12 +15,10 @@ export function getRandomNumber(
   includeMin: boolean = true,
   includeMax: boolean = true
 ): number {
-  const hasInvalidArgument: boolean = min > max || max < min;
+  const hasInvalidArgument: boolean = min > max;
   if (hasInvalidArgument) {
     throw new Error(
-      `Unexpected error occured in the passed argument values: ${
-        min > max ? "min > max" : "max < min"
-      }`
+      `Unexpected error occurred in the passed argument values: min > max`
     );
   }
 
@@ -71,6 +71,29 @@ Float: ${float} of type ${typeof float}
   const nthPowerOfTen: number = 10 ** float;
 
   return Math.trunc(number * nthPowerOfTen) / nthPowerOfTen;
+}
+
+/**
+ * Converts a percentage string to a numeric value **between 0 and 1**
+ *
+ * @param {PercentageString} percentage - The percentage string to convert (e.g., "50%").
+ *
+ * @throws {Error} If the input is not a valid percentage.
+ *
+ * @returns {number} The numeric value represented by the percentage string
+ */
+export function stringPercentageToNumber(percentage: PercentageString): number {
+  const stringValue = percentage as string;
+
+  const numericValue: number = Number(stringValue.replace("%", ""));
+
+  const { isNaN } = Number;
+  const isNotANumber: boolean = isNaN(numericValue);
+  if (isNotANumber) {
+    throw new Error(`Invalid percentage: ${percentage}`);
+  }
+
+  return numericValue / 100;
 }
 
 /**

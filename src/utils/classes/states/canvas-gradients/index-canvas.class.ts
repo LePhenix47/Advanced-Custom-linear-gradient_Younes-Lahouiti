@@ -1,17 +1,22 @@
-import CanvasConicGradient from "./conic/canvas-conic-gradient.class";
-import CanvasLinearGradient from "./linear/canvas-linear-gradient.class";
-import CanvasRadialGradient from "./radial/canvas-radial-gradient.class";
+import CanvasConicGradient from "./conic/canvas-conic.class";
+import CanvasLinearGradient from "./linear/canvas-linear.class";
+import CanvasRadialGradient from "./radial/canvas-radial.class";
 
-class CanvasGradient {
+type CanvasGradientReturnType =
+  | CanvasLinearGradient
+  | CanvasRadialGradient
+  | CanvasConicGradient;
+
+class JSCanvasGradient {
   /**
    * Factory method to create SVG gradient instances based on the type
    * @param {"linear" | "radial"} gradientType - The type of gradient
-   * @returns {CanvasGradient} - An instance of the specific SVG gradient type
+   * @returns {JSCanvasGradient} - An instance of the specific SVG gradient type
    */
   static create(
     gradientType: "linear" | "radial" | "conic",
     context: CanvasRenderingContext2D
-  ) {
+  ): CanvasGradientReturnType {
     switch (gradientType) {
       case "linear": {
         return new CanvasLinearGradient(context);
@@ -28,4 +33,4 @@ class CanvasGradient {
     }
   }
 }
-export default CanvasGradient;
+export default JSCanvasGradient;

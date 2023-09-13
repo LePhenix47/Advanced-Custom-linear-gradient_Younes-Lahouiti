@@ -1,6 +1,6 @@
-import CSSConicGradient from "./conic/css-conic-gradient.class";
-import CSSLinearGradient from "./linear/css-linear-gradient.class";
-import CSSRadialGradient from "./radial/css-radial-gradient.class";
+import CSSConicGradient from "./conic/css-conic.class";
+import CSSLinearGradient from "./linear/css-linear.class";
+import CSSRadialGradient from "./radial/css-radial.class";
 
 type CSSGradientReturnType =
   | CSSLinearGradient

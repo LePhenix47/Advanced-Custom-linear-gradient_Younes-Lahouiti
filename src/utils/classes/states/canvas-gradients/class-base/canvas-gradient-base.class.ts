@@ -1,27 +1,31 @@
-import { percentageToHex } from "@utils/helpers/number.helpers";
+import {
+  percentageToHex,
+  stringPercentageToNumber,
+} from "@utils/helpers/number.helpers";
+import { PercentageString } from "@utils/variables/types/unit-types.variables";
 
-type CanvasLinearGradientColorStop = {
+export type CanvasLinearGradientColorStop = {
   id: number;
   color: string;
-  offset: number | string | null;
+  offset: number | PercentageString;
   opacity: string;
 };
 
-type CanvasRadialGradientColorStop = {
+export type CanvasRadialGradientColorStop = {
   id: number;
   color: string;
-  offset: number | string | null;
+  offset: number | PercentageString;
   opacity: string;
 };
 
-type CanvasConicGradientColorStop = {
+export type CanvasConicGradientColorStop = {
   id: number;
   color: string;
-  offset: number | string | null;
+  offset: number | PercentageString;
   opacity: string;
 };
 
-type CanvasGradientColorStop =
+export type CanvasGradientColorStop =
   | CanvasLinearGradientColorStop
   | CanvasRadialGradientColorStop
   | CanvasConicGradientColorStop;
@@ -51,7 +55,11 @@ class CanvasGradientBase {
   protected normalizeOffset(stopColor: CanvasGradientColorStop): void {
     const { offset } = stopColor;
 
-    const normalizedOffset: string = !offset ? "" : (offset as string);
+    const normalizedOffset: number =
+      offset === null
+        ? NaN
+        : stringPercentageToNumber(offset as PercentageString);
+
     stopColor.offset = normalizedOffset;
   }
 

@@ -85,14 +85,9 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
   private normalizeStopColorValues(
     stopColor: CSSLinearGradientColorStop
   ): void {
-    const { color: hexColor, offset, opacity } = stopColor;
+    this.normalizeOpacity(stopColor);
 
-    const hexOpacity: string = percentageToHex(opacity);
-    const fullColor: string = `${hexColor}${hexOpacity}`;
-    stopColor.color = fullColor;
-
-    const normalizedOffset: string = !offset ? "" : offset;
-    stopColor.offset = normalizedOffset;
+    this.normalizeOffset(stopColor);
   }
 
   /**

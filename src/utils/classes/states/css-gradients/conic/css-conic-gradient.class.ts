@@ -1,6 +1,4 @@
 import CSSGradientBase from "../class-base/css-gradient-base.class";
-import CSSGradient from "../index-css.class";
-import { percentageToHex } from "@utils/helpers/number.helpers";
 
 type ConicGradientPosition = {
   start: string;
@@ -10,9 +8,9 @@ type ConicGradientPosition = {
 export type CSSConicGradientColorStop = {
   id: number;
   color: string;
-  startAngle: number | null; // % or px
-  endAngle: number | null; // % or px
-  transitionAngle: number | null; // % or px
+  startAngle: string | number | null; // % or px
+  endAngle: string | number | null; // % or px
+  transitionAngle: string | number | null; // % or px
   opacity: string;
 };
 
@@ -73,11 +71,9 @@ class CSSConicGradient extends CSSGradientBase {
    * @private
    */
   private normalizeStopColorValues(stopColor: CSSConicGradientColorStop): void {
-    const { color: hexColor, opacity } = stopColor;
+    this.normalizeOpacity(stopColor);
 
-    const hexOpacity: string = percentageToHex(opacity);
-    const fullColor: string = `${hexColor}${hexOpacity}`;
-    stopColor.color = fullColor;
+    this.normalizeAngles(stopColor);
   }
 
   /**
@@ -170,7 +166,11 @@ class CSSConicGradient extends CSSGradientBase {
     this.normalizeStopColorValues(stopColor);
 
     const { startAngle, endAngle, transitionAngle } = stopColor;
-    this.isTransitionAngleValid(startAngle, endAngle, transitionAngle);
+    this.isTransitionAngleValid(
+      startAngle as number,
+      endAngle as number,
+      transitionAngle as number
+    );
 
     this.stopColors.push(stopColor);
 
@@ -197,14 +197,7 @@ class CSSConicGradient extends CSSGradientBase {
       const isLastIndex: boolean = i === this.stopColors.length - 1;
       const commaSeparator: string = isLastIndex ? "" : ", ";
 
-      const formattedStartAngle: string = !startAngle ? "" : `${startAngle}deg`;
-      const formattedEndAngle: string = !endAngle ? "" : `, ${endAngle}deg`;
-
-      const formattedTransitionAngle = !transitionAngle
-        ? ""
-        : `${transitionAngle}deg`;
-
-      const formattedAngles = `${formattedStartAngle} ${formattedEndAngle} ${formattedTransitionAngle}`;
+      const formattedAngles: string = `${startAngle} ${endAngle} ${transitionAngle}`;
 
       conicGradientString += `${color} ${formattedAngles}${commaSeparator}`;
     }

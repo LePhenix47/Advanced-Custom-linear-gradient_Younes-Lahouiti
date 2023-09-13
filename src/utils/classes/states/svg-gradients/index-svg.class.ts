@@ -68,7 +68,7 @@ export type SVGRadialGradientAttributes = {
  * Base class for SVG Gradients
  * @abstract
  */
-abstract class SVGGradient {
+class SVGGradient {
   /**
    * Factory method to create SVG gradient instances based on the type
    * @param {"linear" | "radial"} gradientType - The type of gradient
@@ -83,7 +83,7 @@ abstract class SVGGradient {
         return new SVGRadialGradient();
       }
       default: {
-        throw new Error(`Unsupported gradient type: ${gradientType}`);
+        throw new Error(`Unsupported SVG gradient type: ${gradientType}`);
       }
     }
   }

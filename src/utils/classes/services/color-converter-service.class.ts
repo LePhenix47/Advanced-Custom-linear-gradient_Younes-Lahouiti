@@ -12,9 +12,9 @@ import {
 } from "../../variables/color-types.variables";
 
 /**
- * Abstract class containing conversion methods for various color models.
+ * class containing conversion methods for various color models.
  */
-abstract class AbstractConversionMethods {
+class AbstractConversionMethods {
   /**
    * Converts RGB color to hexadecimal format.
    * @param {RedGreenBlue} color - The RGB color object.

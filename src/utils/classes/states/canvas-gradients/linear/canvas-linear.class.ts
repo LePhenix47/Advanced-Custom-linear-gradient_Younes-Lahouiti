@@ -6,42 +6,32 @@ import CanvasGradientBase, {
   CanvasGradientColorStop,
   CanvasLinearGradientColorStop,
 } from "../class-base/canvas-gradient-base.class";
+import JSCanvasGradient from "../index-canvas.class";
 
-type CanvasLinearGradientOrientation = {
+type CanvasGradientInitialCoords = {
   x0: number;
-  y0: number;
   x1: number;
+  y0: number;
   y1: number;
 };
+
 class CanvasLinearGradient extends CanvasGradientBase {
-  orientationCoords: CanvasLinearGradientOrientation;
+  initialCoords: CanvasGradientInitialCoords;
 
   constructor(context: CanvasRenderingContext2D) {
     super(context);
 
     this.context = context;
 
-    this.orientationCoords = {
+    const { width, height } = this.context.canvas;
+
+    this.initialCoords = {
       x0: 0,
+      x1: width,
       y0: 0,
-      x1: 1,
-      y1: 1,
+      y1: height,
     };
   }
-
-  setOrientation(orientation: number) {
-    const angleInRadians: number = degreesToRadians(orientation);
-
-    const { x1, x2, y1, y2 } = calculateCoordsFromRadian(angleInRadians);
-
-    this.orientationCoords = {
-      x0: x1,
-      y0: y1,
-      x1: x2,
-      y1: y2,
-    };
-  }
-
   /**
    * Add a stop color to the linear gradient.
    * @param {CSSLinearGradientColorStop} stopColor - The stop color to add.
@@ -71,30 +61,39 @@ class CanvasLinearGradient extends CanvasGradientBase {
     this.sortStopColorsArrayById();
   }
 
+  setInitialCoords(x0: number, x1: number, y0: number, y1: number) {
+    this.initialCoords = {
+      x0,
+      x1,
+      y0,
+      y1,
+    };
+  }
+
   private normalizeStopColorValues(stopColor: CanvasGradientColorStop) {
     this.normalizeOpacity(stopColor);
 
     this.normalizeOffset(stopColor);
   }
 
-  generateCanvasGradient(): CanvasGradient {
-    const { x0, y0, x1, y1 } = this.orientationCoords;
-
-    const canvas: HTMLCanvasElement = this.context.canvas;
-
-    const { width, height } = canvas;
+  generateCanvasGradient(): { gradient: CanvasGradient; code: string | null } {
+    const { x0, y0, x1, y1 } = this.initialCoords;
 
     const gradient: CanvasGradient = this.context.createLinearGradient(
-      x0 * width,
-      y0 * height,
-      x1 * width,
-      y1 * height
+      x0,
+      y0,
+      x1,
+      y1
     );
 
     const cannotCreateGradient: boolean = this.stopColors.length < 2;
     if (cannotCreateGradient) {
-      return gradient;
+      return { gradient, code: null };
     }
+
+    let codeString: string = `const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const gradient = ctx.createLinearGradient(${x0}, ${y0}, ${x1}, ${y1});\n`;
 
     for (let i = 0; i < this.stopColors.length; i++) {
       const stopColor: CanvasLinearGradientColorStop = this.stopColors[i];
@@ -112,61 +111,60 @@ class CanvasLinearGradient extends CanvasGradientBase {
       console.log({ defaultIndexOffset });
 
       gradient.addColorStop(defaultIndexOffset, color);
+
+      codeString += `gradient.addColorStop(${defaultIndexOffset}, ${color});\n`;
     }
 
-    return gradient;
+    codeString += `
+ctx.fillStyle = gradient;\n
+ctx.fillRect(0, 0, canvas.width, canvas.height);\n`;
+
+    return { gradient, code: codeString };
   }
 }
 
 export default CanvasLinearGradient;
+
 const canvas = document.querySelector("canvas");
-const context = canvas.getContext("2d");
-/*
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Instantiate the CanvasLinearGradient object
-const linearGradient = new CanvasLinearGradient(context);
+// Create an instance of CanvasLinearGradient
+const linearGradient = JSCanvasGradient.create(
+  "linear",
+  ctx
+) as CanvasLinearGradient;
 
-// Set the orientation of the linear gradient (optional)
-linearGradient.setOrientation(45); // 45-degree angle
-
-// Add stop colors
-linearGradient.addStopColor({
-  id: 0,
-  color: "#00ff00",
-  offset: null,
-  opacity: "50%"
-});
-
+// Add color stops to the gradient
 linearGradient.addStopColor({
   id: 1,
-  color: "#001f1f",
+  color: "#00ff00",
   offset: null,
-  opacity: "100%"
+  opacity: "100%",
 });
 
 linearGradient.addStopColor({
   id: 2,
   color: "#ff00ff",
   offset: null,
-  opacity: "20%"
+  opacity: "100%",
 });
 
-// Generate the canvas gradient
-const canvasGradient = linearGradient.generateCanvasGradient();
-console.log(linearGradient);
-// Use the canvas gradient to fill a rectangle
-// context.fillStyle = canvasGradient;
-// context.fillRect(0, 0, canvas.width, canvas.height);
+linearGradient.addStopColor({
+  id: 3,
+  color: "#00ff00",
+  offset: null,
+  opacity: "100%",
+});
 
-// window.addEventListener("resize", handleWindowResize);
+// Generate the canvas gradient and code
+const { gradient, code } = linearGradient.generateCanvasGradient();
 
-function handleWindowResize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.outerHeight / 3;
+console.log(code);
 
-  // Use the canvas gradient to fill a rectangle
-  context.fillStyle = canvasGradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
-}
-handleWindowResize();
-*/
+// Set the fill style to the gradient
+ctx.fillStyle = gradient;
+
+// Draw a rectangle filled with the linear gradient
+ctx.fillRect(0, 0, canvas.width, canvas.height);

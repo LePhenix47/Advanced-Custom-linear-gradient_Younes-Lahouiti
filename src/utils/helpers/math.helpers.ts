@@ -92,7 +92,8 @@ export function degreesToRadians(degrees: number): number {
     throw new TypeError(errorMessage);
   }
 
-  const radians: number = (degrees * Math.PI) / 180;
+  const { PI } = Math;
+  const radians: number = (degrees * PI) / 180;
 
   return roundToFloat(radians, 3);
 }
@@ -121,7 +122,8 @@ export function radiansToDegrees(radians: number): number {
     throw new TypeError(errorMessage);
   }
 
-  const degrees: number = (radians * 180) / Math.PI;
+  const { PI } = Math;
+  const degrees: number = (radians * 180) / PI;
 
   return roundToFloat(degrees, 3);
 }
@@ -155,8 +157,10 @@ export function calculateCoordsFromRadian(rad: number): VectorCoordinates {
     throw new TypeError(errorMessage);
   }
 
-  const x1: number = roundToFloat((Math.cos(rad) + 1) / 2, 3);
-  const y1: number = roundToFloat((Math.sin(rad) + 1) / 2, 3);
+  const { cos, sin } = Math;
+
+  const x1: number = roundToFloat((cos(rad) + 1) / 2, 3);
+  const y1: number = roundToFloat((sin(rad) + 1) / 2, 3);
 
   const x2: number = roundToFloat(1 - x1, 3);
   const y2: number = roundToFloat(1 - y1, 3);

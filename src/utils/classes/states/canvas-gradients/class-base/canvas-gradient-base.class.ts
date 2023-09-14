@@ -30,8 +30,22 @@ export type CanvasGradientColorStop =
   | CanvasRadialGradientColorStop
   | CanvasConicGradientColorStop;
 
+/**
+ * Base class for creating canvas gradients.
+ */
 class CanvasGradientBase {
-  stopColors: any[];
+  /**
+   * An array of color stops for the gradient.
+   *
+   * @type {CanvasGradientColorStop[]}
+   */
+  stopColors: CanvasGradientColorStop[];
+
+  /**
+   * The 2D rendering context of the canvas.
+   *
+   * @type {CanvasRenderingContext2D}
+   */
   context: CanvasRenderingContext2D;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -40,10 +54,28 @@ class CanvasGradientBase {
     this.stopColors = [];
   }
 
+  /**
+   * Calculates the offset for a color stop based on its index and the total number of color stops.
+   *
+   * @param {number} index - The index of the color stop.
+   *
+   * @param {number} amountOfColors - The total number of color stops.
+   *
+   * @returns {number} The calculated offset.
+   *
+   * @protected
+   */
   protected getOffsetByIndex(index: number, amountOfColors: number): number {
     return index / (amountOfColors - 1);
   }
 
+  /**
+   * Normalizes the opacity value of a color stop by converting it to its hexadecimal representation
+   * and appending it to the color. The opacity should be in the range of 0 to 100%.
+   *
+   * @param {CanvasGradientColorStop} stopColor - The color stop to normalize.
+   * @protected
+   */
   protected normalizeOpacity(stopColor: CanvasGradientColorStop): void {
     const { color: hexColor, opacity } = stopColor;
 
@@ -52,6 +84,11 @@ class CanvasGradientBase {
     stopColor.color = fullColor;
   }
 
+  /**
+   * Normalizes the offset value of a color stop, converting percentage strings to numbers.
+   * @param {CanvasGradientColorStop} stopColor - The color stop to normalize.
+   * @protected
+   */
   protected normalizeOffset(stopColor: CanvasGradientColorStop): void {
     const { offset } = stopColor;
 
@@ -63,12 +100,23 @@ class CanvasGradientBase {
     stopColor.offset = normalizedOffset;
   }
 
+  /**
+   * Sorts the color stops in the array by their `id` property.
+   * @protected
+   */
   protected sortStopColorsArrayById(): void {
     this.stopColors.sort((obj1, obj2) => {
       return obj1.id - obj2.id;
     });
   }
 
+  /**
+   * Changes the order of color stops by updating their `id` properties.
+   *
+   * @param {number} oldId - The current `id` of the color stop to be moved.
+   *
+   * @param {number} newId - The new `id` to assign to the color stop.
+   */
   changeColorOrderById(oldId: number, newId: number): void {
     const indexToReplace: number = this.stopColors.findIndex((stopCol) => {
       return stopCol.id === oldId;
@@ -93,11 +141,17 @@ class CanvasGradientBase {
       );
     }
 
-    const objectToReplace = this.stopColors[indexToReplace];
+    const objectToReplace: CanvasGradientColorStop =
+      this.stopColors[indexToReplace];
+    objectToReplace.id = newId;
     this.stopColors.splice(indexToReplace, 1, objectToReplace);
 
-    const objectToBeReplacedBy = this.stopColors[indexToBeReplacedBy];
+    const objectToBeReplacedBy: CanvasGradientColorStop =
+      this.stopColors[indexToBeReplacedBy];
+    objectToBeReplacedBy.id = oldId;
     this.stopColors.splice(indexToBeReplacedBy, 1, objectToBeReplacedBy);
+
+    this.sortStopColorsArrayById();
   }
 }
 

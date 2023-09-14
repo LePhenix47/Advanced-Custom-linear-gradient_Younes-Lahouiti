@@ -2,7 +2,7 @@ import { percentageToHex } from "@utils/helpers/number.helpers";
 import { CSSConicGradientColorStop } from "../conic/css-conic.class";
 import { CSSLinearGradientColorStop } from "../linear/css-linear.class";
 import { CSSRadialGradientColorStop } from "../radial/css-radial.class";
-import Gradient from "../../index-gradients.class";
+import Gradient from "../../Gradient";
 
 type CSSGradientColorStop =
   | CSSLinearGradientColorStop

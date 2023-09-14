@@ -32,6 +32,29 @@ class CanvasLinearGradient extends CanvasGradientBase {
       y1: height,
     };
   }
+
+  /*
+  Ex of how to create a linear gradient using JS canvas rendering methods
+
+  const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// Create a linear gradient
+// The start gradient point is at x=20, y=0
+// The end gradient point is at x=220, y=0
+const gradient = ctx.createLinearGradient(20, 0, 220, 0);
+
+// x0, x1, y0 and y1 → Create a method to add the initial coords
+
+// Add three color stops
+gradient.addColorStop(0, "green");
+gradient.addColorStop(0.5, "cyan");
+gradient.addColorStop(1, "green");
+
+// Set the fill style and draw a rectangle
+ctx.fillStyle = gradient;
+ctx.fillRect(20, 20, 200, 100);
+  */
   /**
    * Add a stop color to the linear gradient.
    * @param {CSSLinearGradientColorStop} stopColor - The stop color to add.

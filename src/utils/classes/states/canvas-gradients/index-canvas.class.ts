@@ -2,7 +2,7 @@ import CanvasConicGradient from "./conic/canvas-conic.class";
 import CanvasLinearGradient from "./linear/canvas-linear.class";
 import CanvasRadialGradient from "./radial/canvas-radial.class";
 
-type CanvasGradientReturnType =
+export type CanvasGradientReturnType =
   | CanvasLinearGradient
   | CanvasRadialGradient
   | CanvasConicGradient;
@@ -13,7 +13,7 @@ class JSCanvasGradient {
    * @param {"linear" | "radial"} gradientType - The type of gradient
    * @returns {JSCanvasGradient} - An instance of the specific SVG gradient type
    */
-  static create(
+  create(
     gradientType: "linear" | "radial" | "conic",
     context: CanvasRenderingContext2D
   ): CanvasGradientReturnType {

@@ -131,7 +131,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Create an instance of CanvasLinearGradient
-const linearGradient = JSCanvasGradient.create(
+const linearGradient = new JSCanvasGradient().create(
   "linear",
   ctx
 ) as CanvasLinearGradient;

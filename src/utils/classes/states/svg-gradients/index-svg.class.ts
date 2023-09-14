@@ -1,7 +1,7 @@
 import SVGLinearGradient from "./linear/svg-linear.class";
 import SVGRadialGradient from "./radial/svg-radial.class";
 
-type SVGGradientReturnType = SVGLinearGradient | SVGRadialGradient;
+export type SVGGradientReturnType = SVGLinearGradient | SVGRadialGradient;
 
 export type SVGSpreadMethods = "pad" | "reflect" | "repeat";
 
@@ -74,7 +74,7 @@ class SVGGradient {
    * @param {"linear" | "radial"} gradientType - The type of gradient
    * @returns {SVGGradient} - An instance of the specific SVG gradient type
    */
-  static create(gradientType: "linear" | "radial"): SVGGradientReturnType {
+  create(gradientType: "linear" | "radial"): SVGGradientReturnType {
     switch (gradientType) {
       case "linear": {
         return new SVGLinearGradient();
@@ -82,8 +82,14 @@ class SVGGradient {
       case "radial": {
         return new SVGRadialGradient();
       }
+
       default: {
-        throw new Error(`Unsupported SVG gradient type: ${gradientType}`);
+        const errorMessage: string =
+          gradientType === "conic"
+            ? "Conic gradients are not currently supported with SVGs in 2023"
+            : `Unsupported SVG gradient type: ${gradientType}`;
+
+        throw new Error(errorMessage);
       }
     }
   }

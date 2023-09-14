@@ -2,7 +2,7 @@ import CSSConicGradient from "./conic/css-conic.class";
 import CSSLinearGradient from "./linear/css-linear.class";
 import CSSRadialGradient from "./radial/css-radial.class";
 
-type CSSGradientReturnType =
+export type CSSGradientReturnType =
   | CSSLinearGradient
   | CSSRadialGradient
   | CSSConicGradient;
@@ -17,9 +17,7 @@ class CSSGradient {
    * @param {"linear" | "radial" | "conic"} gradientType - The type of gradient
    * @returns {CSSGradient} - An instance of the specific CSS gradient type
    */
-  static create(
-    gradientType: "linear" | "radial" | "conic"
-  ): CSSGradientReturnType {
+  create(gradientType: "linear" | "radial" | "conic"): CSSGradientReturnType {
     switch (gradientType) {
       case "linear": {
         return new CSSLinearGradient();

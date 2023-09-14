@@ -203,7 +203,7 @@ SVG Linear gradient formal syntax:
 export default SVGLinearGradient;
 
 // Create an instance of SVGLinearGradient
-const linearGradient = SVGGradient.create("linear") as SVGLinearGradient;
+const linearGradient = new SVGGradient().create("linear") as SVGLinearGradient;
 
 // Set the orientation to 45 degrees
 linearGradient.setOrientation(135);

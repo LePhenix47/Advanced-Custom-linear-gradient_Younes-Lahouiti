@@ -3,7 +3,7 @@ import CSSGradient from "../index-css.class";
 import CSSGradientBase from "../class-base/css-gradient-base.class";
 
 /**
- * Class for CSS Linear Gradient
+ * Class for creating CSS linear gradients
  * @extends CSSGradient
  */
 export type CSSLinearGradientColorStop = {
@@ -21,14 +21,21 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
   */
 
-  isRepeating: boolean;
+  /**
+   * The orientation angle for the linear gradient in degrees.
+   * @type {number}
+   * @default 0
+   */
   orientation: number;
+
+  /**
+   * An array of color stops for the linear gradient.
+   * @type {CSSLinearGradientColorStop[]}
+   */
   stopColors: CSSLinearGradientColorStop[];
 
   constructor() {
     super();
-
-    this.isRepeating = false;
 
     this.orientation = 0;
 

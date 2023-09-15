@@ -24,13 +24,33 @@ export type CSSConicGradientColorStop = {
  */
 
 /**
- * Class for CSS Conic Gradient
- * @extends CSSGradient
+ * Class for creating CSS conic gradients.
+ * @extends CSSGradientBase
  */
 class CSSConicGradient extends CSSGradientBase {
+  /**
+   * The orientation angle of the conic gradient in degrees.
+   * @type {number}
+   */
   orientation: number;
+
+  /**
+   * The position coordinates of the conic gradient.
+   * @type {ConicGradientPosition}
+   */
   position: ConicGradientPosition;
+
+  /**
+   * Indicates whether the gradient is repeating.
+   * @type {boolean}
+   * @default false
+   */
   isRepeating: boolean;
+
+  /**
+   * An array of color stops for the conic gradient.
+   * @type {CSSConicGradientColorStop[]}
+   */
   stopColors: CSSConicGradientColorStop[];
 
   constructor() {
@@ -130,6 +150,11 @@ class CSSConicGradient extends CSSGradientBase {
     this.orientation = orientation;
   }
 
+  /**
+   * Set the position coordinates of the conic gradient.
+   * @param {ConicGradientPosition} coordinates - The position coordinates.
+   * @returns {void}
+   */
   setPositionCoordinates(coordinates: ConicGradientPosition) {
     const { start: coordsStart, end: coordsEnd } = coordinates;
 
@@ -143,6 +168,12 @@ class CSSConicGradient extends CSSGradientBase {
     }
   }
 
+  /**
+   * Add a stop color to the conic gradient.
+   * @param {CSSConicGradientColorStop} stopColor - The stop color to add.
+   * @throws {TypeError} If the stopColor object is missing required properties.
+   * @returns {void}
+   */
   addStopColor(stopColor: CSSConicGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
     // The color opacity is clamped between 0 & 100
@@ -177,6 +208,10 @@ class CSSConicGradient extends CSSGradientBase {
     this.sortStopColorsArrayById();
   }
 
+  /**
+   * Generate the CSS conic gradient string based on the set parameters.
+   * @returns {string} - The CSS conic gradient string.
+   */
   generateCssGradient(): string {
     const cannotCreateGradient: boolean = this.stopColors.length < 2;
     if (cannotCreateGradient) {

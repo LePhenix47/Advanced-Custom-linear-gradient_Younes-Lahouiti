@@ -13,14 +13,28 @@ export type CSSRadialGradientColorStop = {
   offset: string | null;
   opacity: string;
 };
+
 /**
- * Class for CSS Radial Gradient
- * @extends CSSGradient
+ * Class for creating CSS radial gradients.
+ * @extends CSSGradientBase
  */
 class CSSRadialGradient extends CSSGradientBase {
+  /**
+   * The shape of the radial gradient (either "circle" or "ellipse").
+   * @type {"circle" | "ellipse"}
+   */
   shape: "circle" | "ellipse";
+
+  /**
+   * The position of the radial gradient.
+   * @type {RadialGradientPosition}
+   */
   position: RadialGradientPosition;
-  isRepeating: boolean;
+
+  /**
+   * An array of color stops for the radial gradient.
+   * @type {CSSRadialGradientColorStop[]}
+   */
   stopColors: CSSRadialGradientColorStop[];
 
   /*
@@ -43,7 +57,11 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
     this.stopColors = [];
   }
 
-  // Add methods specific to radial gradients here
+  /**
+   * Set the shape of the radial gradient (either "circle" or "ellipse").
+   * @param {"ellipse" | "circle"} shape - The shape of the radial gradient.
+   * @returns {void}
+   */
   setShape(shape: "ellipse" | "circle") {
     const hasInvalidArgument: boolean =
       shape !== "ellipse" && shape !== "circle";
@@ -56,6 +74,11 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
     this.shape = shape;
   }
 
+  /**
+   * Set the position coordinates of the radial gradient.
+   * @param {RadialGradientPosition} coordinates - The position coordinates.
+   * @returns {void}
+   */
   setPositionCoordinates(coordinates: RadialGradientPosition) {
     const { start: coordsStart, end: coordsEnd } = coordinates;
 
@@ -71,12 +94,9 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
   /**
    * Add a stop color to the radial gradient.
-   * @param {LinearGradientColorStop} stopColor - The stop color to add.
-   *
+   * @param {CSSRadialGradientColorStop} stopColor - The stop color to add.
    * @throws {TypeError} If the stopColor object is missing required properties.
-   *
    * @returns {void}
-   *
    */
   addStopColor(stopColor: CSSRadialGradientColorStop): void {
     // The offset is a % which can be signed, can also be null if we don't want an offset
@@ -116,6 +136,10 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
     this.normalizeOffset(stopColor);
   }
 
+  /**
+   * Generate the CSS radial gradient string based on the set parameters.
+   * @returns {string} - The CSS radial gradient string.
+   */
   generateCssGradient(): string {
     const cannotCreateGradient: boolean = this.stopColors.length < 2;
     if (cannotCreateGradient) {

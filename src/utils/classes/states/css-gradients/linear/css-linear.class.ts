@@ -15,7 +15,7 @@ export type CSSLinearGradientColorStop = {
 class CSSLinearGradient extends CSSGradientBase {
   /*
   CSS Linear gradient formal syntax:
-linear-gradient([orientation]deg,#[stop-color1] [offset]%,#[stop-color2] [offset]%...)
+linear-gradient([orientation]deg, #[stop-color1] [offset]%, #[stop-color2] [offset]%...)
 
 For the stop colors, we can set the opacity by changing the HEX into an RGBA value
 

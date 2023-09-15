@@ -114,7 +114,6 @@ class CanvasGradientBase {
    * Changes the order of color stops by updating their `id` properties.
    *
    * @param {number} oldId - The current `id` of the color stop to be moved.
-   *
    * @param {number} newId - The new `id` to assign to the color stop.
    */
   changeColorOrderById(oldId: number, newId: number): void {

@@ -151,45 +151,45 @@ SVG Radial gradient formal syntax:
 
 export default SVGRadialGradient;
 
-// Create an instance of SVGRadialGradient
-const radialGradient = SVGGradient.create("radial") as SVGRadialGradient;
+// // Create an instance of SVGRadialGradient
+// const radialGradient = SVGGradient.create("radial") as SVGRadialGradient;
 
-// Set attributes for the radial gradient
-radialGradient.setCenter("50%", "50%");
-radialGradient.setRadius("50%");
-radialGradient.setFocalRadius("0%");
-radialGradient.setFocalPoint("50%", "50%");
+// // Set attributes for the radial gradient
+// radialGradient.setCenter("50%", "50%");
+// radialGradient.setRadius("50%");
+// radialGradient.setFocalRadius("0%");
+// radialGradient.setFocalPoint("50%", "50%");
 
-// Add stop colors to the gradient
-radialGradient.addStopColor({
-  id: 1,
-  color: "#FF0000",
-  offset: "20%",
-  opacity: "100%",
-});
+// // Add stop colors to the gradient
+// radialGradient.addStopColor({
+//   id: 1,
+//   color: "#FF0000",
+//   offset: "20%",
+//   opacity: "100%",
+// });
 
-radialGradient.addStopColor({
-  id: 2,
-  color: "#00FF00",
-  offset: "50%",
-  opacity: "100%",
-});
+// radialGradient.addStopColor({
+//   id: 2,
+//   color: "#00FF00",
+//   offset: "50%",
+//   opacity: "100%",
+// });
 
-radialGradient.addStopColor({
-  id: 3,
-  color: "#0000FF",
-  offset: "80%",
-  opacity: "100%",
-});
+// radialGradient.addStopColor({
+//   id: 3,
+//   color: "#0000FF",
+//   offset: "80%",
+//   opacity: "100%",
+// });
 
-// Set other properties like spread method and gradient transform
-radialGradient.setSpreadMethod("pad");
-radialGradient.setGradientTransform({
-  rotate: 45,
-  scale: 1.5,
-});
+// // Set other properties like spread method and gradient transform
+// radialGradient.setSpreadMethod("pad");
+// radialGradient.setGradientTransform({
+//   rotate: 45,
+//   scale: 1.5,
+// });
 
-// Generate the SVG radial gradient string
-const svgGradient = radialGradient.generateSvgGradient();
+// // Generate the SVG radial gradient string
+// const svgGradient = radialGradient.generateSvgGradient();
 
-console.log(svgGradient); // This will print the SVG radial gradient string
+// console.log(svgGradient); // This will print the SVG radial gradient string

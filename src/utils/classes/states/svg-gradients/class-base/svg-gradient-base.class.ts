@@ -1,9 +1,9 @@
 import {
   camelToPascalCase,
-  formatStringCase,
   formatStyleAttribute,
   kebabToCamelCase,
 } from "@utils/helpers/string.helpers";
+
 import {
   SVGGradientTransformObject,
   SVGGradientTransformString,
@@ -11,7 +11,6 @@ import {
   SVGGradientColorStop,
   SVGSpreadMethods,
 } from "../index-svg.class";
-import { stringPercentageToNumber } from "@utils/helpers/number.helpers";
 
 class SVGGradientBase {
   /**
@@ -211,12 +210,21 @@ class SVGGradientBase {
           const [key, value]: string[] = attribute;
           const camelCaseKey: string = kebabToCamelCase(key);
 
-          const areOrientationCoords: boolean = [
+          const arrayOfNumberProperties: string[] = [
             "x1",
             "y1",
             "x2",
             "y2",
-          ].includes(key);
+            "cx",
+            "cy",
+            "r",
+            "fr",
+            "fx",
+            "fy",
+          ];
+
+          const areOrientationCoords: boolean =
+            arrayOfNumberProperties.includes(key);
           // Check if the attribute is a style attribute
           const isStyleAttribute: boolean = key === "style";
           if (isStyleAttribute) {

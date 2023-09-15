@@ -26,15 +26,20 @@ class Gradient {
   ): GradientReturnType {
     switch (language) {
       case "css": {
-        return new CSSGradient().create(gradientType);
+        return new CSSGradient().create(gradientType) as CSSGradientReturnType;
       }
       case "svg": {
         // Conic gradients do not exist in SVG
-        return new SVGGradient().create(gradientType as "linear" | "radial");
+        return new SVGGradient().create(
+          gradientType as "linear" | "radial"
+        ) as SVGGradientReturnType;
       }
       case "canvas": {
         // Contexts are mandatory for Canvases
-        return new JSCanvasGradient().create(gradientType, context);
+        return new JSCanvasGradient().create(
+          gradientType,
+          context
+        ) as CanvasGradientReturnType;
       }
       default: {
         throw new Error(`Unsupported canvas gradient type: ${gradientType}`);
@@ -47,7 +52,6 @@ export default Gradient;
 
 //TEST
 // TS should not throw an error
-new Gradient().create("css", "conic"); // Shouldn't throw an error and doesn't
 
 // TS SHOULD throw an error
 new Gradient().create("svg", "conic"); // FAIL, TS didn't throw an error: It should though because here on the second argument

@@ -155,7 +155,7 @@ SVG Linear gradient formal syntax:
 `;
 
     const svg: string = /* html */ `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
   <defs>
     ${linearGradient}
   </defs>
@@ -170,32 +170,32 @@ SVG Linear gradient formal syntax:
 export default SVGLinearGradient;
 
 // Create an instance of SVGLinearGradient
-const linearGradient = new SVGGradient().create("linear") as SVGLinearGradient;
+// const linearGradient = new SVGGradient().create("linear") as SVGLinearGradient;
 
-// Set the orientation to 45 degrees
-linearGradient.setOrientation(135);
+// // Set the orientation to 45 degrees
+// linearGradient.setOrientation(135);
 
-// Add the start and end stop colors
-linearGradient.addStopColor({
-  id: 0,
-  color: "#ff6600",
-  offset: null, // You can set the offset to null for the start color
-  opacity: "100%",
-});
+// // Add the start and end stop colors
+// linearGradient.addStopColor({
+//   id: 0,
+//   color: "#ff6600",
+//   offset: null, // You can set the offset to null for the start color
+//   opacity: "100%",
+// });
 
-linearGradient.addStopColor({
-  id: 1,
-  color: "#3399ff",
-  offset: null, // Set the offset to 100% for the end color
-  opacity: "100%",
-});
+// linearGradient.addStopColor({
+//   id: 1,
+//   color: "#3399ff",
+//   offset: null, // Set the offset to 100% for the end color
+//   opacity: "100%",
+// });
 
-linearGradient.setGradientTransform({
-  skewX: 25,
-});
+// linearGradient.setGradientTransform({
+//   skewX: 25,
+// });
 
-// Generate the SVG linear gradient string
-const svgGradientString = linearGradient.generateSvgGradient();
+// // Generate the SVG linear gradient string
+// const svgGradientString = linearGradient.generateSvgGradient();
 
-const div = document.querySelector("div");
-div.innerHTML = svgGradientString;
+// const div = document.querySelector("div");
+// div.innerHTML = svgGradientString;

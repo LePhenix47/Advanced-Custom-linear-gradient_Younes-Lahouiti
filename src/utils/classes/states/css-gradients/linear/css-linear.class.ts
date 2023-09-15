@@ -28,12 +28,6 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
    */
   orientation: number;
 
-  /**
-   * An array of color stops for the linear gradient.
-   * @type {CSSLinearGradientColorStop[]}
-   */
-  stopColors: CSSLinearGradientColorStop[];
-
   constructor() {
     super();
 
@@ -115,7 +109,9 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: CSSLinearGradientColorStop = this.stopColors[i];
+      const stopColor: CSSLinearGradientColorStop = this.stopColors[
+        i
+      ] as CSSLinearGradientColorStop;
       const { color, offset } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;

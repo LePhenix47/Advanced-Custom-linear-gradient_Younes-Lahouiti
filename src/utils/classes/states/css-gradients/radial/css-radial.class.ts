@@ -35,7 +35,6 @@ class CSSRadialGradient extends CSSGradientBase {
    * An array of color stops for the radial gradient.
    * @type {CSSRadialGradientColorStop[]}
    */
-  stopColors: CSSRadialGradientColorStop[];
 
   /*
   CSS Radial gradient formal syntax:
@@ -154,7 +153,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: CSSRadialGradientColorStop = this.stopColors[i];
+      const stopColor = this.stopColors[i] as CSSRadialGradientColorStop;
       const { color, offset } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;

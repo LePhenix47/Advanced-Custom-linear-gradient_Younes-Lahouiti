@@ -40,19 +40,6 @@ class CSSConicGradient extends CSSGradientBase {
    */
   position: ConicGradientPosition;
 
-  /**
-   * Indicates whether the gradient is repeating.
-   * @type {boolean}
-   * @default false
-   */
-  isRepeating: boolean;
-
-  /**
-   * An array of color stops for the conic gradient.
-   * @type {CSSConicGradientColorStop[]}
-   */
-  stopColors: CSSConicGradientColorStop[];
-
   constructor() {
     super();
 
@@ -226,7 +213,7 @@ class CSSConicGradient extends CSSGradientBase {
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //
-      const stopColor: CSSConicGradientColorStop = this.stopColors[i];
+      const stopColor = this.stopColors[i] as CSSConicGradientColorStop;
       const { color, startAngle, endAngle, transitionAngle } = stopColor;
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;

@@ -1,10 +1,17 @@
 import {
+  camelToPascalCase,
+  formatStringCase,
+  formatStyleAttribute,
+  kebabToCamelCase,
+} from "@utils/helpers/string.helpers";
+import {
   SVGGradientTransformObject,
   SVGGradientTransformString,
   SVGGradientUnits,
   SVGGradientColorStop,
   SVGSpreadMethods,
 } from "../index-svg.class";
+import { stringPercentageToNumber } from "@utils/helpers/number.helpers";
 
 class SVGGradientBase {
   /**
@@ -138,6 +145,107 @@ class SVGGradientBase {
       this.stopColors[indexToBeReplacedBy];
     objectToBeReplacedBy.id = oldId;
     this.stopColors.splice(indexToBeReplacedBy, 1, objectToBeReplacedBy);
+  }
+
+  toReactNativeSvg(htmlSvg: string) {
+    const backSpaceRegex: RegExp = /[\n]+/g;
+    const formattedSvgString: string = htmlSvg.replaceAll(backSpaceRegex, "");
+
+    const htmlTagRegex: RegExp = /<([^>]+)>/g;
+    const arrayOfHtmlSvg: string[] = formattedSvgString
+      .split(htmlTagRegex)
+      .filter((string) => {
+        return !!string.trim();
+      });
+
+    for (let i = 0; i < arrayOfHtmlSvg.length; i++) {
+      /*
+    DO NOT REMOVE THIS COMMENT!!!
+
+    Example: ['svg width="100" height="100" stroke-width="2"', 'circle cx="50" cy="50" r="40" fill="red" /', '/svg']
+
+    To do:
+    - Split each svg partial by their whitespace 
+    - The first item (ex: the tag 'svg') will need to have the first letter capitalized (can use my own helper function "formatStringCase")
+    - The other items (ex: the attributes 'width="100" height="100" stroke-width="2"') will need to change their string case from kebab-case to camelCase
+    */
+      const htmlSvgPartial: string = arrayOfHtmlSvg[i];
+
+      // log({htmlSvgPartial})
+
+      // Split each SVG partial by whitespace
+      const partialItems: string[] = htmlSvgPartial.split(
+        /\s+(?=(?:(?:[^"]*"){2})*[^"]*$)/
+      );
+
+      // log({partialItems})
+
+      // Capitalize the first letter of the tag
+      partialItems[0] = camelToPascalCase(partialItems[0]);
+
+      // Capitalize the first letter of the tag
+      const isClosingTag: boolean = partialItems[0].startsWith("/");
+      if (isClosingTag) {
+        /*
+      We have to replace the characters after the forward slash in TitleCase
+      */
+        const tagName: string = partialItems[0].substring(1); // Remove the '/' from the beginning
+        const formattedTagName: string = camelToPascalCase(tagName);
+        partialItems[0] = `/${formattedTagName}`;
+      } else {
+        for (let j = 1; j < partialItems.length; j++) {
+          const attribute: string[] = partialItems[j].split("=");
+          /*
+        It does the job fine with the tag attributes BUT:
+
+        We need to fix the issue where style attributes aren't formatted properly
+
+        because in React Native styles are created like this: 
+
+        ex:
+        <View style={[{
+          width: '420%',
+          borderRadius: 69
+        }]}></View>
+        */
+          const [key, value]: string[] = attribute;
+          const camelCaseKey: string = kebabToCamelCase(key);
+
+          const areOrientationCoords: boolean = [
+            "x1",
+            "y1",
+            "x2",
+            "y2",
+          ].includes(key);
+          // Check if the attribute is a style attribute
+          const isStyleAttribute: boolean = key === "style";
+          if (isStyleAttribute) {
+            // Handle the style attribute formatting for React Native SVG properties
+            const styleObject: string = formatStyleAttribute(value);
+            // Replace the original style attribute with the formatted one
+            partialItems[j] = `${camelCaseKey}={[${styleObject}]}`;
+          } else {
+            if (areOrientationCoords) {
+              const formattedNumberValue: number = Number(
+                value.replaceAll('"', "")
+              );
+              partialItems[j] = `${camelCaseKey}={${formattedNumberValue}}`;
+            } else {
+              partialItems[j] = `${camelCaseKey}=${value}`;
+            }
+          }
+        }
+      }
+
+      // Join the items back into a string
+      arrayOfHtmlSvg[i] = `<${partialItems.join(" ")}>`;
+    }
+
+    // Join the modified SVG partials back into a single string
+    const reactNativeSvg: string = arrayOfHtmlSvg.join("\n");
+
+    // Now you can use the reactNativeSvg as needed
+    console.log(reactNativeSvg);
   }
 }
 

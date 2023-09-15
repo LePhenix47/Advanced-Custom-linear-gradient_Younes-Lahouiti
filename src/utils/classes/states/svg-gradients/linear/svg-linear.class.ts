@@ -13,6 +13,10 @@ import {
 } from "@utils/helpers/math.helpers";
 import SVGGradientBase from "../class-base/svg-gradient-base.class";
 
+/**
+ * Class for creating SVG linear gradients.
+ * @extends SVGGradientBase
+ */
 class SVGLinearGradient extends SVGGradientBase {
   /*
 SVG Linear gradient formal syntax:
@@ -39,6 +43,10 @@ SVG Linear gradient formal syntax:
       - We MIGHT need to swap the y1 and y2 values since JS uses the SVG coords system, I haven't tested that yet
   */
 
+  /**
+   * The orientation coordinates of the linear gradient.
+   * @type {SVGCoordsFromRadian}
+   */
   orientationCoords: SVGCoordsFromRadian;
   constructor() {
     super();
@@ -89,47 +97,6 @@ SVG Linear gradient formal syntax:
 
     this.sortStopColorsArrayById();
   }
-
-  /**
-   * Sets the spreading method for the SVG linear gradient
-   * @param {SVGSpreadMethods} methodValue - Can be `"pad"`, `"reflect"` or `"repeat"`
-   * @returns {void}
-   */
-  // setSpreadMethod(methodValue: SVGSpreadMethods): void {
-  //   this.spreadMethod = methodValue;
-  // }
-
-  /**
-   * Set the gradient transform using an object with transform functions.
-   *
-   * @param {SVGGradientTransformObject} transform - The object with gradient transform functions.
-   *
-   * @returns {void}
-   */
-  // setGradientTransform(transform: SVGGradientTransformObject): void {
-  //   const appliedTransforms: Set<string> = new Set(this.gradientTransform);
-
-  //   let transformString: SVGGradientTransformString[] = [
-  //     this.IDENTITY_TRANSFORM,
-  //   ];
-  //   // Iterate through the transform object and add unique transform functions
-  //   for (const [key, value] of Object.entries(transform)) {
-  //     const transformFunction =
-  //       `${key}(${value})` as SVGGradientTransformString;
-
-  //     // Check if this transform has not been applied before
-  //     const hasNotAppliedTransform: boolean =
-  //       !appliedTransforms.has(transformFunction);
-  //     if (hasNotAppliedTransform) {
-  //       transformString.push(transformFunction);
-  //       appliedTransforms.add(transformFunction);
-  //     }
-  //   }
-
-  //   this.gradientTransform = transformString.join(
-  //     " "
-  //   ) as SVGGradientTransformString; // Remove trailing space
-  // }
 
   /**
    * Generate the SVG linear gradient string based on the set parameters.

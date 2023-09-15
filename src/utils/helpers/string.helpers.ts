@@ -1,6 +1,80 @@
 //Utils
 
+import { PercentageString } from "@utils/variables/types/unit-types.variables";
 import { log } from "./console.helpers";
+import { stringPercentageToNumber } from "./number.helpers";
+/**
+ * Converts a string in camelCase to PascalCase.
+ * @param {string} inputString - The camelCase string to convert.
+ * @returns {string} The PascalCase version of the input string.
+ */
+export function camelToPascalCase(inputString: string): string {
+  return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+}
+
+/**
+ * Converts a string in kebab-case to camelCase.
+ * @param {string} string - The kebab-case string to convert.
+ * @returns {string} The camelCase version of the input string.
+ */
+export function kebabToCamelCase(string: string): string {
+  const camelCaseString: string = string.replace(
+    /-([a-z])/g,
+    (match, group) => {
+      return group.toUpperCase();
+    }
+  );
+
+  return camelCaseString;
+}
+
+/**
+ * Formats a string containing inline CSS style declarations to a JavaScript object as a string **(not JSON)**
+ * @param {string} styleValue - The string containing style declarations.
+ * @returns {string} A string representation of a JavaScript object containing the style properties.
+ */
+export function formatStyleAttribute(styleValue: string): string {
+  // Split the styleValue by semicolons to get individual style declarations
+  const styleDeclarations: string[] = styleValue
+    .replaceAll(/\"/g, "")
+    .split(";")
+    .filter(Boolean);
+  log({ styleDeclarations });
+
+  // Create an object to store the style properties
+  const styleObject: Record<string, string> = {};
+
+  for (const declaration of styleDeclarations) {
+    // Split each style declaration by the colon to separate property and value
+    const [property, value]: string[] = declaration
+      .split(":")
+      .map((part) => part.trim());
+
+    // Convert the property to camelCase
+    const camelCaseProperty: string = kebabToCamelCase(property);
+
+    let formattedValue: string | number = value;
+
+    const isStopOpacity: boolean = camelCaseProperty === "stopOpacity";
+    if (isStopOpacity) {
+      formattedValue = stringPercentageToNumber(
+        formattedValue as PercentageString
+      );
+    }
+
+    // Add the property and value to the style object
+    styleObject[camelCaseProperty] = formattedValue as string;
+  }
+
+  // Convert the style object to a string
+  const formattedStyle: string = JSON.stringify(styleObject).replaceAll(
+    /"([^"]+)":/g,
+    "$1:"
+  );
+
+  return formattedStyle;
+}
+
 /**
  * **Formats a given string into different cases:**
  *
@@ -83,6 +157,11 @@ export function formatStringCase(string: string, option: string): string {
     }
   }
 }
+
+// Example usage:
+// const kebabCaseString = "my-kebab-case-string";
+// const camelCaseString = kebabToCamelCase(kebabCaseString);
+// console.log(camelCaseString); // Output: "myKebabCaseString"
 
 /**
  * Removes diacritical marks (accents) from a string.

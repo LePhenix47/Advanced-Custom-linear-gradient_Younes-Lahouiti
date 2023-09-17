@@ -316,6 +316,7 @@ input[type=range]::-moz-range-thumb {
  * JS Classes
  */
 export const jsClasses: string = /* css */ `
+
 /* 
     Hides the element and all its descendants from view
  */
@@ -323,38 +324,42 @@ export const jsClasses: string = /* css */ `
     display: none !important;
 }
 
-/* 
-    Hides the element from view except for screen readers 
-    
-    - Good for accessibilty and by consequence SEO
-*/
+/**
+ * Visually hide an element, but leave it available for screen readers
+
+ https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
+
+ http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+
+ */
 .screen-readers-only {
-    /*    
-    Positions the element off the screen 
-    */ 
+    border: 0;
     clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-
-    /*    
-    Sets the dimensions of the element to 1×1 px 
-    */ 
     height: 1px;
-    width: 1px;
-
-    /*    
-    Hides any content that overflows the element 
-    */ 
+    margin: -1px;
     overflow: hidden;
-
-    /*    
-    Positions the element absolutely 
-    */ 
+    padding: 0;
     position: absolute;
-
-    /*    
-    Prevents line breaks in the element 
-    */ 
     white-space: nowrap;
+    width: 1px;
+}
+
+
+/**
+ * Extends the .screen-reader class to allow the element to be focusable when navigated to via the keyboard
+ * @link https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
+ * @link https://www.drupal.org/node/897638
+ */
+.screen-reader-focusable {
+    &:is(:active, :hover) {
+        clip: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        position: static;
+        white-space: normal;
+        width: auto;
+    }
 }
 
 /* 
@@ -364,6 +369,12 @@ export const jsClasses: string = /* css */ `
     pointer-events: none;
 }
 
+
+.active {}
+
+.dragging {
+    opacity: 25%;
+}
 `;
 
 /**

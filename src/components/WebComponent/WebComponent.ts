@@ -3,7 +3,7 @@ import {
   cssReset,
   lightThemeVariables,
   darkThemeVariables,
-} from "@utils/variables/web-component.variables";
+} from "@utils/variables/types/web-component.variables";
 
 const templateElement = document.createElement("template");
 

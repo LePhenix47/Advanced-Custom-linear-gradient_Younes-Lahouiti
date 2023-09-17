@@ -10,7 +10,7 @@
  * @static
  * @public
  */
-class WebStorageService {
+class WebStorage {
   /**
    * Stores a key-value pair in the WebStorage.
    *
@@ -20,11 +20,11 @@ class WebStorageService {
    * @returns {void}
    */
   static setKey(key: string, value: any, inSession: boolean = false): void {
-    const strinfigiedValue: string = JSON.stringify(value);
+    const stringifiedValue: string = JSON.stringify(value);
 
     // If the user stored the pair inside the session storage
     const storage: Storage = inSession ? sessionStorage : localStorage;
-    storage.setItem(key, strinfigiedValue);
+    storage.setItem(key, stringifiedValue);
   }
 
   /**
@@ -34,13 +34,13 @@ class WebStorageService {
    * @param {boolean} [inSession=false] - A flag indicating whether to look for the value in the session storage or not.
    * @returns {any} The value retrieved from the storage, or null if the key is not found.
    */
-  static getKey(key: string, inSession: boolean = false): any {
+  static getKey<T>(key: string, inSession: boolean = false): T {
     // If the user stored the pair inside the session storage
     const storage: Storage = inSession ? sessionStorage : localStorage;
     const item: string = storage.getItem(key);
 
     if (item) {
-      return JSON.parse(item);
+      return JSON.parse(item) as T;
     }
 
     return null;
@@ -94,7 +94,7 @@ class WebStorageService {
    * @param {boolean} [inSession=false] - A flag indicating whether to get the key from the session storage or not.
    * @returns {(string | null)} The key at the
    * */
-  static getKeyByIndex(
+  static getKeyNameByIndex(
     index: number,
     inSession: boolean = false
   ): string | null {
@@ -104,4 +104,4 @@ class WebStorageService {
   }
 }
 
-export default WebStorageService;
+export default WebStorage;

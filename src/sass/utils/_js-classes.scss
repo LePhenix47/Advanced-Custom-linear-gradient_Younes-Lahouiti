@@ -51,3 +51,10 @@
 .no-pointer-events {
     pointer-events: none;
 }
+
+
+.active {}
+
+.dragging {
+    opacity: 25%;
+}

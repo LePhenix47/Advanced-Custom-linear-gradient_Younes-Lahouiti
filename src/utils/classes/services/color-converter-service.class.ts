@@ -9,7 +9,7 @@ import {
   HueSaturationValue,
   HueWhitenessBlackness,
   RedGreenBlue,
-} from "../../variables/color-types.variables";
+} from "../../variables/types/color-types.variables";
 
 /**
  * class containing conversion methods for various color models.

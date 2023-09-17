@@ -16,6 +16,7 @@ import {
 } from "@utils/helpers/dom.helpers";
 import { calculateContrast } from "@utils/helpers/number.helpers";
 import { formatStringCase } from "@utils/helpers/string.helpers";
+import { handleDraggingClassToDraggable } from "./drag-n-drop-listeners";
 
 // Initialized with the starting index
 
@@ -34,7 +35,7 @@ export function getAmountOfRowsInTbody(): number {
  * @param {HTMLTableSectionElement} tbody - The table body element containing the rows.
  * @returns {void}
  */
-function updateRows(tbody: HTMLTableSectionElement): void {
+export function updateRows(tbody: HTMLTableSectionElement): void {
   const tableRowsArray = selectQueryAll<HTMLTableRowElement>("tr", tbody);
 
   const inputTypes: string[] = ["color", "offset", "opacity"];
@@ -190,6 +191,14 @@ export function addNewRowEntry(): void {
       // Handle the number change (newValue) for this row.
     });
   }
+
+  row.addEventListener("dragstart", handleDraggingClassToDraggable);
+  row.addEventListener("touchstart", handleDraggingClassToDraggable, {
+    passive: true,
+  });
+
+  row.addEventListener("dragend", handleDraggingClassToDraggable);
+  row.addEventListener("touchend", handleDraggingClassToDraggable);
 
   tableBody.appendChild(row);
 

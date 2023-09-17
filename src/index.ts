@@ -15,6 +15,7 @@ import { roundToFloat } from "@utils/helpers/number.helpers";
 import CSSGradient from "@utils/classes/states/css-gradients/index-css.class";
 import CSSLinearGradient from "@utils/classes/states/css-gradients/linear/css-linear.class";
 import CSSRadialGradient from "@utils/classes/states/css-gradients/radial/css-radial.class";
+import { handleContainerDraggingElementDragOver } from "@utils/event-listeners/drag-n-drop-listeners";
 
 export function calculateAngle(mouseX, mouseY) {
   const angleInRadians: number = Math.atan2(mouseX, mouseY);
@@ -48,7 +49,8 @@ export function testAnglePickerMouseMove() {
     const circleBox: DOMRect = centerDot.getBoundingClientRect();
 
     const mouseX: number = e.x - circleBox.x;
-    const mouseY: number = circleBox.y - e.y; // The inversion is needed here because JS uses the SVG coords system
+    // The inversion is needed here because JS uses the SVG coords system ↓
+    const mouseY: number = circleBox.y - e.y;
 
     const angle: number = calculateAngle(mouseX, mouseY);
 
@@ -77,3 +79,4 @@ const tableBody =
   selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
 tableBody.addEventListener("click", setTableRowsByDelegation);
+tableBody.addEventListener("dragover", handleContainerDraggingElementDragOver);

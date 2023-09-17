@@ -363,9 +363,9 @@
 
                 translate: -45% -50%;
 
-                background-color: red;
+                background-color: var(--bg-primary);
                 height: 10px;
-                outline: 2px solid orange;
+                outline: 2px solid currentColor;
 
                 @include circle-style;
             }

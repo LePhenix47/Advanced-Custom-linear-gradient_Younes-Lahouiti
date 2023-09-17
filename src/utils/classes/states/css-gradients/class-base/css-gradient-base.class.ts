@@ -3,7 +3,7 @@ import { CSSConicGradientColorStop } from "../conic/css-conic.class";
 import { CSSLinearGradientColorStop } from "../linear/css-linear.class";
 import { CSSRadialGradientColorStop } from "../radial/css-radial.class";
 
-type CSSGradientColorStop =
+export type CSSGradientColorStop =
   | CSSLinearGradientColorStop
   | CSSRadialGradientColorStop
   | CSSConicGradientColorStop;

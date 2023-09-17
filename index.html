@@ -45,37 +45,7 @@
   <main class="index">
     <section class="index__menu-container active">
       <div class="menu">
-        <button type="button" class="menu__add-color-button">
-          Add Color
-        </button>
-
-        <div class="menu__table-container" contenteditable="true">
-          <table class="menu__table" contenteditable="false">
-            <caption class="menu__caption">Color for gradients</caption>
-            <tbody class="menu__table-body draggable__container">
-
-
-            </tbody>
-          </table>
-
-
-        </div>
-
-        <div class="menu__gradient-types">
-          <h3 class="menu__gradient-types--title">Gradient type:</h3>
-
-          <div class="menu__gradient-types--inputs">
-            <label for="linear" class="menu__label"><input type="radio" id="linear"
-                name="gradient-type-group" />Linear</label>
-            <label for="radial" class="menu__label"><input type="radio" id="radial"
-                name="gradient-type-group" />Radial</label>
-            <!--  -->
-            <label for="repeating" class="menu__label"><input type="checkbox" id="repeating"
-                name="gradient-type-group" />Repeating?</label>
-          </div>
-        </div>
-
-        <div class="menu__language-orientation">
+        <div class="menu__types-language">
           <div class="menu__creation-language">
             <label for="creation-language" class="menu__label">Creation language</label>
             <select name="creation-language" id="creation-language">
@@ -85,76 +55,87 @@
             </select>
           </div>
 
-          <div class="menu__orientation">
-            <label for="orientation">Orientation (degrees):</label>
+          <div class="menu__gradient-types">
 
-            <div class="menu__angle-picker">
-              <!-- Center point for the circle -->
-              <div class="menu__angle-picker--center-dot"></div>
-
-              <!-- Angles markers -->
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-135-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-180-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-225-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-270-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-315-deg"></div>
-
-              <!-- Button to set the orientation in degrees in JS -->
-              <button class="menu__angle-picker--rotator"></button>
+            <h3 class="menu__gradient-types--title">Gradient type:</h3>
+            <div class="menu__gradient-types--inputs">
+              <label for="linear" class="menu__label label__css-only label__svg-only label__canvas-only">
+                <input type="radio" id="linear" name="gradient-type-group" checked />
+                Linear</label>
+              <label for="radial" class="menu__label label__css-only label__svg-only label__canvas-only">
+                <input type="radio" id="radial" name="gradient-type-group" />
+                Radial</label>
+              <label for="conic" class="menu__label label__css-only label__canvas-only">
+                <input type="radio" id="conic" name="gradient-type-group" />
+                Conic</label>
+              <!--  -->
+              <label for="repeating" class="menu__label label__css-only label__svg-only"><input type="checkbox"
+                  id="repeating" name="gradient-type-group" />Repeating?</label>
             </div>
-            <!-- The number input is only for mobile devices  -->
-            <label for="orientation">Current value</label>
-            <input type="number" min="0" max="359" id="orientation" value="0" class="menu__orientation-input" />
-            <output for="orientation" class="menu__orientation-output"><span>45</span>°</output>
           </div>
+
+        </div>
+        <button type="button" class="menu__add-color-button">
+          Add Color
+        </button>
+
+        <div class="menu__table-container" contenteditable="true">
+          <table class="menu__table" contenteditable="false">
+            <caption class="menu__caption">Stop colors for the gradient</caption>
+            <tbody class="menu__table-body draggable__container">
+
+
+            </tbody>
+          </table>
+
+
+        </div>
+
+
+
+        <div class="menu__orientation">
+          <label for="orientation">Orientation (degrees):</label>
+
+          <div class="menu__angle-picker">
+            <!-- Center point for the circle -->
+            <div class="menu__angle-picker--center-dot"></div>
+
+            <!-- Angles markers -->
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-135-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-180-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-225-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-270-deg"></div>
+            <div class="menu__angle-picker--marker menu__angle-picker--marker-315-deg"></div>
+
+            <!-- Button to set the orientation in degrees in JS -->
+            <button class="menu__angle-picker--rotator"></button>
+          </div>
+          <!-- The number input is only for mobile devices  -->
+          <label for="orientation">Current value</label>
+          <input type="number" min="0" max="359" id="orientation" value="0" class="menu__orientation-input" />
+          <output for="orientation" class="menu__orientation-output"><span>45</span>°</output>
         </div>
 
       </div>
     </section>
 
-    <web-component></web-component>
+    <!-- 
+      <web-component></web-component>
+     -->
 
     <!--  -->
     <div class="index__css-gradient"></div>
+    <div class="index__svg-gradient"></div>
+    <canvas class="index__canvas-gradient"></canvas>
 
-
-    <!-- <div class="index__svg-container">
-      <svg class="no-pointer-events" xmlns="http://www.w3.org/2000/svg" class="index__svg-gradient">
-        <defs>
-          <linearGradient id="gradient" x1="0.146" y1="0.854" x2="0.854" y2="0.146" spreadMethod="pad">
-            <stop offset="0%" style="stop-color: #bdc3e1; stop-opacity: 1" />
-            <stop offset="100%" style="stop-color: #f9917e; stop-opacity: 1" />
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#gradient)" />
-      </svg>
-
-    <canvas class="index__canvas-gradient"></canvas> -->
-
-    <!-- 
-        <svg class="no-pointer-events" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
-        <defs>
-          <radialGradient id="myGradient" cx="50%" cy="50%" r="50%" fx="25%" fy="25%" spreadMethod="pad">
-           // Define color stops/
-            <stop offset="0%" style="stop-color: #ff0000; stop-opacity: 1" />
-            <stop offset="25%" style="stop-color: #ff6600; stop-opacity: 1" />
-            <stop offset="50%" style="stop-color: #ffff00; stop-opacity: 1" />
-            <stop offset="75%" style="stop-color: #00ff66; stop-opacity: 1" />
-            <stop offset="100%" style="stop-color: #0000ff; stop-opacity: 1" />
-          </radialGradient>
-        </defs>
-        // Create a shape using the radial gradient
-        <circle cx="100" cy="100" r="100" fill="url(#myGradient)" />
-      </svg>
-     -->
 
 
     </div>
 
-    <template id="template__linear-gradient">
+    <template class="template__css-linear-gradient template__css-radial-gradient">
       <tr class="menu__table-row" draggable="true">
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
@@ -196,9 +177,6 @@
           </div>
         </td>
       </tr>
-    </template>
-
-    <template id="template__radial-gradient">
     </template>
 
 

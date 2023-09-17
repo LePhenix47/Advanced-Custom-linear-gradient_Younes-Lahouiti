@@ -10,10 +10,10 @@ import JSCanvasGradient, {
   CanvasGradientReturnType,
 } from "./canvas-gradients/index-canvas.class";
 
-type GradientLanguage = "css" | "svg" | "canvas";
-type GradientType = "linear" | "radial" | "conic";
+export type GradientLanguage = "css" | "svg" | "canvas";
+export type GradientType = "linear" | "radial" | "conic";
 
-type GradientReturnType =
+export type GradientReturnType =
   | CSSGradientReturnType
   | SVGGradientReturnType
   | CanvasGradientReturnType;

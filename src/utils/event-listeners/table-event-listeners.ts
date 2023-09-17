@@ -128,8 +128,8 @@ export function addNewRowEntry(): void {
   const tableBody =
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
-  const defaultRowTemplate = selectById<HTMLTemplateElement>(
-    "template__linear-gradient"
+  const defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
+    "template__css-linear-gradient"
   );
 
   const clonedRowDocumentFragment: DocumentFragment =

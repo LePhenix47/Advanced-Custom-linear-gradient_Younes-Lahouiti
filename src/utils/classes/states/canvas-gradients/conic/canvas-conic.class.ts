@@ -48,7 +48,8 @@ class CanvasConicGradient extends CanvasGradientBase {
       return { gradient, code: null };
     }
 
-    let codeString: string = `const canvas = document.getElementById("canvas");
+    let codeString: string = `
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gradient = ctx.createConicGradient(${centerX}, ${centerY}, ${this.startAngle});\n`;
 

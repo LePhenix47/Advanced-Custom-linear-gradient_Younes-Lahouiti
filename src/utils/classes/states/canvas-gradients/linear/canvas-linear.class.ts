@@ -113,10 +113,20 @@ ctx.fillRect(20, 20, 200, 100);
     if (cannotCreateGradient) {
       return { gradient, code: null };
     }
+    const { canvas } = this.context;
 
-    let codeString: string = `const canvas = document.getElementById("canvas");
+    const normalizedX0: string = x0 === canvas.width ? "canvas.width" : `${x0}`;
+    const normalizedX1: string = x1 === canvas.width ? "canvas.width" : `${x1}`;
+
+    const normalizedY0: string =
+      y0 === canvas.height ? "canvas.height" : `${y0}`;
+    const normalizedY1: string =
+      y1 === canvas.height ? "canvas.height" : `${y1}`;
+
+    let codeString: string = `
+const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const gradient = ctx.createLinearGradient(${x0}, ${y0}, ${x1}, ${y1});\n`;
+const gradient = ctx.createLinearGradient(${normalizedX0}, ${normalizedY0}, ${normalizedX1}, ${normalizedY1});\n`;
 
     for (let i = 0; i < this.stopColors.length; i++) {
       const stopColor: CanvasLinearGradientColorStop = this.stopColors[i];

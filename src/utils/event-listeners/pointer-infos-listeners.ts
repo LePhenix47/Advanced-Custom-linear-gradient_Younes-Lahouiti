@@ -13,10 +13,12 @@ export function handlePointerUpDown(
 ): void {
   event.preventDefault();
 
-  const usedLeftClick = event.pointerType === "mouse" && event.button === 0;
-  const usedTouch = event.pointerType === "touch";
+  const usedLeftClick: boolean =
+    event.pointerType === "mouse" && event.button === 0;
 
-  const hasPointedToADirection = usedLeftClick || usedTouch;
+  const usedTouch: boolean = event.pointerType === "touch";
+
+  const hasPointedToADirection: boolean = usedLeftClick || usedTouch;
   if (hasPointedToADirection) {
     pointerInfos.isPressing = event.type === "pointerdown";
   }

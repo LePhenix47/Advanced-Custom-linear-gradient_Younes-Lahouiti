@@ -8,8 +8,174 @@ import {
 const templateElement = document.createElement("template");
 
 const templateStyle: string = /* css */ `
+
+button {
+  border-color: transparent;
+  background-color: transparent;
+  font-family: inherit;
+  color: inherit;
+}
+button:hover {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+.menu__orientation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-block: 15px;
+  gap: 15px;
+}
+.menu__angle-picker {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+.menu__angle-picker--center-dot {
+  content: "";
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  translate: -50% -50%;
+  inset: 50%;
+  height: 5px;
+  background-color: currentColor;
+}
+.menu__angle-picker--marker {
+  position: absolute;
+  height: var(--_size);
+  aspect-ratio: 1/2;
+  top: var(--_top);
+  left: var(--_left);
+  translate: -50% -50%;
+  rotate: var(--_initial-degrees);
+  border-bottom-left-radius: 100vmax;
+  border-bottom-right-radius: 100vmax;
+  background-color: currentColor;
+}
+.menu__angle-picker--marker:nth-child(odd) {
+  scale: 75%;
+}
+.menu__angle-picker--marker-0-deg {
+  --_size: 8px;
+  --_initial-degrees: 0deg;
+  --_degrees: -90deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-45-deg {
+  --_size: 8px;
+  --_initial-degrees: 45deg;
+  --_degrees: -45deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-90-deg {
+  --_size: 8px;
+  --_initial-degrees: 90deg;
+  --_degrees: 0deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-135-deg {
+  --_size: 8px;
+  --_initial-degrees: 135deg;
+  --_degrees: 45deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-180-deg {
+  --_size: 8px;
+  --_initial-degrees: 180deg;
+  --_degrees: 90deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-225-deg {
+  --_size: 8px;
+  --_initial-degrees: 225deg;
+  --_degrees: 135deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-270-deg {
+  --_size: 8px;
+  --_initial-degrees: 270deg;
+  --_degrees: 180deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--marker-315-deg {
+  --_size: 8px;
+  --_initial-degrees: 315deg;
+  --_degrees: 225deg;
+  --_offset: 44px;
+  --_top: calc(50% + var(--_offset) * sin(var(--_degrees)));
+  --_left: calc(50% + var(--_offset) * cos(var(--_degrees)));
+}
+.menu__angle-picker--rotator {
+  --_rotation: 0deg;
+  rotate: var(--_rotation);
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  height: 50%;
+  width: 1px !important;
+  background-color: #b6b5b5;
+  translate: -50% 0%;
+  transform-origin: center bottom;
+}
+.menu__angle-picker--rotator::before {
+  content: "";
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  translate: -50% -50%;
+  background-color: var(--col-secondary);
+  height: 10px;
+  outline: 2px solid var(--col-tertiary);
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
 `;
 const templateContent: string = /*html */ `
+<section class="menu__orientation">
+
+  <div class="menu__angle-picker">
+    <!-- Center point for the circle -->
+    <div class="menu__angle-picker--center-dot"></div>
+
+    <!-- Angles markers -->
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-135-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-180-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-225-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-270-deg"></div>
+    <div class="menu__angle-picker--marker menu__angle-picker--marker-315-deg"></div>
+
+    <!-- Button to set the orientation in degrees in JS -->
+    <button class="menu__angle-picker--rotator"></button>
+  </div>
+  <!-- The number input is only for mobile devices  -->
+  <label for="orientation">Current value:</label>
+  <output for="orientation" class="menu__orientation-output"><span>0</span>°</output>
+</section>
 `;
 
 templateElement.innerHTML = /*html */ `
@@ -31,7 +197,7 @@ templateElement.innerHTML = /*html */ `
 class AnglePicker extends HTMLElement {
   constructor() {
     super();
-    //We create the cotnainer that holds the web component
+    //We create the container that holds the web component
     const shadowRoot = this.attachShadow({ mode: "open" });
 
     //We clone the template
@@ -42,7 +208,17 @@ class AnglePicker extends HTMLElement {
 
   static get observedAttributes() {
     //We indicate the list of attributes that the custom element wants to observe for changes.
-    return [];
+    return ["angle"];
+  }
+
+  get angle(): number {
+    const angleAsString: string = this.getAttribute("angle");
+    return Number(angleAsString);
+  }
+
+  set angle(newAngle: number) {
+    const angleAsString: string = newAngle.toString();
+    this.setAttribute("angle", angleAsString);
   }
 
   connectedCallback() {}

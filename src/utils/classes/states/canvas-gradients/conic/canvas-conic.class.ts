@@ -1,3 +1,4 @@
+import { radiansToDegrees } from "@utils/helpers/math.helpers";
 import CanvasGradientBase, {
   CanvasConicGradientColorStop,
 } from "../class-base/canvas-gradient-base.class";
@@ -31,7 +32,9 @@ class CanvasConicGradient extends CanvasGradientBase {
    * @param {number} startAngle - The start angle in radians.
    */
   setStartAngle(startAngle: number): void {
-    this.startAngle = startAngle;
+    const angleInDegrees: number = radiansToDegrees(startAngle);
+
+    this.startAngle = angleInDegrees;
   }
 
   generateCanvasGradient(): { gradient: CanvasGradient; code: string | null } {

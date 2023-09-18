@@ -32,7 +32,7 @@
   <link rel="icon" type="image/png" href="./public/png/icon.png" />
 
   <!-- JS -->
-  <script defer src="./dist/index.js" type="module"></script>
+  <script src="./dist/index.js" defer></script>
 </head>
 
 <body>
@@ -45,8 +45,10 @@
   <main class="index">
     <section class="index__menu-container active">
       <div class="menu">
-        <position-picker x="0" y="0" title="Inner circle picker"></position-picker>
-        <position-picker x="0" y="0" title="Outer circle picker"></position-picker>
+        <position-picker x="50" y="50" title="Inner circle picker"></position-picker>
+        <position-picker x="50" y="50" title="Outer circle picker"></position-picker>
+
+        <angle-picker angle="0"></angle-picker>
 
         <div class="menu__types-language">
           <div class="menu__creation-language">

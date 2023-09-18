@@ -1,6 +1,6 @@
 import OffsetCreator from "@utils/classes/services/position-picker-service.class";
 import {
-  handlePointerMove,
+  handlePointerMoveFromElement,
   handlePointerUpDown,
 } from "@utils/event-listeners/pointer-infos-listeners";
 import { log } from "@utils/helpers/console.helpers";
@@ -72,13 +72,13 @@ const templateContent: string = /*html */ `
     <div class="picker__outputs">
       <div class="picker__output-container">
         <label for="x-offset" class="picker__label">X offset</label>
-        <output class="picker__output-field" id="x-offset" value="50" min="0" max="100" ></output>
+        <output class="picker__output-field" id="x-offset" value="50" min="0" max="100" >50</output>
         <span class="picker__unit">%</span>
       </div>
   
       <div class="picker__output-container">
         <label for="y-offset" class="picker__label">Y offset</label>
-        <output class="picker__output-field" id="y-offset" value="50" min="0" max="100" ></output>
+        <output class="picker__output-field" id="y-offset" value="50" min="0" max="100" >50</output>
         <span class="picker__unit">%</span>
       </div>
     </div>
@@ -210,7 +210,7 @@ class PositionPicker extends HTMLElement {
       handlePointerUpDown(e, this.pointerInfos);
     });
     container.addEventListener("pointermove", (e: PointerEvent) => {
-      handlePointerMove(e, this.pointerInfos, this.canvas);
+      handlePointerMoveFromElement(e, this.pointerInfos, this.canvas);
 
       const { x: percentageX, y: percentageY } =
         this.effectHandler.getOffsets(true);
@@ -238,7 +238,28 @@ class PositionPicker extends HTMLElement {
   }
 
   disconnectedCallback() {
+    log("Removed the position picker from the DOM");
     this.cancelAnimation();
+
+    const container = selectQuery<HTMLDivElement>(
+      ".picker__container",
+      this.shadowRoot
+    );
+    container.removeEventListener("pointerup", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    container.removeEventListener("pointerdown", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    container.removeEventListener("pointermove", (e: PointerEvent) => {
+      handlePointerMoveFromElement(e, this.pointerInfos, this.canvas);
+
+      const { x: percentageX, y: percentageY } =
+        this.effectHandler.getOffsets(true);
+
+      this.x = percentageX;
+      this.y = percentageY;
+    });
   }
 
   attributeChangedCallback(

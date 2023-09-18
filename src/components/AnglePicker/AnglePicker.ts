@@ -1,4 +1,12 @@
 import {
+  calculateAngle,
+  calculateMouseCoordsFromCenter,
+  handlePointerUpDown,
+} from "@utils/event-listeners/pointer-infos-listeners";
+import { log } from "@utils/helpers/console.helpers";
+import { selectQuery, setStyleProperty } from "@utils/helpers/dom.helpers";
+import { PointerInfosType } from "@utils/variables/global-states/pointer-infos";
+import {
   jsClasses,
   cssReset,
   lightThemeVariables,
@@ -145,9 +153,9 @@ button:disabled {
   top: 0%;
   left: 0%;
   translate: -50% -50%;
-  background-color: var(--col-secondary);
+  background-color: var(--color-secondary);
   height: 10px;
-  outline: 2px solid var(--col-tertiary);
+  outline: 2px solid var(--color-tertiary);
   aspect-ratio: 1;
   border-radius: 50%;
 }
@@ -174,7 +182,7 @@ const templateContent: string = /*html */ `
   </div>
   <!-- The number input is only for mobile devices  -->
   <label for="orientation">Current value:</label>
-  <output for="orientation" class="menu__orientation-output"><span>0</span>°</output>
+  <output for="orientation" class="menu__orientation-output">0°</output>
 </section>
 `;
 
@@ -195,6 +203,7 @@ templateElement.innerHTML = /*html */ `
 `;
 
 class AnglePicker extends HTMLElement {
+  pointerInfos: { x: number; y: number; isPressing: boolean };
   constructor() {
     super();
     //We create the container that holds the web component
@@ -204,6 +213,13 @@ class AnglePicker extends HTMLElement {
     const clonedTemplate = templateElement.content.cloneNode(true);
     //We add it as a child of our web component
     shadowRoot.appendChild(clonedTemplate);
+
+    //
+    this.pointerInfos = {
+      x: NaN,
+      y: NaN,
+      isPressing: false,
+    };
   }
 
   static get observedAttributes() {
@@ -221,13 +237,101 @@ class AnglePicker extends HTMLElement {
     this.setAttribute("angle", angleAsString);
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    const anglePickerContainer = selectQuery<HTMLDivElement>(
+      ".menu__orientation",
+      this.shadowRoot
+    );
 
-  disconnectedCallback() {}
+    anglePickerContainer.addEventListener("pointerup", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    anglePickerContainer.addEventListener("pointerdown", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+
+    const centerDotElement = selectQuery<HTMLDivElement>(
+      ".menu__angle-picker--center-dot",
+      this.shadowRoot
+    );
+
+    const buttonRotatorElement = selectQuery<HTMLButtonElement>(
+      ".menu__angle-picker--rotator",
+      this.shadowRoot
+    );
+
+    const outputElement = selectQuery<HTMLOutputElement>(
+      ".menu__orientation-output",
+      this.shadowRoot
+    );
+    anglePickerContainer.addEventListener("pointermove", (e: PointerEvent) => {
+      const { mouseX, mouseY } = calculateMouseCoordsFromCenter(
+        e,
+        centerDotElement
+      );
+
+      const angle: number = calculateAngle(mouseX, mouseY);
+
+      const { isPressing } = this.pointerInfos;
+      if (isPressing) {
+        setStyleProperty("--_rotation", `${angle}deg`, buttonRotatorElement);
+        outputElement.textContent = `${angle}°`;
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    const anglePickerContainer = selectQuery<HTMLDivElement>(
+      ".menu__orientation",
+      this.shadowRoot
+    );
+
+    anglePickerContainer.removeEventListener("pointerup", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    anglePickerContainer.removeEventListener(
+      "pointerdown",
+      (e: PointerEvent) => {
+        handlePointerUpDown(e, this.pointerInfos);
+      }
+    );
+
+    const centerDotElement = selectQuery<HTMLDivElement>(
+      ".menu__angle-picker--center-dot",
+      this.shadowRoot
+    );
+
+    const buttonRotatorElement = selectQuery<HTMLButtonElement>(
+      ".menu__angle-picker--rotator",
+      this.shadowRoot
+    );
+
+    const outputElement = selectQuery<HTMLOutputElement>(
+      ".menu__orientation-output",
+      this.shadowRoot
+    );
+    anglePickerContainer.removeEventListener(
+      "pointermove",
+      (e: PointerEvent) => {
+        const { mouseX, mouseY } = calculateMouseCoordsFromCenter(
+          e,
+          centerDotElement
+        );
+
+        const angle: number = calculateAngle(mouseX, mouseY);
+
+        const { isPressing } = this.pointerInfos;
+        if (isPressing) {
+          setStyleProperty("--_rotation", `${angle}deg`, buttonRotatorElement);
+          outputElement.textContent = `${angle}°`;
+        }
+      }
+    );
+  }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case "": {
+      case "angle": {
         //…
         break;
       }
@@ -238,3 +342,23 @@ class AnglePicker extends HTMLElement {
 }
 
 customElements.define("angle-picker", AnglePicker);
+
+// function setAngleToPicker(e: PointerEvent, pointerInfos: PointerInfosType) {
+//   const centerDot = selectQuery<HTMLDivElement>(
+//     ".menu__angle-picker--center-dot"
+//   );
+//   const centerDotRect: DOMRect = centerDot.getBoundingClientRect();
+
+//   const mouseX: number = e.x - centerDotRect.x;
+//   const mouseY: number = centerDotRect.y - e.y; // The inversion is needed here because JS uses the SVG coords system
+
+//   const angle: number = calculateAngle(mouseX, mouseY);
+
+//   // console.log(`${angle}deg`);
+
+// const { isPressing } = pointerInfos;
+// if (isPressing) {
+//   setStyleProperty("--_rotation", `${angle}deg`, btn);
+//   orientationOutput.textContent = `${angle}°`;
+// }
+// }

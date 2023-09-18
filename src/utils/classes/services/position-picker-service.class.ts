@@ -1,4 +1,4 @@
-import { pointerInfos } from "@utils/variables/global-states/pointer-infos";
+import { PointerInfosType } from "@utils/variables/global-states/pointer-infos";
 
 class CanvasRenderMethods {
   lineWidth: number;
@@ -11,14 +11,14 @@ class CanvasRenderMethods {
   strokeWidth: number;
   canvas: HTMLCanvasElement;
   constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext("2d");
+
     this.lineWidth = 2;
     this.lineFill = "#5b5b5b";
 
     this.circleFill = "#4285f4";
-    this.circleRadius = 10;
-
-    this.canvas = canvas;
-    this.ctx = this.canvas.getContext("2d");
+    this.circleRadius = this.canvas.width / 20;
 
     this.midX = this.canvas.width / 2;
     this.midY = this.canvas.height / 2;
@@ -67,11 +67,15 @@ class OffsetCreator extends CanvasRenderMethods {
   offsetPickerY: any;
   computedOffsetX: number;
   computedOffsetY: number;
-  constructor(canvas: HTMLCanvasElement) {
+  pointerInfos: PointerInfosType;
+
+  constructor(canvas: HTMLCanvasElement, pointerInfos: PointerInfosType) {
     super(canvas);
 
     this.offsetPickerX = this.midX;
     this.offsetPickerY = this.midY;
+
+    this.pointerInfos = pointerInfos;
 
     // Will set the X and Y offset from the center of the canvas
     this.computedOffsetX = 0;
@@ -135,7 +139,7 @@ class OffsetCreator extends CanvasRenderMethods {
   }
 
   updateTrackerCoords() {
-    const { isPressing, x, y } = pointerInfos;
+    const { isPressing, x, y } = this.pointerInfos;
 
     if (isPressing) {
       this.offsetPickerX = x;
@@ -145,18 +149,21 @@ class OffsetCreator extends CanvasRenderMethods {
       this.checkUnderflow();
 
       this.computedOffsetX = Math.round(
-        ((this.offsetPickerX - this.midX) / 10) * 2.2
+        ((this.offsetPickerX - this.midX) / 10) * 4.5
       );
       // Canvases use the SVG coordinates system
       this.computedOffsetY = Math.round(
-        ((this.midY - this.offsetPickerY) / 10) * 2.2
+        ((this.midY - this.offsetPickerY) / 10) * 4.5
       );
     }
   }
 
   getOffsets(isPercentage: boolean = false): any {
-    const pX: number = ((this.computedOffsetX + 20) / 40) * 100;
-    const pY: number = ((1 - (this.computedOffsetY + 20)) / 40) * 100;
+    const normalizedX: number = (this.computedOffsetX + 20) / 40;
+    const normalizedY: number = (this.computedOffsetY + 20) / 40;
+
+    const pX: number = Math.round(normalizedX * 100);
+    const pY: number = Math.round((1 - normalizedY) * 100);
 
     if (isPercentage) {
       return {

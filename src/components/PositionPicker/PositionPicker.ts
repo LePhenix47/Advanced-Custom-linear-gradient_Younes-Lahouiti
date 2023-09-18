@@ -1,4 +1,10 @@
-import { selectFirstByClass } from "@utils/helpers/dom.helpers";
+import OffsetCreator from "@utils/classes/services/position-picker-service.class";
+import {
+  handlePointerMove,
+  handlePointerUpDown,
+} from "@utils/event-listeners/pointer-infos-listeners";
+import { log } from "@utils/helpers/console.helpers";
+import { selectFirstByClass, selectQuery } from "@utils/helpers/dom.helpers";
 import {
   jsClasses,
   cssReset,
@@ -14,9 +20,18 @@ const templateStyle: string = /* css */ `
   flex-direction: row;
   gap: 15px;
 }
+
 .picker__containers {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+.picker{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
 }
 
@@ -30,22 +45,20 @@ const templateStyle: string = /* css */ `
   padding: 5px;
 }
 
-.picker__input {
+.picker__output-container {
    background-color: transparent;
-   border: 2px solid var(--col-tertiary);
+   border: 2px solid var(--bg-tertiary);
    border-radius: 5px;
    width: 50px;
    font-size: 16px;
 }
 
 .picker__canvas {
-  --_canvas-size: 200px;
+  --_canvas-size: 100px;
 
-  border: 2px solid var(--col-tertiary);
+  border: 2px solid var(--bg-tertiary);
   width: var(--_canvas-size);
-  aspect-ratio: 1/1;
-  max-width: var(--_canvas-size);
-  min-width: var(--_canvas-size);
+  height: var(--_canvas-size);
 
   border-radius: 5px;
 }
@@ -54,20 +67,24 @@ const templateContent: string = /*html */ `
 <div class="picker__container">
   <h2 class="picker__title">Offsets</h2>
 
-  <div class="picker__inputs">
-    <div class="picker__input">
-      <label for="x-offset" class="picker__label">X offset</label>
-      <span class="picker__unit">%</span>
-      <input type="number" class="picker__input-field" id="x-offset" value="50" min="0" max="100" />
-    </div>
+  <div class="picker">
 
-    <div class="picker__input">
-      <label for="y-offset" class="picker__label">Y offset</label>
-      <span class="picker__unit">%</span>
-      <input type="number" class="picker__input-field" id="y-offset" value="50" min="0" max="100" />
+    <div class="picker__outputs">
+      <div class="picker__output-container">
+        <label for="x-offset" class="picker__label">X offset</label>
+        <output class="picker__output-field" id="x-offset" value="50" min="0" max="100" ></output>
+        <span class="picker__unit">%</span>
+      </div>
+  
+      <div class="picker__output-container">
+        <label for="y-offset" class="picker__label">Y offset</label>
+        <output class="picker__output-field" id="y-offset" value="50" min="0" max="100" ></output>
+        <span class="picker__unit">%</span>
+      </div>
     </div>
+    
+    <canvas class="picker__canvas" width="200" height="200"></canvas>
   </div>
-  <canvas class="picker__canvas" width="200" height="200"></canvas>
 </div>
 `;
 
@@ -90,6 +107,10 @@ templateElement.innerHTML = /*html */ `
 class PositionPicker extends HTMLElement {
   animationId: number;
   canvas: HTMLCanvasElement;
+  pointerInfos: { x: number; y: number; isPressing: boolean };
+
+  effectHandler: OffsetCreator | null;
+  ctx: CanvasRenderingContext2D;
   constructor() {
     super();
     //We create the cotnainer that holds the web component
@@ -100,8 +121,23 @@ class PositionPicker extends HTMLElement {
     //We add it as a child of our web component
     shadowRoot.appendChild(clonedTemplate);
 
+    /*
+    // Class variables
+    */
     this.animationId = NaN;
 
+    this.pointerInfos = {
+      x: NaN,
+      y: NaN,
+      isPressing: false,
+    };
+
+    this.effectHandler;
+
+    this.canvas;
+    this.ctx;
+
+    // Binds
     this.animateCanvas = this.animateCanvas.bind(this);
   }
 
@@ -144,7 +180,12 @@ class PositionPicker extends HTMLElement {
 
   animateCanvas() {
     try {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
       this.animationId = requestAnimationFrame(this.animateCanvas);
+
+      this.effectHandler.updateTrackerCoords();
+      this.effectHandler.trackPointer();
     } catch (error) {
       console.error("Stopped the canvas animation", error);
       this.cancelAnimation();
@@ -156,17 +197,42 @@ class PositionPicker extends HTMLElement {
   }
 
   connectedCallback() {
-    const container = selectFirstByClass<HTMLDivElement>(
-      "picker__container",
-      this.shadowRoot
-    );
+    log("Added the position picker to the DOM");
 
-    const canvas = selectFirstByClass<HTMLCanvasElement>(
-      "canvas",
+    const container = selectQuery<HTMLDivElement>(
+      ".picker__container",
       this.shadowRoot
     );
+    container.addEventListener("pointerup", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    container.addEventListener("pointerdown", (e: PointerEvent) => {
+      handlePointerUpDown(e, this.pointerInfos);
+    });
+    container.addEventListener("pointermove", (e: PointerEvent) => {
+      handlePointerMove(e, this.pointerInfos, this.canvas);
+
+      const { x: percentageX, y: percentageY } =
+        this.effectHandler.getOffsets(true);
+
+      this.x = percentageX;
+      this.y = percentageY;
+    });
+
+    const titleElement = selectQuery<HTMLTitleElement>(
+      ".picker__title",
+      this.shadowRoot
+    );
+    titleElement.textContent = this.title;
+
+    const canvas = selectQuery<HTMLCanvasElement>("canvas", this.shadowRoot);
 
     this.canvas = canvas;
+    this.ctx = this.canvas.getContext("2d");
+
+    this.setCanvasSize(100, 100);
+
+    this.effectHandler = new OffsetCreator(this.canvas, this.pointerInfos);
 
     this.animateCanvas();
   }
@@ -175,10 +241,39 @@ class PositionPicker extends HTMLElement {
     this.cancelAnimation();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string
+  ) {
+    const titleElement = selectQuery<HTMLTitleElement>(
+      ".picker__title",
+      this.shadowRoot
+    );
+
+    const outputXElement = selectQuery<HTMLOutputElement>(
+      "output#x-offset",
+      this.shadowRoot
+    );
+    const outputYElement = selectQuery<HTMLOutputElement>(
+      "output#y-offset",
+      this.shadowRoot
+    );
+
     switch (name) {
+      case "x": {
+        outputXElement.textContent = newValue;
+        //…
+        break;
+      }
+      case "y": {
+        outputYElement.textContent = newValue;
+        //…
+        break;
+      }
       case "title": {
         //…
+        titleElement.textContent = newValue;
         break;
       }
       default:

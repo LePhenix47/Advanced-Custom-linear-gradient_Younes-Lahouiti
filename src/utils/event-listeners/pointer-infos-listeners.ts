@@ -1,4 +1,4 @@
-import { pointerInfos } from "@utils/variables/global-states/pointer-infos";
+import { PointerInfosType } from "@utils/variables/global-states/pointer-infos";
 
 /**
  * Handles pointer down and up events to update the global state.
@@ -7,7 +7,10 @@ import { pointerInfos } from "@utils/variables/global-states/pointer-infos";
  *
  * @returns {void}
  */
-export function handlePointerUpDown(event: PointerEvent): void {
+export function handlePointerUpDown(
+  event: PointerEvent,
+  pointerInfos: PointerInfosType
+): void {
   event.preventDefault();
 
   const usedLeftClick = event.pointerType === "mouse" && event.button === 0;
@@ -26,9 +29,15 @@ export function handlePointerUpDown(event: PointerEvent): void {
  *
  * @returns {void}
  */
-export function handlePointerMove(event: PointerEvent): void {
+export function handlePointerMove(
+  event: PointerEvent,
+  pointerInfos: PointerInfosType,
+  canvas: HTMLCanvasElement
+): void {
   event.preventDefault();
 
-  pointerInfos.x = Math.round(event.x);
-  pointerInfos.y = Math.round(event.y);
+  const canvasRect: DOMRect = canvas.getBoundingClientRect();
+
+  pointerInfos.x = Math.round(event.x - canvasRect.x);
+  pointerInfos.y = Math.round(event.y - canvasRect.y);
 }

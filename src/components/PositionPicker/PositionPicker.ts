@@ -17,7 +17,7 @@ const templateElement = document.createElement("template");
 const templateStyle: string = /* css */ `
 .picker__container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 15px;
 }
 
@@ -43,6 +43,12 @@ const templateStyle: string = /* css */ `
   text-align: right;
 
   padding: 5px;
+}
+
+.picker__outputs {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
 }
 
 .picker__output-container {

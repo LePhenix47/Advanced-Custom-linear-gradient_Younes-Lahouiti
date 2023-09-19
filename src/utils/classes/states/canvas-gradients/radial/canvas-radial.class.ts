@@ -20,21 +20,28 @@ class CanvasRadialGradient extends CanvasGradientBase {
    *
    * @param {number} x - The x-coordinate of the inner circle's center.
    * @param {number} y - The y-coordinate of the inner circle's center.
-   * @param {number} radius - The radius of the inner circle.
    */
-  setInnerCircle(x: number, y: number, radius: number): void {
-    this.innerCircle = { x, y, radius };
+  setInnerCirclePosition(x: number, y: number): void {
+    this.innerCircle.x = x;
+    this.innerCircle.y = y;
   }
 
+  setInnerCircleRadius(radius: number): void {
+    this.innerCircle.radius = radius;
+  }
   /**
-   * Set the final coordinates and radius of the outer circle.
+   * Set the initial coordinates and radius of the inner circle.
    *
-   * @param {number} x - The x-coordinate of the outer circle's center.
-   * @param {number} y - The y-coordinate of the outer circle's center.
-   * @param {number} radius - The radius of the outer circle.
+   * @param {number} x - The x-coordinate of the inner circle's center.
+   * @param {number} y - The y-coordinate of the inner circle's center.
    */
-  setOuterCircle(x: number, y: number, radius: number): void {
-    this.outerCircle = { x, y, radius };
+  setOuterCirclePosition(x: number, y: number): void {
+    this.outerCircle.x = x;
+    this.outerCircle.y = y;
+  }
+
+  setOuterCircleRadius(radius: number): void {
+    this.outerCircle.radius = radius;
   }
 
   generateCanvasGradient(): { gradient: CanvasGradient; code: string | null } {

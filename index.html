@@ -45,10 +45,15 @@
   <main class="index">
     <section class="index__menu-container active">
       <div class="menu">
-        <position-picker x="50" y="50" title="Inner circle picker"></position-picker>
-        <position-picker x="50" y="50" title="Outer circle picker"></position-picker>
 
-        <angle-picker angle="0"></angle-picker>
+        <div class="menu__options">
+          <h3 class="menu__options-title">Options:</h3>
+
+          <position-picker x="50" y="50" title="Inner circle picker"></position-picker>
+          <position-picker x="50" y="50" title="Outer circle picker"></position-picker>
+
+          <angle-picker angle="0"></angle-picker>
+        </div>
 
         <div class="menu__types-language">
           <div class="menu__creation-language">
@@ -91,35 +96,7 @@
 
         </div>
 
-        <div class="menu__options">
-          <h3 class="menu__options-title">Options:</h3>
-          <div class="menu__orientation">
-            <label for="orientation">Orientation (degrees):</label>
 
-            <div class="menu__angle-picker">
-              <!-- Center point for the circle -->
-              <div class="menu__angle-picker--center-dot"></div>
-
-              <!-- Angles markers -->
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-0-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-45-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-90-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-135-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-180-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-225-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-270-deg"></div>
-              <div class="menu__angle-picker--marker menu__angle-picker--marker-315-deg"></div>
-
-              <!-- Button to set the orientation in degrees in JS -->
-              <button class="menu__angle-picker--rotator"></button>
-            </div>
-            <!-- The number input is only for mobile devices  -->
-            <label for="orientation">Current value</label>
-            <input type="number" min="0" max="359" id="orientation" value="0" class="menu__orientation-input" />
-            <output for="orientation" class="menu__orientation-output"><span>45</span>°</output>
-          </div>
-
-        </div>
 
 
       </div>
@@ -130,8 +107,8 @@
      -->
 
     <!--  -->
-    <div class="index__css-gradient"></div>
-    <div class="index__svg-gradient"></div>
+    <div class="index__css-gradient hide"></div>
+    <div class="index__svg-gradient hide"></div>
     <canvas class="index__canvas-gradient"></canvas>
 
 

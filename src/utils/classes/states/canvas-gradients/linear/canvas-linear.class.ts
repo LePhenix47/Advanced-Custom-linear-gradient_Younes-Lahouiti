@@ -158,46 +158,46 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);\n`;
 
 export default CanvasLinearGradient;
 
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// const canvas = document.querySelector("canvas");
+// const ctx = canvas.getContext("2d");
+// canvas.width = window.innerWidth;
+// canvas.height = window.innerHeight;
 
-// Create an instance of CanvasLinearGradient
-const linearGradient = new JSCanvasGradient().create(
-  "linear",
-  ctx
-) as CanvasLinearGradient;
+// // Create an instance of CanvasLinearGradient
+// const linearGradient = new JSCanvasGradient().create(
+//   "linear",
+//   ctx
+// ) as CanvasLinearGradient;
 
-// Add color stops to the gradient
-linearGradient.addStopColor({
-  id: 1,
-  color: "#00ff00",
-  offset: null,
-  opacity: "100%",
-});
+// // Add color stops to the gradient
+// linearGradient.addStopColor({
+//   id: 1,
+//   color: "#00ff00",
+//   offset: null,
+//   opacity: "100%",
+// });
 
-linearGradient.addStopColor({
-  id: 2,
-  color: "#ff00ff",
-  offset: null,
-  opacity: "100%",
-});
+// linearGradient.addStopColor({
+//   id: 2,
+//   color: "#ff00ff",
+//   offset: null,
+//   opacity: "100%",
+// });
 
-linearGradient.addStopColor({
-  id: 3,
-  color: "#00ff00",
-  offset: null,
-  opacity: "100%",
-});
+// linearGradient.addStopColor({
+//   id: 3,
+//   color: "#00ff00",
+//   offset: null,
+//   opacity: "100%",
+// });
 
-// Generate the canvas gradient and code
-const { gradient, code } = linearGradient.generateCanvasGradient();
+// // Generate the canvas gradient and code
+// const { gradient, code } = linearGradient.generateCanvasGradient();
 
-console.log(code);
+// console.log(code);
 
-// Set the fill style to the gradient
-ctx.fillStyle = gradient;
+// // Set the fill style to the gradient
+// ctx.fillStyle = gradient;
 
-// Draw a rectangle filled with the linear gradient
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+// // Draw a rectangle filled with the linear gradient
+// ctx.fillRect(0, 0, canvas.width, canvas.height);

@@ -9,6 +9,7 @@ import SVGGradient, {
 import JSCanvasGradient, {
   CanvasGradientReturnType,
 } from "./canvas-gradients/index-canvas.class";
+import { log } from "@utils/helpers/console.helpers";
 
 export type GradientLanguage = "css" | "svg" | "canvas";
 export type GradientType = "linear" | "radial" | "conic";
@@ -24,6 +25,7 @@ class Gradient {
     gradientType: GradientType,
     context?: CanvasRenderingContext2D
   ): GradientReturnType {
+    log(language, gradientType);
     switch (language) {
       case "css": {
         return new CSSGradient().create(gradientType) as CSSGradientReturnType;
@@ -49,10 +51,3 @@ class Gradient {
 }
 
 export default Gradient;
-
-//TEST
-// TS should not throw an error
-
-// TS SHOULD throw an error
-new Gradient().create("svg", "conic"); // FAIL, TS didn't throw an error: It should though because here on the second argument
-new Gradient().create("canvas", "linear"); // FAIL, TS didn't throw an error: It should though because here because I didn't add the context here

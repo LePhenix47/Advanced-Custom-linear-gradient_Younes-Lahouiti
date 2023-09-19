@@ -4,7 +4,12 @@ import {
   handlePointerUpDown,
 } from "@utils/event-listeners/pointer-infos-listeners";
 import { log } from "@utils/helpers/console.helpers";
-import { selectQuery, setStyleProperty } from "@utils/helpers/dom.helpers";
+import {
+  getClassListValues,
+  selectFirstByClass,
+  selectQuery,
+  setStyleProperty,
+} from "@utils/helpers/dom.helpers";
 import { PointerInfosType } from "@utils/variables/global-states/pointer-infos";
 import {
   jsClasses,
@@ -181,8 +186,10 @@ const templateContent: string = /*html */ `
     <button class="menu__angle-picker--rotator"></button>
   </div>
   <!-- The number input is only for mobile devices  -->
-  <label for="orientation">Current value:</label>
-  <output for="orientation" class="menu__orientation-output">0°</output>
+  <div class="menu__angle-result">
+    <label for="orientation">Current value:</label>
+    <output for="orientation" class="menu__orientation-output">0°</output>
+  </div>
 </section>
 `;
 
@@ -255,15 +262,6 @@ class AnglePicker extends HTMLElement {
       this.shadowRoot
     );
 
-    const buttonRotatorElement = selectQuery<HTMLButtonElement>(
-      ".menu__angle-picker--rotator",
-      this.shadowRoot
-    );
-
-    const outputElement = selectQuery<HTMLOutputElement>(
-      ".menu__orientation-output",
-      this.shadowRoot
-    );
     anglePickerContainer.addEventListener("pointermove", (e: PointerEvent) => {
       const { mouseX, mouseY } = calculateMouseCoordsFromCenter(
         e,
@@ -274,8 +272,39 @@ class AnglePicker extends HTMLElement {
 
       const { isPressing } = this.pointerInfos;
       if (isPressing) {
-        setStyleProperty("--_rotation", `${angle}deg`, buttonRotatorElement);
-        outputElement.textContent = `${angle}°`;
+        this.angle = angle;
+      }
+    });
+
+    const anglePicker = selectQuery<HTMLDivElement>(
+      ".menu__angle-picker",
+      this.shadowRoot
+    );
+
+    anglePicker.addEventListener("click", (e: MouseEvent) => {
+      const clickedElement = e.target as HTMLElement;
+
+      const clickedContainerItself = clickedElement === anglePicker;
+      if (clickedContainerItself) {
+        return;
+      }
+
+      const elementClasses: string[] = getClassListValues(clickedElement);
+
+      const isAngleMarker: boolean = elementClasses.includes(
+        "menu__angle-picker--marker"
+      );
+
+      if (isAngleMarker) {
+        log("clicked angle marker!", elementClasses);
+
+        const digitsString: RegExp = /\d+/g;
+        const degrees: number = Number(
+          elementClasses[1].match(digitsString)[0]
+        );
+
+        this.angle = degrees;
+        log({ degrees });
       }
     });
   }
@@ -332,6 +361,18 @@ class AnglePicker extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
       case "angle": {
+        const buttonRotatorElement = selectQuery<HTMLButtonElement>(
+          ".menu__angle-picker--rotator",
+          this.shadowRoot
+        );
+
+        const outputElement = selectQuery<HTMLOutputElement>(
+          ".menu__orientation-output",
+          this.shadowRoot
+        );
+        setStyleProperty("--_rotation", `${newValue}deg`, buttonRotatorElement);
+        outputElement.textContent = `${newValue}°`;
+
         //…
         break;
       }

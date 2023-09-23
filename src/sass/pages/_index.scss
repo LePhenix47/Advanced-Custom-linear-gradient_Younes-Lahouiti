@@ -6,6 +6,9 @@
 
     position: relative;
 
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+
     &__menu-container {
         backdrop-filter: blur(20px);
 

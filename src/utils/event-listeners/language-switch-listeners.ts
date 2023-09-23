@@ -1,3 +1,7 @@
+import {
+  GradientLanguage,
+  GradientType,
+} from "@utils/classes/states/index-gradients.class";
 import { log } from "@utils/helpers/console.helpers";
 import {
   addClass,
@@ -8,11 +12,28 @@ import {
   selectQuery,
   selectQueryAll,
 } from "@utils/helpers/dom.helpers";
+import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
+function setElementsToShow(
+  arrayOfElements: HTMLElement[],
+  classToShow: string,
+  classToHideElement: string = "hide"
+) {
+  for (const element of arrayOfElements) {
+    const languageClass: string = getClassListValues(element)[0].split("--")[1];
 
+    const needsToBeHidden: boolean = classToShow !== languageClass;
+    if (needsToBeHidden) {
+      addClass(element, classToHideElement);
+    } else {
+      removeClass(element, classToHideElement);
+    }
+  }
+}
 export function switchLanguage(e: Event) {
-  const selectElement = e.target as HTMLSelectElement;
+  const selectElement = e.currentTarget as HTMLSelectElement;
 
-  const currentLanguage: string = selectElement.value;
+  const currentLanguage = selectElement.value;
+  gradientInfos.language = currentLanguage as GradientLanguage;
 
   const gradientTypesContainer = selectFirstByClass<HTMLDivElement>(
     "menu__gradient-types--inputs"
@@ -22,35 +43,25 @@ export function switchLanguage(e: Event) {
     gradientTypesContainer
   );
 
-  log(gradientTypesElements);
-
-  for (const gradientTypeElement of gradientTypesElements) {
-    let gradientClass: string = getClassListValues(gradientTypeElement)[0];
-    gradientClass = gradientClass.split("--")[1];
-
-    const needsToBeHidden: boolean = currentLanguage !== gradientClass;
-    if (needsToBeHidden) {
-      addClass(gradientTypeElement, "hide");
-    } else {
-      removeClass(gradientTypeElement, "hide");
-    }
-  }
-
   const optionsElements = selectQueryAll<HTMLDivElement>(
     ".menu__options>:not(h3)"
   );
 
-  for (const option of optionsElements) {
-    let optionClass: string = getClassListValues(option)[0];
-    optionClass = optionClass.split("--")[1];
-
-    const needsToBeHidden: boolean = currentLanguage !== optionClass;
-    if (needsToBeHidden) {
-      addClass(option, "hide");
-    } else {
-      removeClass(option, "hide");
-    }
-  }
+  setElementsToShow(gradientTypesElements, gradientInfos.language);
+  setElementsToShow(optionsElements, gradientInfos.language);
 }
 
-export function switchCssGradientType() {}
+export function switchGradientTypes(e: Event) {
+  const radioInput = e.currentTarget as HTMLInputElement;
+
+  const [gradientType, gradientLanguage] = radioInput.id.split("-");
+  gradientInfos.type = gradientType as GradientType;
+
+  const languageSpecificGradientOptions = selectQueryAll<HTMLDivElement>(
+    `.menu__options--${gradientInfos.language}>*:not(.menu__options-${gradientInfos.language}--common)`
+  );
+
+  setElementsToShow(languageSpecificGradientOptions, gradientInfos.type);
+
+  log(languageSpecificGradientOptions);
+}

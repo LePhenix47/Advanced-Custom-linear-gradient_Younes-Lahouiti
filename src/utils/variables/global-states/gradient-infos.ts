@@ -13,18 +13,19 @@ type GradientInfos = {
     | CSSGradientColorStop[]
     | SVGGradientColorStop[]
     | CanvasGradientColorStop[];
-  offset: null | "string";
-  opacity: string;
-  isRepeating: boolean;
+
+  options: any;
 };
 
 export const gradientInfos: GradientInfos = {
   language: "css",
   type: "linear",
   stopColors: [],
-  offset: null,
-  opacity: "100%",
-  isRepeating: false,
+  options: {
+    css: {},
+    svg: {},
+    canvas: {},
+  },
 };
 
 /*
@@ -37,3 +38,7 @@ gradientInfos.stopColors.push({
       opacity: "100%",
     })
 */
+
+export function resetStopColorsState() {
+  gradientInfos.stopColors = [];
+}

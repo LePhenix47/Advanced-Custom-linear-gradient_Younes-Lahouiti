@@ -19,6 +19,22 @@ export type GradientReturnType =
   | SVGGradientReturnType
   | CanvasGradientReturnType;
 
+export type GradientColorStop =
+  | {
+      id: number;
+      color: string;
+      offset: string | null;
+      opacity: string;
+    }
+  | {
+      id: number;
+      color: string;
+      startAngle: string | number | null;
+      endAngle: string | number | null;
+      transitionAngle: string | number | null;
+      opacity: string;
+    };
+
 class Gradient {
   create(
     language: GradientLanguage,

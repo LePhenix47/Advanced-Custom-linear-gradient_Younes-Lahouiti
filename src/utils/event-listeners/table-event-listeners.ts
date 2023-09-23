@@ -17,6 +17,11 @@ import {
 import { calculateContrast } from "@utils/helpers/number.helpers";
 import { formatStringCase } from "@utils/helpers/string.helpers";
 import { handleDraggingClassToDraggable } from "./drag-n-drop-listeners";
+import { GradientColorStop } from "@utils/classes/states/index-gradients.class";
+import {
+  gradientInfos,
+  resetStopColorsState,
+} from "@utils/variables/global-states/gradient-infos";
 
 // Initialized with the starting index
 
@@ -29,6 +34,9 @@ export function getAmountOfRowsInTbody(): number {
   return selectQueryAll<HTMLTableRowElement>("tbody>tr").length + 1;
 }
 
+type ConicGradientColorStop = Extract<GradientColorStop, { startAngle: any }>;
+type NonConicGradientColorStop = Extract<GradientColorStop, { offset: any }>;
+
 /**
  * Updates the index in the 2nd cell of each row in a table body.
  *
@@ -38,34 +46,92 @@ export function getAmountOfRowsInTbody(): number {
 export function updateRows(tbody: HTMLTableSectionElement): void {
   const tableRowsArray = selectQueryAll<HTMLTableRowElement>("tr", tbody);
 
-  const inputTypes: string[] = ["color", "offset", "opacity"];
+  resetStopColorsState();
+  const isConicGradient: boolean = gradientInfos.type === "conic";
 
   for (let i = 0; i < tableRowsArray.length; i++) {
+    let stopColor = isConicGradient
+      ? ({
+          id: NaN,
+          color: "#000000",
+          opacity: "100%",
+          startAngle: null,
+          endAngle: null,
+          transitionAngle: null,
+        } as ConicGradientColorStop)
+      : ({
+          id: NaN,
+          offset: null,
+          color: "#000000",
+          opacity: "100%",
+          startAngle: null,
+          endAngle: null,
+          transitionAngle: null,
+        } as NonConicGradientColorStop);
+
+    stopColor.id = i + 1;
+
     const row: HTMLTableRowElement = tableRowsArray[i];
 
     const cells = selectQueryAll<HTMLTableCellElement>("td", row);
 
-    const currentOrder: number = i + 1;
-    // Second cell for the index
-    const paragraph = selectQuery<HTMLParagraphElement>("p", cells[1]);
-    paragraph.textContent = `${currentOrder}.`;
+    /*    
+      We start at the 2nd cell and finish at the penultimate one
+    (omitting the order buttons and delete stop color)
 
-    // For the third, fourth and fifth cells with the inputs
-    for (let j = 0; j < inputTypes.length; j++) {
-      const inputType: string = inputTypes[j];
+      and get the values of the inputs to create the stop colors
+    */
+    for (let j = 1; j < cells.length - 1; j++) {
+      const cell: HTMLTableCellElement = cells[j];
 
-      const label = selectQuery<HTMLLabelElement>("label", cells[j + 2]);
-      const input = selectQuery<HTMLInputElement>("input", cells[j + 2]);
+      if (isConicGradient) {
+        switch (j) {
+          case 1: {
+            const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
+            paragraph.textContent = `${stopColor.id}.`;
+            break;
+          }
+          default:
+            break;
+        }
+      } else {
+        switch (j) {
+          case 1: {
+            const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
+            paragraph.textContent = `${stopColor.id}.`;
+            break;
+          }
 
-      const labelForAttributeValue: string = `input-${inputType}-${currentOrder}`;
-      setAttributeFrom("for", labelForAttributeValue, label);
-      setAttributeFrom("id", labelForAttributeValue, input);
+          case 2:
+          case 3:
+          case 4: {
+            const label = selectQuery<HTMLLabelElement>("label", cell);
+            const inputTypeArray = getAttributeFrom("for", label).split("-");
+            inputTypeArray.splice(0, 1);
+
+            const inputType: string = inputTypeArray[0];
+
+            const input = selectQuery<HTMLInputElement>("input", cell);
+
+            const labelForAttributeValue: string = `input-${inputType}-${stopColor.id}`;
+            setAttributeFrom("for", labelForAttributeValue, label);
+            setAttributeFrom("id", labelForAttributeValue, input);
+
+            log(inputType);
+            break;
+          }
+
+          default:
+            break;
+        }
+      }
     }
-
-    // Fourth cell for the opacity
+    //@ts-ignore
+    gradientInfos.stopColors.push(stopColor);
   }
 
   log(tableRowsArray);
+  log(gradientInfos);
 }
 
 /**

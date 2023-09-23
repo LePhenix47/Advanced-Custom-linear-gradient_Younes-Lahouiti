@@ -6,9 +6,11 @@ import {
 import { assert, log } from "@utils/helpers/console.helpers";
 import {
   getAttributeFrom,
+  getChildren,
   getClone,
   selectFirstByClass,
   selectQuery,
+  selectQueryAll,
   setStyleProperty,
 } from "@utils/helpers/dom.helpers";
 
@@ -17,7 +19,10 @@ import Gradient, {
   GradientReturnType,
 } from "@utils/classes/states/index-gradients.class";
 import { CSSGradientReturnType } from "@utils/classes/states/css-gradients/index-css.class";
-import { switchLanguage } from "@utils/event-listeners/language-switch-listeners";
+import {
+  switchGradientTypes,
+  switchLanguage,
+} from "@utils/event-listeners/language-switch-listeners";
 
 const addButton = selectQuery<HTMLButtonElement>(".menu__add-color-button");
 addButton.addEventListener("click", addNewRowEntry);
@@ -63,6 +68,28 @@ const languageSelectElement =
 
 languageSelectElement.addEventListener("change", switchLanguage);
 
+function addEventListenersToGradientTypes() {
+  const gradientTypesContainer = selectFirstByClass<HTMLDivElement>(
+    "menu__gradient-types--inputs"
+  );
+
+  const gradientTypesElements: HTMLDivElement[] = getChildren(
+    gradientTypesContainer
+  );
+
+  for (const gradientType of gradientTypesElements) {
+    const radioInputs = selectQueryAll<HTMLInputElement>(
+      "input[type=radio]",
+      gradientType
+    );
+
+    for (const radioInput of radioInputs) {
+      radioInput.addEventListener("change", switchGradientTypes);
+    }
+  }
+}
+addEventListenersToGradientTypes();
+
 const canvas = selectFirstByClass<HTMLCanvasElement>("index__canvas-gradient");
 
 window.addEventListener("resize", handleCanvasResize);
@@ -74,19 +101,19 @@ handleCanvasResize();
 
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
-const linearGradients = {
+export const linearGradients = {
   css: new Gradient().create("css", "linear"),
   svg: new Gradient().create("svg", "linear"),
   canvas: new Gradient().create("canvas", "linear", ctx),
 };
 
-const radialGradients = {
+export const radialGradients = {
   css: new Gradient().create("css", "radial"),
   svg: new Gradient().create("svg", "radial"),
   canvas: new Gradient().create("canvas", "radial", ctx),
 };
 
-const conicGradients = {
+export const conicGradients = {
   css: new Gradient().create("css", "conic"),
   canvas: new Gradient().create("canvas", "conic", ctx),
 };

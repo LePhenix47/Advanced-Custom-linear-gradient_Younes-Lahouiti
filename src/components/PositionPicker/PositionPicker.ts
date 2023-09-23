@@ -236,6 +236,8 @@ class PositionPicker extends HTMLElement {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
 
+    this.ctx.imageSmoothingEnabled = false; // Disable smoothing for pixel-perfect rendering
+
     this.setCanvasSize(100, 100);
 
     this.effectHandler = new OffsetCreator(this.canvas, this.pointerInfos);

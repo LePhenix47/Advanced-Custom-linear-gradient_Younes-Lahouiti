@@ -245,6 +245,10 @@
 
             transition: color 350ms ease-in-out;
         }
+
+        &--column {
+            @include center-flex-column(5px)
+        }
     }
 
 

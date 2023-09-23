@@ -46,14 +46,7 @@
     <section class="index__menu-container active">
       <div class="menu">
 
-        <div class="menu__options">
-          <h3 class="menu__options-title">Options:</h3>
 
-          <position-picker x="50" y="50" title="Inner circle picker"></position-picker>
-          <position-picker x="50" y="50" title="Outer circle picker"></position-picker>
-
-          <angle-picker angle="0"></angle-picker>
-        </div>
 
         <div class="menu__types-language">
           <div class="menu__creation-language">
@@ -69,15 +62,39 @@
 
             <h3 class="menu__gradient-types--title">Gradient type:</h3>
             <div class="menu__gradient-types--inputs">
-              <label for="linear" class="menu__label label__css-only label__svg-only label__canvas-only">
-                <input type="radio" id="linear" name="gradient-type-group" checked />
-                Linear</label>
-              <label for="radial" class="menu__label label__css-only label__svg-only label__canvas-only">
-                <input type="radio" id="radial" name="gradient-type-group" />
-                Radial</label>
-              <label for="conic" class="menu__label label__css-only label__canvas-only">
-                <input type="radio" id="conic" name="gradient-type-group" />
-                Conic</label>
+              <div class="menu__gradient-types--css">
+                <label for="linear-css" class="menu__label">
+                  <input type="radio" id="linear-css" name="gradient-type-css-group" checked />
+                  Linear</label>
+                <label for="radial-css" class="menu__label">
+                  <input type="radio" id="radial-css" name="gradient-type-css-group" />
+                  Radial</label>
+                <label for="conic-css" class="menu__label">
+                  <input type="radio" id="conic-css" name="gradient-type-css-group" />
+                  Conic</label>
+              </div>
+
+              <div class="menu__gradient-types--svg hide">
+                <label for="linear-svg" class="menu__label">
+                  <input type="radio" id="linear-svg" name="gradient-type-svg-group" checked />
+                  Linear</label>
+                <label for="radial-svg" class="menu__label">
+                  <input type="radio" id="radial-svg" name="gradient-type-svg-group" />
+                  Radial</label>
+                <label for="conic" class="menu__label">
+              </div>
+
+              <div class="menu__gradient-types--canvas hide">
+                <label for="linear-canvas" class="menu__label">
+                  <input type="radio" id="linear-canvas" name="gradient-type-canvas-group" checked />
+                  Linear</label>
+                <label for="radial-canvas" class="menu__label">
+                  <input type="radio" id="radial-canvas" name="gradient-type-canvas-group" />
+                  Radial</label>
+                <label for="conic-canvas" class="menu__label">
+                  <input type="radio" id="conic-canvas" name="gradient-type-canvas-group" />
+                  Conic</label>
+              </div>
             </div>
           </div>
 
@@ -96,7 +113,209 @@
 
         </div>
 
+        <div class="menu__options">
+          <h3 class="menu__options-title">Options:</h3>
 
+          <section class="menu__options--css">
+            <div class="menu__options-css--linear">
+              <angle-picker angle="0"></angle-picker>
+            </div>
+
+            <div class="menu__options-css--radial hide">
+              <label for="css-radial-options">Shape:</label>
+              <select name="css-radial-options" id="css-radial-options">
+                <option value="circle">Circle</option>
+                <option value="ellipse">Ellipse</option>
+              </select>
+              <position-picker x="50" y="50" title="Position for radial"></position-picker>
+            </div>
+
+            <div class="menu__options-css--conic hide">
+              <angle-picker angle="0"></angle-picker>
+              <position-picker x="50" y="50" title="Position for conic"></position-picker>
+            </div>
+
+            <div class="menu__options-css--common">
+              <input type="checkbox" id="css-gradient-repeats" />
+              <label for="css-gradient-repeats">Is repeating ?</label>
+            </div>
+          </section>
+
+          <section class="menu__options--svg hide">
+            <div class="menu__options-svg--linear hide">
+              <angle-picker angle="0"></angle-picker>
+            </div>
+
+            <div class="menu__options-svg--radial hide">
+              <position-picker x="50" y="50" title="Circle position"></position-picker>
+              <label for="svg-circle-radius">Circle radius: </label> <input type="number" id="svg-circle-radius" />
+              <position-picker x="50" y="50" title="Focal point position"></position-picker>
+              <label for="svg-focal-radius">Focal point radius: </label> <input type="number" id="svg-focal-radius" />
+            </div>
+
+            <div class="menu__options-svg--common">
+              <label for="svg-gradient-units">Gradient units:</label>
+              <select name="svg-gradient-units" id="svg-gradient-units">
+                <option value="objectBoundingBox" selected>Object bounding box</option>
+                <option value="userSpaceOnUse">User space on use</option>
+              </select>
+
+
+              <div class="menu__options-svg--common-transforms">
+                <button>Choose transform functions</button>
+                <dialog id="transformDialog">
+                  <form id="transformForm">
+                    <fieldset>
+                      <legend>SVG Gradient Transform Functions</legend>
+                      <label>
+                        matrix
+                        <input type="checkbox" name="transform" value="matrix">
+                      </label>
+                      <br>
+                      <label>
+                        matrix3d
+                        <input type="checkbox" name="transform" value="matrix3d">
+                      </label>
+                      <br>
+                      <label>
+                        perspective
+                        <input type="checkbox" name="transform" value="perspective">
+                      </label>
+                      <br>
+                      <label>
+                        rotate
+                        <input type="checkbox" name="transform" value="rotate">
+                      </label>
+                      <br>
+                      <label>
+                        rotate3d
+                        <input type="checkbox" name="transform" value="rotate3d">
+                      </label>
+                      <br>
+                      <label>
+                        rotateX
+                        <input type="checkbox" name="transform" value="rotateX">
+                      </label>
+                      <br>
+                      <label>
+                        rotateY
+                        <input type="checkbox" name="transform" value="rotateY">
+                      </label>
+                      <br>
+                      <label>
+                        rotateZ
+                        <input type="checkbox" name="transform" value="rotateZ">
+                      </label>
+                      <br>
+                      <label>
+                        scale
+                        <input type="checkbox" name="transform" value="scale">
+                      </label>
+                      <br>
+                      <label>
+                        scale3d
+                        <input type="checkbox" name="transform" value="scale3d">
+                      </label>
+                      <br>
+                      <label>
+                        scaleX
+                        <input type="checkbox" name="transform" value="scaleX">
+                      </label>
+                      <br>
+                      <label>
+                        scaleY
+                        <input type="checkbox" name="transform" value="scaleY">
+                      </label>
+                      <br>
+                      <label>
+                        scaleZ
+                        <input type="checkbox" name="transform" value="scaleZ">
+                      </label>
+                      <br>
+                      <label>
+                        skew
+                        <input type="checkbox" name="transform" value="skew">
+                      </label>
+                      <br>
+                      <label>
+                        skewX
+                        <input type="checkbox" name="transform" value="skewX">
+                      </label>
+                      <br>
+                      <label>
+                        skewY
+                        <input type="checkbox" name="transform" value="skewY">
+                      </label>
+                      <br>
+                      <label>
+                        translate
+                        <input type="checkbox" name="transform" value="translate">
+                      </label>
+                      <br>
+                      <label>
+                        translate3d
+                        <input type="checkbox" name="transform" value="translate3d">
+                      </label>
+                      <br>
+                      <label>
+                        translateX
+                        <input type="checkbox" name="transform" value="translateX">
+                      </label>
+                      <br>
+                      <label>
+                        translateY
+                        <input type="checkbox" name="transform" value="translateY">
+                      </label>
+                      <br>
+                      <label>
+                        translateZ
+                        <input type="checkbox" name="transform" value="translateZ">
+                      </label>
+                      <br>
+                      <!-- Add more checkboxes for other functions here -->
+                    </fieldset>
+                    <button type="submit">Apply</button>
+                  </form>
+                  <button id="closeDialog">Close</button>
+                </dialog>
+
+              </div>
+
+              <label for="svg-spread-method">Spread method:</label>
+              <select name="svg-spread-method" id="svg-spread-method">
+                <option value="pad" selected>Pad</option>
+                <option value="reflect">Reflect</option>
+                <option value="repeat">Repeat</option>
+              </select>
+            </div>
+
+          </section>
+
+
+          <section class="menu__options--canvas hide">
+            <div class="menu__options-canvas--linear">
+              <!-- LOL there are no options for the canvas linear gradient -->
+            </div>
+
+            <div class="menu__options-canvas--radial hide">
+              <position-picker x="50" y="50" title="Inner circle position"></position-picker>
+              <label for="canvas-inner-radius">Inner circle radius: </label> <input type="number"
+                id="canvas-inner-radius" />
+              <position-picker x="50" y="50" title="Outer circle position"></position-picker>
+              <label for="canvas-outer-radius">Outer circle radius: </label> <input type="number"
+                id="canvas-outer-radius" />
+
+            </div>
+
+            <div class="menu__options-canvas--conic hide">
+              <angle-picker angle="0"></angle-picker>
+              <position-picker x="50" y="50" title="Position for conic"></position-picker>
+            </div>
+
+            <div class="menu__options-canvas--common">
+            </div>
+          </section>
+        </div>
 
 
       </div>
@@ -109,13 +328,13 @@
     <!--  -->
     <div class="index__css-gradient hide"></div>
     <div class="index__svg-gradient hide"></div>
-    <canvas class="index__canvas-gradient"></canvas>
+    <canvas class="index__canvas-gradient hide"></canvas>
 
 
 
     </div>
 
-    <template class="template__css-linear-gradient template__css-radial-gradient">
+    <template class="template__non-conic-gradient">
       <tr class="menu__table-row" draggable="true">
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
@@ -144,6 +363,56 @@
           <div class="menu__table-cell-content">
             <label for="input-opacity-2" class="menu__label">Color opacity (%):</label>
             <input type="number" class="menu__input" id="input-opacity-2" min="0" max="100" value="0" />
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content">
+            <button class="menu__delete-button">
+              <svg class="no-pointer-events" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 0 448 512"
+                fill="currentColor">
+                <path
+                  d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
+              </svg></button>
+          </div>
+        </td>
+      </tr>
+    </template>
+
+    <template class="template__conic-gradient">
+      <tr class="menu__table-row" draggable="true">
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content">
+            <button class="menu__order-top-button menu__order-changer">↑</button>
+            <button class="menu__order-bottom-button menu__order-changer">↓</button>
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content">
+            <p class="menu__table-cell-index">2.</p>
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content">
+            <label for="input-color-2" class="menu__label">#000000</label>
+            <input type="color" class="menu__input-color hide" id="input-color-2" value="#000000" />
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content menu__table-cell-content--column">
+            <label for="start-angle-2" class="menu__label">Start angle: </label>
+            <angle-picker angle="0"></angle-picker>
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content menu__table-cell-content--column">
+            <label for="end-angle-2" class="menu__label">End angle: </label>
+            <angle-picker angle="0"></angle-picker>
+          </div>
+        </td>
+        <td class="menu__table-cell">
+          <div class="menu__table-cell-content menu__table-cell-content--column">
+            <label for="transition-angle-2" class="menu__label">Transition angle: </label>
+            <angle-picker angle="0"></angle-picker>
           </div>
         </td>
         <td class="menu__table-cell">

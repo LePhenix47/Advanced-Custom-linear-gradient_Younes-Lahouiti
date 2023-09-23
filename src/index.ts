@@ -17,6 +17,7 @@ import Gradient, {
   GradientReturnType,
 } from "@utils/classes/states/index-gradients.class";
 import { CSSGradientReturnType } from "@utils/classes/states/css-gradients/index-css.class";
+import { switchLanguage } from "@utils/event-listeners/language-switch-listeners";
 
 const addButton = selectQuery<HTMLButtonElement>(".menu__add-color-button");
 addButton.addEventListener("click", addNewRowEntry);
@@ -56,6 +57,11 @@ mutationObserver.observe(positionPicker, {
   attributeOldValue: true,
   attributeFilter: ["x", "y"],
 });
+
+const languageSelectElement =
+  selectQuery<HTMLSelectElement>("#creation-language");
+
+languageSelectElement.addEventListener("change", switchLanguage);
 
 const canvas = selectFirstByClass<HTMLCanvasElement>("index__canvas-gradient");
 

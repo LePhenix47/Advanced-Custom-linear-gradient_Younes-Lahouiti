@@ -129,7 +129,7 @@ export function addNewRowEntry(): void {
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
   const defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
-    "template__css-linear-gradient"
+    "template__non-conic-gradient"
   );
 
   const clonedRowDocumentFragment: DocumentFragment =

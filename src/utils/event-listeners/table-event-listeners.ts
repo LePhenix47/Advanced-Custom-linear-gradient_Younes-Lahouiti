@@ -19,6 +19,7 @@ import { formatStringCase } from "@utils/helpers/string.helpers";
 import { handleDraggingClassToDraggable } from "./drag-n-drop-listeners";
 import { GradientColorStop } from "@utils/classes/states/index-gradients.class";
 import {
+  changePropertyByCellIndex,
   gradientInfos,
   resetStopColorsState,
 } from "@utils/variables/global-states/gradient-infos";
@@ -117,7 +118,7 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
             setAttributeFrom("for", labelForAttributeValue, label);
             setAttributeFrom("id", labelForAttributeValue, input);
 
-            log(inputType);
+            log(stopColor);
             break;
           }
 
@@ -194,15 +195,52 @@ export function addNewRowEntry(): void {
   const tableBody =
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
-  const defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
-    "template__non-conic-gradient"
+  const isConicGradient: boolean = gradientInfos.type === "conic";
+
+  let defaultRowTemplate: HTMLTemplateElement = null;
+  let row: HTMLTableRowElement = null;
+  if (isConicGradient) {
+    defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
+      "template__conic-gradient"
+    );
+
+    row = selectQuery<HTMLTableRowElement>("tr", defaultRowTemplate);
+    addConicRow(row);
+  } else {
+    defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
+      "template__non-conic-gradient"
+    );
+
+    row = selectQuery<HTMLTableRowElement>("tr", defaultRowTemplate);
+    addNonConicRow(row);
+  }
+
+  row.addEventListener("dragstart", handleDraggingClassToDraggable);
+  row.addEventListener("touchstart", handleDraggingClassToDraggable, {
+    passive: true,
+  });
+
+  row.addEventListener("dragend", handleDraggingClassToDraggable);
+  row.addEventListener("touchend", handleDraggingClassToDraggable);
+
+  tableBody.appendChild(row);
+
+  updateRows(tableBody);
+}
+
+function addNonConicRow(row: HTMLTableRowElement) {
+  const rowParagraphForIndex = selectQuery(
+    ".menu__table-cell:nth-child(2) .menu__table-cell-index",
+    row
   );
 
-  const clonedRowDocumentFragment: DocumentFragment =
-    getContentOfTemplate(defaultRowTemplate);
+  log(rowParagraphForIndex);
 
-  const row = selectQuery<HTMLTableRowElement>("tr", clonedRowDocumentFragment);
+  const rowIndex: number = Number(
+    rowParagraphForIndex.textContent.replaceAll(".", "")
+  );
 
+  log(rowIndex);
   // Attach event listeners to color and number inputs in the new row
   const colorInput = selectQuery<HTMLInputElement>("input[type='color']", row);
   const numberInputs = selectQueryAll<HTMLInputElement>(
@@ -221,7 +259,7 @@ export function addNewRowEntry(): void {
     const label = selectQuery<HTMLLabelElement>("label", cell);
     const labelHexColor: string = getStyleProperty("--_label-color", label);
 
-    const { contrastRatio, respectsW3CGuidelines } = calculateContrast(
+    const { respectsW3CGuidelines } = calculateContrast(
       hexColorValue,
       labelHexColor
     );
@@ -257,19 +295,9 @@ export function addNewRowEntry(): void {
       // Handle the number change (newValue) for this row.
     });
   }
-
-  row.addEventListener("dragstart", handleDraggingClassToDraggable);
-  row.addEventListener("touchstart", handleDraggingClassToDraggable, {
-    passive: true,
-  });
-
-  row.addEventListener("dragend", handleDraggingClassToDraggable);
-  row.addEventListener("touchend", handleDraggingClassToDraggable);
-
-  tableBody.appendChild(row);
-
-  updateRows(tableBody);
 }
+
+function addConicRow(row) {}
 
 /**
  * Event delegation for handling various table row operations.

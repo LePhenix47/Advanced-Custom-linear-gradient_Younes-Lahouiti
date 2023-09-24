@@ -81,7 +81,6 @@
                 <label for="radial-svg" class="menu__label">
                   <input type="radio" id="radial-svg" name="gradient-type-svg-group" />
                   Radial</label>
-                <label for="conic" class="menu__label">
               </div>
 
               <div class="menu__gradient-types--canvas hide">
@@ -103,7 +102,7 @@
           Add Color
         </button>
 
-        <div class="menu__table-container" contenteditable="true">
+        <div class="menu__table-container" contenteditable="true" tabindex="-1">
           <table class="menu__table" contenteditable="false">
             <caption class="menu__caption">Stop colors for the gradient</caption>
             <tbody class="menu__table-body draggable__container">
@@ -361,7 +360,7 @@
         </td>
         <td class="menu__table-cell">
           <div class="menu__table-cell-content">
-            <label for="input-opacity-2" class="menu__label">Color opacity (%):</label>
+            <label for="input-opacity-2" class="menu__label">Opacity (%):</label>
             <input type="number" class="menu__input" id="input-opacity-2" min="0" max="100" value="0" />
           </div>
         </td>

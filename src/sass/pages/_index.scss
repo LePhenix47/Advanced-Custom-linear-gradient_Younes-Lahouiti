@@ -32,11 +32,18 @@
 
         overflow-y: auto;
 
-        --_scrollbar-bg: rgba(255, 255, 255, 25%);
+        &:hover {
+            --_scrollbar-bg: rgba(255, 255, 255, 25%);
+            --_scrollbar-thumb-bg: white;
+        }
+
+
+        --_scrollbar-bg: transparent;
         --_scrollbar-border-radius: 10px;
 
         --_scrollbar-thumb-border: none;
-        --_scrollbar-thumb-bg: white;
+
+        --_scrollbar-thumb-bg: transparent;
         --_scrollbar-thumb-bg-hover: rgba(255, 255, 255, 80%);
         --_scrollbar-thumb-bg-active: rgba(255, 255, 255, 50%);
 
@@ -117,6 +124,9 @@
     }
 
     &__table-container {
+        pointer-events: all !important;
+
+        scrollbar-gutter: stable;
         --_scrollbar-bg: rgba(255, 255, 255, 25%);
 
 

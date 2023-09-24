@@ -68,8 +68,8 @@ ol {
 }
 
 /*
-//⚠ We make the border transparent so that if the user has a high contrast text mode enable the border will still appear for them
-//Good for accessibility
+ ⚠ We make the border transparent so that if the user has a high contrast text mode enable the border will still appear for them
+ Good for accessibility
 */
 button {
     border-color: transparent;
@@ -183,9 +183,23 @@ svg {
 }
 
 /* Remove focus styles from content-editable element */
-*:not(input, textarea)[contenteditable]:focus {
-    outline: none;
-    box-shadow: none;
+
+*:not(input, textarea)[contenteditable=true] {
+    // pointer-events: none;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+*:not(input, textarea)[contenteditable=false] {
+    // pointer-events: all;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
 }
 
 *[draggable] {}

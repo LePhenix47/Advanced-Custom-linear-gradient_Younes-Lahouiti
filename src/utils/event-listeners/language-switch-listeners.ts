@@ -13,6 +13,8 @@ import {
   selectQueryAll,
 } from "@utils/helpers/dom.helpers";
 import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
+import { resetTableRows } from "./table-event-listeners";
+
 function setElementsToShow(
   arrayOfElements: HTMLElement[],
   classToShow: string,
@@ -30,11 +32,13 @@ function setElementsToShow(
   }
 }
 export function switchLanguage(e: Event) {
+  resetTableRows();
   const selectElement = e.currentTarget as HTMLSelectElement;
 
   const currentLanguage = selectElement.value;
   gradientInfos.language = currentLanguage as GradientLanguage;
 
+  gradientInfos.type = "linear";
   const gradientTypesContainer = selectFirstByClass<HTMLDivElement>(
     "menu__gradient-types--inputs"
   );
@@ -52,6 +56,7 @@ export function switchLanguage(e: Event) {
 }
 
 export function switchGradientTypes(e: Event) {
+  resetTableRows();
   const radioInput = e.currentTarget as HTMLInputElement;
 
   const [gradientType, gradientLanguage] = radioInput.id.split("-");
@@ -62,6 +67,4 @@ export function switchGradientTypes(e: Event) {
   );
 
   setElementsToShow(languageSpecificGradientOptions, gradientInfos.type);
-
-  log(languageSpecificGradientOptions);
 }

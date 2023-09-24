@@ -41,10 +41,10 @@ export function handleContainerDraggingElementDragOver(
   //
   const hasNoAfterElement: boolean = closestElement === null;
   if (hasNoAfterElement) {
-    //We add it in last place
+    //We add it at the end of the container
     container.appendChild(draggedDraggable);
   } else {
-    //We add it in frontof the closest element
+    //We add it in front of the closest element
     container.insertBefore(draggedDraggable, closestElement);
   }
 

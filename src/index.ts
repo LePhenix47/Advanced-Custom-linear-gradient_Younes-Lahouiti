@@ -3,7 +3,7 @@ import {
   addNewRowEntry,
   setTableRowsByDelegation,
 } from "@utils/event-listeners/table-event-listeners";
-import { assert, log } from "@utils/helpers/console.helpers";
+import { assert, log, table } from "@utils/helpers/console.helpers";
 import {
   getAttributeFrom,
   getChildren,
@@ -23,6 +23,7 @@ import {
   switchGradientTypes,
   switchLanguage,
 } from "@utils/event-listeners/language-switch-listeners";
+import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
 
 const addButton = selectQuery<HTMLButtonElement>(".menu__add-color-button");
 addButton.addEventListener("click", addNewRowEntry);
@@ -121,3 +122,7 @@ export const conicGradients = {
 log({ linearGradients });
 log({ radialGradients });
 log({ conicGradients });
+
+// setInterval(() => {
+//   table(gradientInfos.stopColors);
+// }, 2_000);

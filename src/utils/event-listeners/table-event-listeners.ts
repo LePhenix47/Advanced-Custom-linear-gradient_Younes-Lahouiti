@@ -1,4 +1,3 @@
-import { log } from "@utils/helpers/console.helpers";
 import {
   getAncestor,
   getAttributeFrom,
@@ -19,10 +18,20 @@ import { formatStringCase } from "@utils/helpers/string.helpers";
 import { handleDraggingClassToDraggable } from "./drag-n-drop-listeners";
 import { GradientColorStop } from "@utils/classes/states/index-gradients.class";
 import {
-  changePropertyByCellIndex,
+  getAllStopColorStateValuesFromTable,
   gradientInfos,
   resetStopColorsState,
+  setStopColorPropertyById,
 } from "@utils/variables/global-states/gradient-infos";
+
+export function resetTableRows() {
+  const tableBody =
+    selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
+
+  tableBody.innerHTML = "";
+
+  resetStopColorsState();
+}
 
 // Initialized with the starting index
 
@@ -46,31 +55,10 @@ type NonConicGradientColorStop = Extract<GradientColorStop, { offset: any }>;
  */
 export function updateRows(tbody: HTMLTableSectionElement): void {
   const tableRowsArray = selectQueryAll<HTMLTableRowElement>("tr", tbody);
-
-  resetStopColorsState();
   const isConicGradient: boolean = gradientInfos.type === "conic";
 
   for (let i = 0; i < tableRowsArray.length; i++) {
-    let stopColor = isConicGradient
-      ? ({
-          id: NaN,
-          color: "#000000",
-          opacity: "100%",
-          startAngle: null,
-          endAngle: null,
-          transitionAngle: null,
-        } as ConicGradientColorStop)
-      : ({
-          id: NaN,
-          offset: null,
-          color: "#000000",
-          opacity: "100%",
-          startAngle: null,
-          endAngle: null,
-          transitionAngle: null,
-        } as NonConicGradientColorStop);
-
-    stopColor.id = i + 1;
+    const currentIndex = i + 1;
 
     const row: HTMLTableRowElement = tableRowsArray[i];
 
@@ -89,7 +77,7 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
         switch (j) {
           case 1: {
             const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
-            paragraph.textContent = `${stopColor.id}.`;
+            paragraph.textContent = `${currentIndex}.`;
             break;
           }
           default:
@@ -99,7 +87,7 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
         switch (j) {
           case 1: {
             const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
-            paragraph.textContent = `${stopColor.id}.`;
+            paragraph.textContent = `${currentIndex}.`;
             break;
           }
 
@@ -114,11 +102,9 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
 
             const input = selectQuery<HTMLInputElement>("input", cell);
 
-            const labelForAttributeValue: string = `input-${inputType}-${stopColor.id}`;
+            const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
             setAttributeFrom("for", labelForAttributeValue, label);
             setAttributeFrom("id", labelForAttributeValue, input);
-
-            log(stopColor);
             break;
           }
 
@@ -127,12 +113,9 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
         }
       }
     }
-    //@ts-ignore
-    gradientInfos.stopColors.push(stopColor);
   }
 
-  log(tableRowsArray);
-  log(gradientInfos);
+  getAllStopColorStateValuesFromTable();
 }
 
 /**
@@ -169,7 +152,7 @@ export function clampInputValue(
   const hasInvalidRange: boolean = min > max;
   if (hasInvalidRange) {
     throw new RangeError(
-      `Invalid min and max values, min > max: ${min} and max: ${max}`
+      `Invalid min and max values, min > max, got values for min: ${min} and max: ${max}`
     );
   }
 
@@ -183,7 +166,10 @@ export function clampInputValue(
     input.valueAsNumber = min;
   }
 
-  log(overflows, underflows);
+  const hasNaNInputValue: boolean = isNaN(input.valueAsNumber);
+  if (hasNaNInputValue) {
+    input.valueAsNumber = 0;
+  }
 }
 
 /**
@@ -197,107 +183,68 @@ export function addNewRowEntry(): void {
 
   const isConicGradient: boolean = gradientInfos.type === "conic";
 
-  let defaultRowTemplate: HTMLTemplateElement = null;
-  let row: HTMLTableRowElement = null;
-  if (isConicGradient) {
-    defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
-      "template__conic-gradient"
-    );
+  const defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
+    isConicGradient
+      ? "template__conic-gradient"
+      : "template__non-conic-gradient"
+  );
 
-    row = selectQuery<HTMLTableRowElement>("tr", defaultRowTemplate);
-    addConicRow(row);
-  } else {
-    defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
-      "template__non-conic-gradient"
-    );
-
-    row = selectQuery<HTMLTableRowElement>("tr", defaultRowTemplate);
-    addNonConicRow(row);
-  }
-
-  row.addEventListener("dragstart", handleDraggingClassToDraggable);
-  row.addEventListener("touchstart", handleDraggingClassToDraggable, {
-    passive: true,
-  });
-
-  row.addEventListener("dragend", handleDraggingClassToDraggable);
-  row.addEventListener("touchend", handleDraggingClassToDraggable);
+  const row = selectQuery<HTMLTableRowElement>("tr", defaultRowTemplate);
 
   tableBody.appendChild(row);
 
   updateRows(tableBody);
+
+  // Now that we updated the last row, we can add the other event listeners
+  const latestRow = selectQuery<HTMLTableRowElement>(
+    "tr:last-child",
+    tableBody
+  );
+
+  if (isConicGradient) {
+  } else {
+    addEventListenersToNonConicRow(latestRow);
+  }
+
+  latestRow.addEventListener("dragstart", handleDraggingClassToDraggable);
+  latestRow.addEventListener("touchstart", handleDraggingClassToDraggable, {
+    passive: true,
+  });
+
+  latestRow.addEventListener("dragend", handleDraggingClassToDraggable);
+  latestRow.addEventListener("touchend", handleDraggingClassToDraggable);
 }
 
-function addNonConicRow(row: HTMLTableRowElement) {
+function addEventListenersToNonConicRow(row: HTMLTableRowElement) {
+  const rowParagraphForIndex = selectQuery<HTMLParagraphElement>(
+    ".menu__table-cell:nth-child(2) .menu__table-cell-index",
+    row
+  );
+  const rowIndex: number = Number(rowParagraphForIndex.innerText);
+
+  // Attach event listeners to color and number inputs in the new row
+  const colorInput = selectQuery<HTMLInputElement>("input[type=color]", row);
+  // Handle color input changes
+  colorInput.addEventListener("input", (e: Event) => {
+    setColorInput(e, rowIndex);
+  });
+
+  const offsetInput = selectQuery<HTMLInputElement>("input:not([min])", row);
+  const opacityInput = selectQuery<HTMLInputElement>("input:is([min])", row);
+}
+
+function addEventListenersToConicRow(row: HTMLTableRowElement) {
   const rowParagraphForIndex = selectQuery(
     ".menu__table-cell:nth-child(2) .menu__table-cell-index",
     row
   );
 
-  log(rowParagraphForIndex);
-
   const rowIndex: number = Number(
     rowParagraphForIndex.textContent.replaceAll(".", "")
   );
 
-  log(rowIndex);
-  // Attach event listeners to color and number inputs in the new row
-  const colorInput = selectQuery<HTMLInputElement>("input[type='color']", row);
-  const numberInputs = selectQueryAll<HTMLInputElement>(
-    "input[type='number']",
-    row
-  );
-
-  // Handle color input changes
-  colorInput.addEventListener("input", (e) => {
-    const inputElement = e.currentTarget as HTMLInputElement;
-
-    const cell = getAncestor<HTMLTableCellElement>(inputElement, "td");
-
-    const hexColorValue: string = inputElement.value;
-
-    const label = selectQuery<HTMLLabelElement>("label", cell);
-    const labelHexColor: string = getStyleProperty("--_label-color", label);
-
-    const { respectsW3CGuidelines } = calculateContrast(
-      hexColorValue,
-      labelHexColor
-    );
-
-    const hasLowContrast: boolean = !respectsW3CGuidelines;
-    if (hasLowContrast) {
-      setStyleProperty(
-        "--_label-color",
-        labelHexColor === "#ffffff" ? "#000000" : "#ffffff",
-        label
-      );
-    }
-
-    label.textContent = formatStringCase(hexColorValue, "UPPERCASE");
-
-    setStyleProperty("--_cell-bg-color", hexColorValue, cell);
-    // Handle the color change (newValue) for this row.
-  });
-
-  for (const numberInput of numberInputs) {
-    numberInput.addEventListener("input", (e) => {
-      const input = e.currentTarget as HTMLInputElement;
-      log(input.valueAsNumber);
-
-      const isOpacityInput = input.id.includes("opacity");
-      if (isOpacityInput) {
-        const min: number = Number(getAttributeFrom("min", input));
-        const max: number = Number(getAttributeFrom("max", input));
-
-        clampInputValue(input, min, max);
-      }
-
-      // Handle the number change (newValue) for this row.
-    });
-  }
+  // Attach event l
 }
-
-function addConicRow(row) {}
 
 /**
  * Event delegation for handling various table row operations.
@@ -313,9 +260,6 @@ export function setTableRowsByDelegation(e: MouseEvent): void {
   const isUpOrderChanger: boolean = elementClasses[0].includes("top");
   const isDownOrderChanger: boolean = elementClasses[0].includes("bottom");
   const isDeleteButton: boolean = elementClasses[0].includes("delete");
-
-  log(clickedElement);
-  log(elementClasses);
 
   const clickedTheTBodyItself: boolean = formatStringCase(
     clickedElement.tagName,
@@ -397,9 +341,55 @@ function deleteRow(
   rowElement: HTMLTableRowElement,
   tbody: HTMLTableSectionElement
 ): void {
-  log("deleteRow", rowElement, "tbody", tbody);
-
   removeChildInParent(tbody, rowElement);
 
   updateRows(tbody);
+}
+
+// CELLS EVENT LISTENERS
+function setColorInput(e: Event, rowIndex: number) {
+  const inputElement = e.currentTarget as HTMLInputElement;
+
+  const cell = getAncestor<HTMLTableCellElement>(inputElement, "td");
+
+  const hexColorValue: string = inputElement.value;
+
+  const label = selectQuery<HTMLLabelElement>("label", cell);
+  const labelHexColor: string = getStyleProperty("--_label-color", label);
+
+  const { respectsW3CGuidelines } = calculateContrast(
+    hexColorValue,
+    labelHexColor
+  );
+  setStopColorPropertyById(rowIndex, "color", hexColorValue);
+
+  const hasLowContrast: boolean = !respectsW3CGuidelines;
+  if (hasLowContrast) {
+    setStyleProperty(
+      "--_label-color",
+      labelHexColor === "#ffffff" ? "#000000" : "#ffffff",
+      label
+    );
+  }
+
+  label.textContent = formatStringCase(hexColorValue, "UPPERCASE");
+
+  setStyleProperty("--_cell-bg-color", hexColorValue, cell);
+  // Handle the color change (newValue) for this row.
+}
+
+function setOpacity(e: Event, rowIndex: number): void {
+  const input = e.currentTarget as HTMLInputElement;
+
+  const isOpacityInput = input.id.includes("opacity");
+
+  const { isNaN } = Number;
+  const formattedPercentageValue: string = isNaN(input.valueAsNumber)
+    ? null
+    : `${input.valueAsNumber}%`;
+  const min: number = Number(getAttributeFrom("min", input));
+  const max: number = Number(getAttributeFrom("max", input));
+
+  clampInputValue(input, min, max);
+  setStopColorPropertyById(rowIndex, "opacity", formattedPercentageValue);
 }

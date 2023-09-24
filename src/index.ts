@@ -3,7 +3,7 @@ import {
   addNewRowEntry,
   setTableRowsByDelegation,
 } from "@utils/event-listeners/table-event-listeners";
-import { assert, log, table } from "@utils/helpers/console.helpers";
+import { assert, dir, log, table } from "@utils/helpers/console.helpers";
 import {
   getAttributeFrom,
   getChildren,
@@ -24,6 +24,11 @@ import {
   switchLanguage,
 } from "@utils/event-listeners/language-switch-listeners";
 import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
+import {
+  addCssOptionsListeners,
+  addSvgOptionsListeners,
+  addCanvasOptionsListeners,
+} from "@utils/event-listeners/options-listeners";
 
 const addButton = selectQuery<HTMLButtonElement>(".menu__add-color-button");
 addButton.addEventListener("click", addNewRowEntry);
@@ -33,36 +38,6 @@ const tableBody =
 
 tableBody.addEventListener("click", setTableRowsByDelegation);
 tableBody.addEventListener("dragover", handleContainerDraggingElementDragOver);
-
-const mutationObserver = new MutationObserver(
-  (mutationList: MutationRecord[], observer: MutationObserver) => {
-    for (const mutation of mutationList) {
-      const attribute: string = getAttributeFrom(
-        mutation.attributeName,
-        mutation.target as HTMLElement
-      );
-
-      const hasChangedValue: boolean = mutation.oldValue !== attribute;
-
-      if (hasChangedValue) {
-        log(
-          `The ${mutation.attributeName} attribute was modified to ${attribute}`
-        );
-
-        log(`Previous value: ${mutation.oldValue}`);
-      }
-    }
-  }
-);
-
-const positionPicker = selectQuery<HTMLElement>("position-picker");
-log(positionPicker);
-
-mutationObserver.observe(positionPicker, {
-  attributes: true,
-  attributeOldValue: true,
-  attributeFilter: ["x", "y"],
-});
 
 const languageSelectElement =
   selectQuery<HTMLSelectElement>("#creation-language");
@@ -123,6 +98,16 @@ log({ linearGradients });
 log({ radialGradients });
 log({ conicGradients });
 
-// setInterval(() => {
-//   table(gradientInfos.stopColors);
-// }, 2_000);
+setInterval(() => {
+  // table(gradientInfos.stopColors);
+  dir(gradientInfos.options.css);
+}, 1_500);
+
+function addOptionsEventListeners() {
+  addCssOptionsListeners();
+
+  addSvgOptionsListeners();
+
+  addCanvasOptionsListeners();
+}
+addOptionsEventListeners();

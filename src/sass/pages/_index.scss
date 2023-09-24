@@ -57,6 +57,7 @@
     &__css-gradient {
 
         --_gradient: linear-gradient(45deg, #bdc3e1 0%, #f9917e 100%);
+        --_gradient: none;
 
         background-image: var(--_gradient);
 

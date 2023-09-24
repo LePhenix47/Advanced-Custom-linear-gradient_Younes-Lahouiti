@@ -23,6 +23,7 @@ import {
   resetStopColorsState,
   setStopColorPropertyById,
 } from "@utils/variables/global-states/gradient-infos";
+import { log } from "@utils/helpers/console.helpers";
 
 export function resetTableRows() {
   const tableBody =
@@ -229,8 +230,23 @@ function addEventListenersToNonConicRow(row: HTMLTableRowElement) {
     setColorInput(e, rowIndex);
   });
 
-  const offsetInput = selectQuery<HTMLInputElement>("input:not([min])", row);
-  const opacityInput = selectQuery<HTMLInputElement>("input:is([min])", row);
+  const offsetInput = selectQuery<HTMLInputElement>(
+    "input[type=number]:not([min])",
+    row
+  );
+  offsetInput.addEventListener("input", (e: Event) => {
+    setOffsetInput(e, rowIndex);
+  });
+
+  const opacityInput = selectQuery<HTMLInputElement>(
+    "input[type=number]:is([min])",
+    row
+  );
+  opacityInput.addEventListener("input", (e: Event) => {
+    setOpacityInput(e, rowIndex);
+  });
+
+  log(offsetInput, opacityInput);
 }
 
 function addEventListenersToConicRow(row: HTMLTableRowElement) {
@@ -378,10 +394,8 @@ function setColorInput(e: Event, rowIndex: number) {
   // Handle the color change (newValue) for this row.
 }
 
-function setOpacity(e: Event, rowIndex: number): void {
+function setOpacityInput(e: Event, rowIndex: number): void {
   const input = e.currentTarget as HTMLInputElement;
-
-  const isOpacityInput = input.id.includes("opacity");
 
   const { isNaN } = Number;
   const formattedPercentageValue: string = isNaN(input.valueAsNumber)
@@ -392,4 +406,15 @@ function setOpacity(e: Event, rowIndex: number): void {
 
   clampInputValue(input, min, max);
   setStopColorPropertyById(rowIndex, "opacity", formattedPercentageValue);
+}
+
+function setOffsetInput(e: Event, rowIndex: number): void {
+  const input = e.currentTarget as HTMLInputElement;
+
+  const { isNaN } = Number;
+  const formattedPercentageValue: string = isNaN(input.valueAsNumber)
+    ? null
+    : `${input.valueAsNumber}%`;
+
+  setStopColorPropertyById(rowIndex, "offset", formattedPercentageValue);
 }

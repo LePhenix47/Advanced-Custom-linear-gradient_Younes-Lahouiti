@@ -16,14 +16,63 @@ import {
 } from "@utils/helpers/dom.helpers";
 
 type GradientInfos = {
-  language: GradientLanguage;
-  type: GradientType;
+  language: "css" | "svg" | "canvas"; // Language is limited to these values
+  type: "linear" | "radial" | "conic"; // Type is limited to these values
   stopColors:
     | CSSGradientColorStop[]
     | SVGGradientColorStop[]
     | CanvasGradientColorStop[];
-
-  options: any;
+  options: {
+    css: {
+      linear: {
+        orientation: number; // Orientation should be a number
+      };
+      radial: {
+        x: string; // x should be a string
+        y: string; // y should be a string
+        type: "circle" | "ellipse"; // Type is limited to these values
+      };
+      conic: {
+        orientation: number; // Orientation should be a number
+        x: string; // x should be a string
+        y: string; // y should be a string
+      };
+      common: {
+        isRepeating: boolean; // isRepeating should be a boolean
+      };
+    };
+    svg: {
+      linear: {
+        orientation: number; // Orientation should be a number
+      };
+      radial: {
+        centerX: string; // centerX should be a string
+        centerY: string; // centerY should be a string
+        radius: string; // radius should be a string
+        focalX: string; // focalX should be a string
+        focalY: string; // focalY should be a string
+        focalRadius: string; // focalRadius should be a string
+      };
+      common: {
+        gradientUnits: "userSpaceOnUse" | "objectBoundingBox"; // Limited values
+        transformFunctions: string; // transformFunctions should be a string
+        spreadMethod: "pad" | "reflect" | "repeat"; // Limited values
+      };
+    };
+    canvas: {
+      linear: {};
+      radial: {
+        innerX: string; // innerX should be a string
+        innerY: string; // innerY should be a string
+        radius: string; // radius should be a string
+        outerX: string; // outerX should be a string
+        outerY: string; // outerY should be a string
+        focalRadius: string; // focalRadius should be a string
+      };
+      conic: {};
+      common: {};
+    };
+  };
 };
 
 export const gradientInfos: GradientInfos = {
@@ -33,14 +82,15 @@ export const gradientInfos: GradientInfos = {
   options: {
     css: {
       linear: {
-        orientation: "0deg",
+        orientation: 0,
       },
       radial: {
         x: "50%",
         y: "50%",
+        type: "circle",
       },
       conic: {
-        orientation: "0deg",
+        orientation: 0,
         x: "50%",
         y: "50%",
       },
@@ -50,9 +100,16 @@ export const gradientInfos: GradientInfos = {
     },
     svg: {
       linear: {
-        orientation: "0deg",
+        orientation: 0,
       },
-      radial: {},
+      radial: {
+        centerX: "50%",
+        centerY: "50%",
+        radius: "50%",
+        focalX: "50%",
+        focalY: "50%",
+        focalRadius: "0%",
+      },
       common: {
         gradientUnits: "objectBoundingBox",
         transformFunctions: "",
@@ -61,7 +118,14 @@ export const gradientInfos: GradientInfos = {
     },
     canvas: {
       linear: {},
-      radial: {},
+      radial: {
+        innerX: "50%",
+        innerY: "50%",
+        radius: "50%",
+        outerX: "50%",
+        outerY: "50%",
+        focalRadius: "0%",
+      },
       conic: {},
       common: {},
     },

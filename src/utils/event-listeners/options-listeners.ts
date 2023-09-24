@@ -60,7 +60,7 @@ export function addCssOptionsListeners() {
 
   shapeSelectElement.addEventListener("change", (e: Event) => {
     const select = e.target as HTMLSelectElement;
-    gradientInfos.options.css.radial.type = select.value as
+    gradientInfos.options.css.radial.shape = select.value as
       | "circle"
       | "ellipse";
   });

@@ -30,7 +30,7 @@ type GradientInfos = {
       radial: {
         x: string; // x should be a string
         y: string; // y should be a string
-        type: "circle" | "ellipse"; // Type is limited to these values
+        shape: "circle" | "ellipse"; // Type is limited to these values
       };
       conic: {
         orientation: number; // Orientation should be a number
@@ -87,7 +87,7 @@ export const gradientInfos: GradientInfos = {
       radial: {
         x: "50%",
         y: "50%",
-        type: "circle",
+        shape: "circle",
       },
       conic: {
         orientation: 0,

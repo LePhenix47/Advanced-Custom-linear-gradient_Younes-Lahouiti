@@ -349,7 +349,7 @@
 
     &__table-cell-content {
         @include center-flex(5px);
-
+        flex-wrap: wrap;
 
         &>label {
             --_label-color: #ffffff;

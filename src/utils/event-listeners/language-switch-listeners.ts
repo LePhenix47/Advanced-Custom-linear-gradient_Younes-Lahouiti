@@ -12,7 +12,10 @@ import {
   selectQuery,
   selectQueryAll,
 } from "@utils/helpers/dom.helpers";
-import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
+import {
+  GradientInfos,
+  gradientInfos,
+} from "@utils/variables/global-states/gradient-infos";
 import { resetTableRows } from "./table-event-listeners";
 
 function setElementsToShow(
@@ -37,7 +40,9 @@ export function switchLanguage(e: Event) {
   const currentLanguage = selectElement.value;
   gradientInfos.language = currentLanguage as GradientLanguage;
 
-  gradientInfos.type = "linear";
+  const DEFAULT_GRADIENT_VALUE: GradientInfos["type"] = "linear";
+  gradientInfos.type = DEFAULT_GRADIENT_VALUE;
+
   const gradientTypesContainer = selectFirstByClass<HTMLDivElement>(
     "menu__gradient-types--inputs"
   );

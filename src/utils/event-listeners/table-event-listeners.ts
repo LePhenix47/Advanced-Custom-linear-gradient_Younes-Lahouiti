@@ -30,6 +30,7 @@ export function resetTableRows() {
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
   tableBody.innerHTML = "";
+  // tableBody.setHTML("") // For the future
 
   resetStopColorsState();
 }
@@ -85,33 +86,33 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
             break;
         }
       } else {
-        switch (j) {
-          case 1: {
-            const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
-            paragraph.textContent = `${currentIndex}.`;
-            break;
-          }
-
-          case 2:
-          case 3:
-          case 4: {
-            const label = selectQuery<HTMLLabelElement>("label", cell);
-            const inputTypeArray = getAttributeFrom("for", label).split("-");
-            inputTypeArray.splice(0, 1);
-
-            const inputType: string = inputTypeArray[0];
-
-            const input = selectQuery<HTMLInputElement>("input", cell);
-
-            const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
-            setAttributeFrom("for", labelForAttributeValue, label);
-            setAttributeFrom("id", labelForAttributeValue, input);
-            break;
-          }
-
-          default:
-            break;
+      }
+      switch (j) {
+        case 1: {
+          const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
+          paragraph.textContent = `${currentIndex}.`;
+          break;
         }
+
+        case 2:
+        case 3:
+        case 4: {
+          const label = selectQuery<HTMLLabelElement>("label", cell);
+          const inputTypeArray = getAttributeFrom("for", label).split("-");
+          inputTypeArray.splice(0, 1);
+
+          const inputType: string = inputTypeArray[0];
+
+          const input = selectQuery<HTMLInputElement>("input", cell);
+
+          const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
+          setAttributeFrom("for", labelForAttributeValue, label);
+          setAttributeFrom("id", labelForAttributeValue, input);
+          break;
+        }
+
+        default:
+          break;
       }
     }
   }
@@ -203,6 +204,7 @@ export function addNewRowEntry(): void {
   );
 
   if (isConicGradient) {
+    addEventListenersToConicRow(latestRow);
   } else {
     addEventListenersToNonConicRow(latestRow);
   }
@@ -250,16 +252,26 @@ function addEventListenersToNonConicRow(row: HTMLTableRowElement) {
 }
 
 function addEventListenersToConicRow(row: HTMLTableRowElement) {
-  const rowParagraphForIndex = selectQuery(
+  const rowParagraphForIndex = selectQuery<HTMLParagraphElement>(
     ".menu__table-cell:nth-child(2) .menu__table-cell-index",
     row
   );
+  const rowIndex: number = Number(rowParagraphForIndex.innerText);
+  log(rowIndex);
+  // Attach event listeners to color and number inputs in the new row
+  const colorInput = selectQuery<HTMLInputElement>("input[type=color]", row);
+  // Handle color input changes
+  colorInput.addEventListener("input", (e: Event) => {
+    setColorInput(e, rowIndex);
+  });
 
-  const rowIndex: number = Number(
-    rowParagraphForIndex.textContent.replaceAll(".", "")
+  const opacityInput = selectQuery<HTMLInputElement>(
+    "input[type=number]:is([min])",
+    row
   );
-
-  // Attach event l
+  opacityInput.addEventListener("input", (e: Event) => {
+    setOpacityInput(e, rowIndex);
+  });
 }
 
 /**

@@ -6,11 +6,19 @@ import {
 } from "@utils/helpers/dom.helpers";
 import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
 
+/**
+ * Creates and configures a MutationObserver to monitor specified attributes of an HTMLElement.
+ *
+ * @param {HTMLElement} element - The element to observe for attribute changes.
+ * @param {string[]} properties - An array of attribute names to monitor for changes.
+ * @param {(attribute: string, mutationRecord: MutationRecord) => void} callback - A callback function to execute when an attribute changes.
+ * @returns {MutationObserver} - The created MutationObserver instance.
+ */
 export function createMutationObserver(
   element: HTMLElement,
   properties: string[],
   callback: (attribute: string, mutationRecord: MutationRecord) => void
-) {
+): MutationObserver {
   const observer = new MutationObserver((mutationList: MutationRecord[]) => {
     for (const mutation of mutationList) {
       const attribute: string = getAttributeFrom(
@@ -31,6 +39,8 @@ export function createMutationObserver(
     attributeOldValue: true,
     attributeFilter: properties,
   });
+
+  return observer;
 }
 
 export function addCssOptionsListeners() {

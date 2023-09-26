@@ -15,7 +15,7 @@ import {
   setAttributeFrom,
 } from "@utils/helpers/dom.helpers";
 
-type GradientInfos = {
+export type GradientInfos = {
   language: "css" | "svg" | "canvas"; // Language is limited to these values
   type: "linear" | "radial" | "conic"; // Type is limited to these values
   stopColors:

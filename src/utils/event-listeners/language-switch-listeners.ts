@@ -17,17 +17,16 @@ import { resetTableRows } from "./table-event-listeners";
 
 function setElementsToShow(
   arrayOfElements: HTMLElement[],
-  classToShow: string,
-  classToHideElement: string = "hide"
+  classToShow: string
 ) {
   for (const element of arrayOfElements) {
     const languageClass: string = getClassListValues(element)[0].split("--")[1];
 
     const needsToBeHidden: boolean = classToShow !== languageClass;
     if (needsToBeHidden) {
-      addClass(element, classToHideElement);
+      addClass(element, "hide");
     } else {
-      removeClass(element, classToHideElement);
+      removeClass(element, "hide");
     }
   }
 }

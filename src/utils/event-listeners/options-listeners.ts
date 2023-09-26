@@ -122,23 +122,16 @@ export function addCssOptionsListeners() {
 }
 
 export function addSvgOptionsListeners() {
-  const svgGradientOptions = selectQueryAll<HTMLDivElement>(
-    `.menu__options--svg>*:not(.menu__options-svg--common)`
-  );
+  const svgGradientOptions =
+    selectQueryAll<HTMLDivElement>(`.menu__options--svg`);
 
   log(svgGradientOptions);
-  for (let i = 0; i < svgGradientOptions.length; i++) {
-    const cssGradientOption: HTMLDivElement = svgGradientOptions[i];
-  }
 }
 
 export function addCanvasOptionsListeners() {
   const canvasGradientOptions = selectQueryAll<HTMLDivElement>(
-    `.menu__options--canvas>*:not(.menu__options-canvas--common)`
+    `.menu__options--canvas`
   );
 
   log(canvasGradientOptions);
-  for (let i = 0; i < canvasGradientOptions.length; i++) {
-    const cssGradientOption: HTMLDivElement = canvasGradientOptions[i];
-  }
 }

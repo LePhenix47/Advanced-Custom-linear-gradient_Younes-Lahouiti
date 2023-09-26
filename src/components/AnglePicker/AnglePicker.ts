@@ -160,7 +160,7 @@ button:disabled {
   translate: -50% -50%;
   background-color: var(--color-secondary);
   height: 10px;
-  outline: 2px solid var(--color-tertiary);
+  outline: 2px solid currentColor;
   aspect-ratio: 1;
   border-radius: 50%;
 }

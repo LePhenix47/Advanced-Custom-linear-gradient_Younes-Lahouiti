@@ -5,9 +5,11 @@ import {
 } from "@utils/event-listeners/table-event-listeners";
 import { assert, dir, log, table } from "@utils/helpers/console.helpers";
 import {
+  addClass,
   getAttributeFrom,
   getChildren,
   getClone,
+  removeClass,
   selectFirstByClass,
   selectQuery,
   selectQueryAll,
@@ -44,6 +46,25 @@ import CSSConicGradient, {
 } from "@utils/classes/states/css-gradients/conic/css-conic.class";
 import CanvasConicGradient from "@utils/classes/states/canvas-gradients/conic/canvas-conic.class";
 import { CSSGradientColorStop } from "@utils/classes/states/css-gradients/class-base/css-gradient-base.class";
+
+const menuToggleLabel = selectFirstByClass<HTMLLabelElement>(
+  "index__menu-opener-label"
+);
+
+menuToggleLabel.addEventListener("click", (e: MouseEvent) => {
+  const label = e.currentTarget as HTMLLabelElement;
+  const input = selectQuery<HTMLInputElement>("input", label);
+
+  const menuContainer = selectFirstByClass<HTMLElement>(
+    "index__menu-container"
+  );
+  const needsToOpenMenu: boolean = input.checked;
+  if (needsToOpenMenu) {
+    addClass(menuContainer, "active");
+  } else {
+    removeClass(menuContainer, "active");
+  }
+});
 
 const addButton = selectQuery<HTMLButtonElement>(".menu__add-color-button");
 addButton.addEventListener("click", addNewRowEntry);
@@ -92,8 +113,16 @@ handleCanvasResize();
 
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
+export const linearGradients = {
+  svg: new Gradient().create("svg", "linear") as SVGLinearGradient,
+  canvas: new Gradient().create(
+    "canvas",
+    "linear",
+    ctx
+  ) as CanvasLinearGradient,
+};
+
 export const radialGradients = {
-  css: new Gradient().create("css", "radial") as CSSRadialGradient,
   svg: new Gradient().create("svg", "radial") as SVGRadialGradient,
   canvas: new Gradient().create(
     "canvas",
@@ -122,36 +151,33 @@ function addOptionsEventListeners() {
 addOptionsEventListeners();
 
 function createCssGradient() {
-  const linearGradients = {
-    css: new Gradient().create("css", "linear") as CSSLinearGradient,
-    svg: new Gradient().create("svg", "linear") as SVGLinearGradient,
-    canvas: new Gradient().create(
-      "canvas",
-      "linear",
-      ctx
-    ) as CanvasLinearGradient,
-  };
-
   const { stopColors, type, options } = gradientInfos;
 
   const { linear, radial, conic, common } = options.css;
-
   switch (type) {
     case "linear": {
-      linearGradients.css.setOrientation(linear.orientation);
-      linearGradients.css.isRepeating = common.isRepeating;
+      const linearGradients = new Gradient().create(
+        "css",
+        "linear"
+      ) as CSSLinearGradient;
+
+      linearGradients.setOrientation(linear.orientation);
+      linearGradients.isRepeating = common.isRepeating;
 
       for (let i = 0; i < stopColors.length; i++) {
         const stopColor = stopColors[i] as CSSLinearGradientColorStop;
 
         const { color, id, opacity, offset } = stopColor;
 
-        linearGradients.css.addStopColor({ color, id, opacity, offset });
+        linearGradients.addStopColor({ color, id, opacity, offset });
       }
 
-      return linearGradients.css.generateCssGradient();
+      return linearGradients.generateCssGradient();
     }
     case "radial": {
+      const radialGradients = {
+        css: new Gradient().create("css", "radial") as CSSRadialGradient,
+      };
       radialGradients.css.setPositionCoordinates({
         start: radial.x,
         end: radial.y,
@@ -170,21 +196,26 @@ function createCssGradient() {
       return radialGradients.css.generateCssGradient();
     }
     case "conic": {
-      conicGradients.css.setOrientation(conic.orientation);
+      const conicGradients = new Gradient().create(
+        "css",
+        "conic"
+      ) as CSSConicGradient;
 
-      conicGradients.css.setPositionCoordinates({
+      conicGradients.setOrientation(conic.orientation);
+
+      conicGradients.setPositionCoordinates({
         start: conic.x,
         end: conic.y,
       });
 
-      conicGradients.css.isRepeating = common.isRepeating;
+      conicGradients.isRepeating = common.isRepeating;
 
       for (let i = 0; i < stopColors.length; i++) {
         const stopColor = stopColors[i] as CSSConicGradientColorStop;
 
         const { color, id, opacity, endAngle, startAngle, transitionAngle } =
           stopColor;
-        conicGradients.css.addStopColor({
+        conicGradients.addStopColor({
           color,
           id,
           opacity,
@@ -194,13 +225,12 @@ function createCssGradient() {
         });
       }
 
-      return conicGradients.css.generateCssGradient();
+      return conicGradients.generateCssGradient();
     }
 
     default:
       break;
   }
-  log(linearGradients.css.stopColors);
 }
 
 const generateGradientButton = selectFirstByClass<HTMLButtonElement>(
@@ -231,9 +261,11 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       break;
     }
     case "svg": {
+      // const svgGradient:string = createSvgGradient();
       break;
     }
     case "canvas": {
+      // const canvasGradient = createCanvasGradient();
       break;
     }
 

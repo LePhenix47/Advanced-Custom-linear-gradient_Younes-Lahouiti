@@ -44,280 +44,285 @@
 
   <main class="index">
     <section class="index__menu-container active">
-      <button class="index__menu-opener-button"></button>
-      <div class="menu">
+      <label class="index__menu-opener-label" for="menu-toggle-button">
+        <input type="checkbox" class="hide" id="menu-toggle-button" checked />
+      </label>
+
+      <div class="index__menu-overflow-fix">
+        <div class="menu">
 
 
 
-        <div class="menu__types-language">
-          <div class="menu__creation-language">
-            <label for="creation-language" class="menu__label">Creation language</label>
-            <select name="creation-language" id="creation-language">
-              <option value="svg">SVG</option>
-              <option value="css" selected>CSS</option>
-              <option value="canvas">Canvas</option>
-            </select>
+          <div class="menu__types-language">
+            <div class="menu__creation-language">
+              <label for="creation-language" class="menu__label">Creation language</label>
+              <select name="creation-language" id="creation-language">
+                <option value="svg">SVG</option>
+                <option value="css" selected>CSS</option>
+                <option value="canvas">Canvas</option>
+              </select>
+            </div>
+
+            <div class="menu__gradient-types">
+
+              <h3 class="menu__gradient-types--title">Gradient type:</h3>
+              <div class="menu__gradient-types--inputs">
+                <div class="menu__gradient-types--css">
+                  <label for="linear-css" class="menu__label">
+                    <input type="radio" id="linear-css" name="gradient-type-css-group" checked />
+                    Linear</label>
+                  <label for="radial-css" class="menu__label">
+                    <input type="radio" id="radial-css" name="gradient-type-css-group" />
+                    Radial</label>
+                  <label for="conic-css" class="menu__label">
+                    <input type="radio" id="conic-css" name="gradient-type-css-group" />
+                    Conic</label>
+                </div>
+
+                <div class="menu__gradient-types--svg hide">
+                  <label for="linear-svg" class="menu__label">
+                    <input type="radio" id="linear-svg" name="gradient-type-svg-group" checked />
+                    Linear</label>
+                  <label for="radial-svg" class="menu__label">
+                    <input type="radio" id="radial-svg" name="gradient-type-svg-group" />
+                    Radial</label>
+                </div>
+
+                <div class="menu__gradient-types--canvas hide">
+                  <label for="linear-canvas" class="menu__label">
+                    <input type="radio" id="linear-canvas" name="gradient-type-canvas-group" checked />
+                    Linear</label>
+                  <label for="radial-canvas" class="menu__label">
+                    <input type="radio" id="radial-canvas" name="gradient-type-canvas-group" />
+                    Radial</label>
+                  <label for="conic-canvas" class="menu__label">
+                    <input type="radio" id="conic-canvas" name="gradient-type-canvas-group" />
+                    Conic</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <button type="button" class="menu__add-color-button">
+            Add Color
+          </button>
+
+          <div class="menu__table-container" contenteditable="true" tabindex="-1">
+            <table class="menu__table" contenteditable="false">
+              <caption class="menu__caption">Stop colors for the gradient</caption>
+              <tbody class="menu__table-body draggable__container">
+              </tbody>
+            </table>
+
+
           </div>
 
-          <div class="menu__gradient-types">
+          <div class="menu__options">
+            <h3 class="menu__options-title">Options:</h3>
 
-            <h3 class="menu__gradient-types--title">Gradient type:</h3>
-            <div class="menu__gradient-types--inputs">
-              <div class="menu__gradient-types--css">
-                <label for="linear-css" class="menu__label">
-                  <input type="radio" id="linear-css" name="gradient-type-css-group" checked />
-                  Linear</label>
-                <label for="radial-css" class="menu__label">
-                  <input type="radio" id="radial-css" name="gradient-type-css-group" />
-                  Radial</label>
-                <label for="conic-css" class="menu__label">
-                  <input type="radio" id="conic-css" name="gradient-type-css-group" />
-                  Conic</label>
+            <section class="menu__options--css">
+              <div class="menu__options-css--linear">
+                <angle-picker angle="0"></angle-picker>
               </div>
 
-              <div class="menu__gradient-types--svg hide">
-                <label for="linear-svg" class="menu__label">
-                  <input type="radio" id="linear-svg" name="gradient-type-svg-group" checked />
-                  Linear</label>
-                <label for="radial-svg" class="menu__label">
-                  <input type="radio" id="radial-svg" name="gradient-type-svg-group" />
-                  Radial</label>
+              <div class="menu__options-css--radial hide">
+                <label for="css-radial-options">Shape:</label>
+                <select name="css-radial-options" id="css-radial-options">
+                  <option value="circle">Circle</option>
+                  <option value="ellipse">Ellipse</option>
+                </select>
+                <position-picker x="50" y="50" title="Position for radial"></position-picker>
               </div>
 
-              <div class="menu__gradient-types--canvas hide">
-                <label for="linear-canvas" class="menu__label">
-                  <input type="radio" id="linear-canvas" name="gradient-type-canvas-group" checked />
-                  Linear</label>
-                <label for="radial-canvas" class="menu__label">
-                  <input type="radio" id="radial-canvas" name="gradient-type-canvas-group" />
-                  Radial</label>
-                <label for="conic-canvas" class="menu__label">
-                  <input type="radio" id="conic-canvas" name="gradient-type-canvas-group" />
-                  Conic</label>
+              <div class="menu__options-css--conic hide">
+                <angle-picker angle="0"></angle-picker>
+                <position-picker x="50" y="50" title="Position for conic"></position-picker>
               </div>
-            </div>
+
+              <div class="menu__options-css--common">
+                <input type="checkbox" id="css-gradient-repeats" />
+                <label for="css-gradient-repeats">Is repeating ?</label>
+              </div>
+            </section>
+
+            <section class="menu__options--svg hide">
+              <div class="menu__options-svg--linear">
+                <angle-picker angle="0"></angle-picker>
+              </div>
+
+              <div class="menu__options-svg--radial hide">
+                <position-picker x="50" y="50" title="Circle position"></position-picker>
+                <label for="svg-circle-radius">Circle radius: </label> <input type="number" id="svg-circle-radius" />
+                <position-picker x="50" y="50" title="Focal point position"></position-picker>
+                <label for="svg-focal-radius">Focal point radius: </label> <input type="number" id="svg-focal-radius" />
+              </div>
+
+              <div class="menu__options-svg--common">
+                <label for="svg-gradient-units">Gradient units:</label>
+                <select name="svg-gradient-units" id="svg-gradient-units">
+                  <option value="objectBoundingBox" selected>Object bounding box</option>
+                  <option value="userSpaceOnUse">User space on use</option>
+                </select>
+
+
+                <div class="menu__options-svg--common-transforms">
+                  <button>Choose transform functions</button>
+                  <dialog id="transformDialog">
+                    <form id="transformForm">
+                      <fieldset>
+                        <legend>SVG Gradient Transform Functions</legend>
+                        <label>
+                          matrix
+                          <input type="checkbox" name="transform" value="matrix">
+                        </label>
+                        <br>
+                        <label>
+                          matrix3d
+                          <input type="checkbox" name="transform" value="matrix3d">
+                        </label>
+                        <br>
+                        <label>
+                          perspective
+                          <input type="checkbox" name="transform" value="perspective">
+                        </label>
+                        <br>
+                        <label>
+                          rotate
+                          <input type="checkbox" name="transform" value="rotate">
+                        </label>
+                        <br>
+                        <label>
+                          rotate3d
+                          <input type="checkbox" name="transform" value="rotate3d">
+                        </label>
+                        <br>
+                        <label>
+                          rotateX
+                          <input type="checkbox" name="transform" value="rotateX">
+                        </label>
+                        <br>
+                        <label>
+                          rotateY
+                          <input type="checkbox" name="transform" value="rotateY">
+                        </label>
+                        <br>
+                        <label>
+                          rotateZ
+                          <input type="checkbox" name="transform" value="rotateZ">
+                        </label>
+                        <br>
+                        <label>
+                          scale
+                          <input type="checkbox" name="transform" value="scale">
+                        </label>
+                        <br>
+                        <label>
+                          scale3d
+                          <input type="checkbox" name="transform" value="scale3d">
+                        </label>
+                        <br>
+                        <label>
+                          scaleX
+                          <input type="checkbox" name="transform" value="scaleX">
+                        </label>
+                        <br>
+                        <label>
+                          scaleY
+                          <input type="checkbox" name="transform" value="scaleY">
+                        </label>
+                        <br>
+                        <label>
+                          scaleZ
+                          <input type="checkbox" name="transform" value="scaleZ">
+                        </label>
+                        <br>
+                        <label>
+                          skew
+                          <input type="checkbox" name="transform" value="skew">
+                        </label>
+                        <br>
+                        <label>
+                          skewX
+                          <input type="checkbox" name="transform" value="skewX">
+                        </label>
+                        <br>
+                        <label>
+                          skewY
+                          <input type="checkbox" name="transform" value="skewY">
+                        </label>
+                        <br>
+                        <label>
+                          translate
+                          <input type="checkbox" name="transform" value="translate">
+                        </label>
+                        <br>
+                        <label>
+                          translate3d
+                          <input type="checkbox" name="transform" value="translate3d">
+                        </label>
+                        <br>
+                        <label>
+                          translateX
+                          <input type="checkbox" name="transform" value="translateX">
+                        </label>
+                        <br>
+                        <label>
+                          translateY
+                          <input type="checkbox" name="transform" value="translateY">
+                        </label>
+                        <br>
+                        <label>
+                          translateZ
+                          <input type="checkbox" name="transform" value="translateZ">
+                        </label>
+                        <br>
+                        <!-- Add more checkboxes for other functions here -->
+                      </fieldset>
+                      <button type="submit">Apply</button>
+                    </form>
+                    <button id="closeDialog">Close</button>
+                  </dialog>
+
+                </div>
+
+                <label for="svg-spread-method">Spread method:</label>
+                <select name="svg-spread-method" id="svg-spread-method">
+                  <option value="pad" selected>Pad</option>
+                  <option value="reflect">Reflect</option>
+                  <option value="repeat">Repeat</option>
+                </select>
+              </div>
+
+            </section>
+
+
+            <section class="menu__options--canvas hide">
+              <div class="menu__options-canvas--linear">
+                <!-- LOL there are no options for the canvas linear gradient -->
+              </div>
+
+              <div class="menu__options-canvas--radial hide">
+                <position-picker x="50" y="50" title="Inner circle position"></position-picker>
+                <label for="canvas-inner-radius">Inner circle radius: </label> <input type="number"
+                  id="canvas-inner-radius" />
+                <position-picker x="50" y="50" title="Outer circle position"></position-picker>
+                <label for="canvas-outer-radius">Outer circle radius: </label> <input type="number"
+                  id="canvas-outer-radius" />
+
+              </div>
+
+              <div class="menu__options-canvas--conic hide">
+                <angle-picker angle="0"></angle-picker>
+                <position-picker x="50" y="50" title="Position for conic"></position-picker>
+              </div>
+
+              <div class="menu__options-canvas--common">
+              </div>
+            </section>
           </div>
 
+          <button class="menu__gradient-generator-button">Generate gradient</button>
         </div>
-        <button type="button" class="menu__add-color-button">
-          Add Color
-        </button>
-
-        <div class="menu__table-container" contenteditable="true" tabindex="-1">
-          <table class="menu__table" contenteditable="false">
-            <caption class="menu__caption">Stop colors for the gradient</caption>
-            <tbody class="menu__table-body draggable__container">
-            </tbody>
-          </table>
-
-
-        </div>
-
-        <div class="menu__options">
-          <h3 class="menu__options-title">Options:</h3>
-
-          <section class="menu__options--css">
-            <div class="menu__options-css--linear">
-              <angle-picker angle="0"></angle-picker>
-            </div>
-
-            <div class="menu__options-css--radial hide">
-              <label for="css-radial-options">Shape:</label>
-              <select name="css-radial-options" id="css-radial-options">
-                <option value="circle">Circle</option>
-                <option value="ellipse">Ellipse</option>
-              </select>
-              <position-picker x="50" y="50" title="Position for radial"></position-picker>
-            </div>
-
-            <div class="menu__options-css--conic hide">
-              <angle-picker angle="0"></angle-picker>
-              <position-picker x="50" y="50" title="Position for conic"></position-picker>
-            </div>
-
-            <div class="menu__options-css--common">
-              <input type="checkbox" id="css-gradient-repeats" />
-              <label for="css-gradient-repeats">Is repeating ?</label>
-            </div>
-          </section>
-
-          <section class="menu__options--svg hide">
-            <div class="menu__options-svg--linear">
-              <angle-picker angle="0"></angle-picker>
-            </div>
-
-            <div class="menu__options-svg--radial hide">
-              <position-picker x="50" y="50" title="Circle position"></position-picker>
-              <label for="svg-circle-radius">Circle radius: </label> <input type="number" id="svg-circle-radius" />
-              <position-picker x="50" y="50" title="Focal point position"></position-picker>
-              <label for="svg-focal-radius">Focal point radius: </label> <input type="number" id="svg-focal-radius" />
-            </div>
-
-            <div class="menu__options-svg--common">
-              <label for="svg-gradient-units">Gradient units:</label>
-              <select name="svg-gradient-units" id="svg-gradient-units">
-                <option value="objectBoundingBox" selected>Object bounding box</option>
-                <option value="userSpaceOnUse">User space on use</option>
-              </select>
-
-
-              <div class="menu__options-svg--common-transforms">
-                <button>Choose transform functions</button>
-                <dialog id="transformDialog">
-                  <form id="transformForm">
-                    <fieldset>
-                      <legend>SVG Gradient Transform Functions</legend>
-                      <label>
-                        matrix
-                        <input type="checkbox" name="transform" value="matrix">
-                      </label>
-                      <br>
-                      <label>
-                        matrix3d
-                        <input type="checkbox" name="transform" value="matrix3d">
-                      </label>
-                      <br>
-                      <label>
-                        perspective
-                        <input type="checkbox" name="transform" value="perspective">
-                      </label>
-                      <br>
-                      <label>
-                        rotate
-                        <input type="checkbox" name="transform" value="rotate">
-                      </label>
-                      <br>
-                      <label>
-                        rotate3d
-                        <input type="checkbox" name="transform" value="rotate3d">
-                      </label>
-                      <br>
-                      <label>
-                        rotateX
-                        <input type="checkbox" name="transform" value="rotateX">
-                      </label>
-                      <br>
-                      <label>
-                        rotateY
-                        <input type="checkbox" name="transform" value="rotateY">
-                      </label>
-                      <br>
-                      <label>
-                        rotateZ
-                        <input type="checkbox" name="transform" value="rotateZ">
-                      </label>
-                      <br>
-                      <label>
-                        scale
-                        <input type="checkbox" name="transform" value="scale">
-                      </label>
-                      <br>
-                      <label>
-                        scale3d
-                        <input type="checkbox" name="transform" value="scale3d">
-                      </label>
-                      <br>
-                      <label>
-                        scaleX
-                        <input type="checkbox" name="transform" value="scaleX">
-                      </label>
-                      <br>
-                      <label>
-                        scaleY
-                        <input type="checkbox" name="transform" value="scaleY">
-                      </label>
-                      <br>
-                      <label>
-                        scaleZ
-                        <input type="checkbox" name="transform" value="scaleZ">
-                      </label>
-                      <br>
-                      <label>
-                        skew
-                        <input type="checkbox" name="transform" value="skew">
-                      </label>
-                      <br>
-                      <label>
-                        skewX
-                        <input type="checkbox" name="transform" value="skewX">
-                      </label>
-                      <br>
-                      <label>
-                        skewY
-                        <input type="checkbox" name="transform" value="skewY">
-                      </label>
-                      <br>
-                      <label>
-                        translate
-                        <input type="checkbox" name="transform" value="translate">
-                      </label>
-                      <br>
-                      <label>
-                        translate3d
-                        <input type="checkbox" name="transform" value="translate3d">
-                      </label>
-                      <br>
-                      <label>
-                        translateX
-                        <input type="checkbox" name="transform" value="translateX">
-                      </label>
-                      <br>
-                      <label>
-                        translateY
-                        <input type="checkbox" name="transform" value="translateY">
-                      </label>
-                      <br>
-                      <label>
-                        translateZ
-                        <input type="checkbox" name="transform" value="translateZ">
-                      </label>
-                      <br>
-                      <!-- Add more checkboxes for other functions here -->
-                    </fieldset>
-                    <button type="submit">Apply</button>
-                  </form>
-                  <button id="closeDialog">Close</button>
-                </dialog>
-
-              </div>
-
-              <label for="svg-spread-method">Spread method:</label>
-              <select name="svg-spread-method" id="svg-spread-method">
-                <option value="pad" selected>Pad</option>
-                <option value="reflect">Reflect</option>
-                <option value="repeat">Repeat</option>
-              </select>
-            </div>
-
-          </section>
-
-
-          <section class="menu__options--canvas hide">
-            <div class="menu__options-canvas--linear">
-              <!-- LOL there are no options for the canvas linear gradient -->
-            </div>
-
-            <div class="menu__options-canvas--radial hide">
-              <position-picker x="50" y="50" title="Inner circle position"></position-picker>
-              <label for="canvas-inner-radius">Inner circle radius: </label> <input type="number"
-                id="canvas-inner-radius" />
-              <position-picker x="50" y="50" title="Outer circle position"></position-picker>
-              <label for="canvas-outer-radius">Outer circle radius: </label> <input type="number"
-                id="canvas-outer-radius" />
-
-            </div>
-
-            <div class="menu__options-canvas--conic hide">
-              <angle-picker angle="0"></angle-picker>
-              <position-picker x="50" y="50" title="Position for conic"></position-picker>
-            </div>
-
-            <div class="menu__options-canvas--common">
-            </div>
-          </section>
-        </div>
-
-        <button class="menu__gradient-generator-button">Generate gradient</button>
       </div>
     </section>
 

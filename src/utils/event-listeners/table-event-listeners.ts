@@ -109,6 +109,25 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
           const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
           setAttributeFrom("for", labelForAttributeValue, label);
           setAttributeFrom("id", labelForAttributeValue, input);
+
+          const hasAlsoSelectElement: boolean = j === 3;
+          if (hasAlsoSelectElement) {
+            const select = selectQuery<HTMLSelectElement>("select", cell);
+            const labelForSelectElement = selectFirstByClass<HTMLLabelElement>(
+              "menu__unit-offset--label",
+              cell
+            );
+
+            const labelForSelectAttribute: string = `select-unit-${currentIndex}`;
+            setAttributeFrom(
+              "for",
+              labelForSelectAttribute,
+              labelForSelectElement
+            );
+            setAttributeFrom("id", labelForSelectAttribute, select);
+            /*
+             */
+          }
           break;
         }
 

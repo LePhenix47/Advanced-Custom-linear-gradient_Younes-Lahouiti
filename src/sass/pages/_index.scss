@@ -37,6 +37,9 @@
     }
 
     &__menu-container {
+        container-type: inline-size;
+        container-name: menu;
+
         backdrop-filter: blur(20px);
         background-image: linear-gradient(90deg, transparent, #7a7a7a4d);
 
@@ -155,48 +158,48 @@
     }
 
 
-    &__css-gradient {
+    &__gradient {
+        &--css {
+            --_gradient: linear-gradient(45deg, rgb(189, 195, 225) 0%, rgb(249, 145, 126) 100%);
+            --_gradient: none;
 
-        --_gradient: linear-gradient(45deg, rgb(189, 195, 225) 0%, rgb(249, 145, 126) 100%);
-        --_gradient: none;
+            background-image: var(--_gradient);
 
-        background-image: var(--_gradient);
+            position: absolute;
 
-        position: absolute;
+            top: 0;
+            left: 0;
 
-        top: 0;
-        left: 0;
+            z-index: 0;
 
-        z-index: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-        width: 100%;
-        height: 100%;
-    }
+        &--svg {
+            position: absolute;
 
-    &__svg-gradient {
+            top: 0;
+            left: 0;
 
-        position: absolute;
+            z-index: 0;
 
-        top: 0;
-        left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-        z-index: 0;
+        &--canvas {
+            position: absolute;
 
-        width: 100%;
-        height: 100%;
-    }
+            top: 0;
+            left: 0;
 
-    &__canvas-gradient {
+            z-index: 0;
 
-        position: absolute;
+            width: 100%;
+            height: 100%;
+        }
 
-        top: 0;
-        left: 0;
-
-        z-index: 0;
-
-        width: 100%;
-        height: 100%;
     }
 }
 
@@ -278,6 +281,35 @@
 
     }
 
+    @container menu (width <=992px) {
+        .menu {
+            &__table-row {
+                @include center-flex-column(5px);
+
+                &.menu__table-row--conic {
+                    @include center-flex-column(5px);
+
+                }
+
+                &>td:nth-child(n) {
+                    width: 100%;
+                    border: none;
+
+                    text-align: center;
+                }
+
+            }
+        }
+
+    }
+
+    @container menu (560px<=width <=992px) {
+        .menu__table-cell-content--column {
+            @include center-flex(5px);
+        }
+    }
+
+
     &__table-row {
         --_background-color: #3b3b3b57;
 
@@ -292,19 +324,19 @@
         border: 2px solid transparent;
         transition: border-color .25s;
 
+        &--conic {}
+
+        // @include tablet-only {
+        //     @include center-flex-column(5px);
 
 
-        @include tablet-only {
-            @include center-flex-column(5px);
+        // }
 
-            text-align: center;
-        }
+        // @include mobile-only {
+        //     @include center-flex-column(5px);
 
-        @include mobile-only {
-            @include center-flex-column(5px);
-
-            text-align: center;
-        }
+        //     text-align: center;
+        // }
     }
 
     &__delete-button {

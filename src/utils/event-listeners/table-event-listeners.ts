@@ -2,12 +2,9 @@ import {
   getAncestor,
   getAttributeFrom,
   getClassListValues,
-  getClone,
-  getContentOfTemplate,
   getParent,
   getStyleProperty,
   removeChildInParent,
-  selectById,
   selectFirstByClass,
   selectQuery,
   selectQueryAll,
@@ -204,10 +201,11 @@ export function addNewRowEntry(): void {
   const tableBody =
     selectFirstByClass<HTMLTableSectionElement>("menu__table-body");
 
-  const isConicGradient: boolean = gradientInfos.type === "conic";
+  const isCssConicGradient: boolean =
+    gradientInfos.language === "css" && gradientInfos.type === "conic";
 
   const defaultRowTemplate = selectFirstByClass<HTMLTemplateElement>(
-    isConicGradient
+    isCssConicGradient
       ? "template__conic-gradient"
       : "template__non-conic-gradient"
   );
@@ -224,7 +222,7 @@ export function addNewRowEntry(): void {
     tableBody
   );
 
-  if (isConicGradient) {
+  if (isCssConicGradient) {
     addEventListenersToConicRow(latestRow);
   } else {
     addEventListenersToNonConicRow(latestRow);

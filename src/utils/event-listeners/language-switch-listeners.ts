@@ -2,14 +2,12 @@ import {
   GradientLanguage,
   GradientType,
 } from "@utils/classes/states/index-gradients.class";
-import { log } from "@utils/helpers/console.helpers";
 import {
   addClass,
   getChildren,
   getClassListValues,
   removeClass,
   selectFirstByClass,
-  selectQuery,
   selectQueryAll,
 } from "@utils/helpers/dom.helpers";
 import {
@@ -17,6 +15,11 @@ import {
   gradientInfos,
 } from "@utils/variables/global-states/gradient-infos";
 import { resetTableRows } from "./table-event-listeners";
+import {
+  cssGradientBackgroundElement,
+  svgGradientBackgroundElement,
+  canvas,
+} from "../../../src/index";
 
 function setElementsToShow(
   arrayOfElements: HTMLElement[],
@@ -24,12 +27,15 @@ function setElementsToShow(
 ) {
   for (const element of arrayOfElements) {
     const languageClass: string = getClassListValues(element)[0].split("--")[1];
+    const isCanvas: boolean = element.tagName.toLowerCase() === "canvas";
 
     const needsToBeHidden: boolean = classToShow !== languageClass;
     if (needsToBeHidden) {
-      addClass(element, "hide");
+      isCanvas ? addClass(element, "invisible") : addClass(element, "hide");
     } else {
-      removeClass(element, "hide");
+      isCanvas
+        ? removeClass(element, "invisible")
+        : removeClass(element, "hide");
     }
   }
 }
@@ -51,11 +57,17 @@ export function switchLanguage(e: Event) {
     gradientTypesContainer
   );
 
+  const backgroundElements: (HTMLDivElement | HTMLCanvasElement)[] = [
+    cssGradientBackgroundElement,
+    svgGradientBackgroundElement,
+    canvas,
+  ].concat(gradientTypesElements);
+
   const optionsElements = selectQueryAll<HTMLDivElement>(
     ".menu__options>:not(h3)"
   );
 
-  setElementsToShow(gradientTypesElements, gradientInfos.language);
+  setElementsToShow(backgroundElements, gradientInfos.language);
   setElementsToShow(optionsElements, gradientInfos.language);
 }
 

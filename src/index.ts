@@ -1,14 +1,16 @@
+/*
+  This code's rather messy
+*/
+
 import "@components/index.components";
 import {
   addNewRowEntry,
   setTableRowsByDelegation,
 } from "@utils/event-listeners/table-event-listeners";
-import { assert, dir, log, table } from "@utils/helpers/console.helpers";
+import { log } from "@utils/helpers/console.helpers";
 import {
   addClass,
-  getAttributeFrom,
   getChildren,
-  getClone,
   removeClass,
   selectFirstByClass,
   selectQuery,
@@ -17,10 +19,7 @@ import {
 } from "@utils/helpers/dom.helpers";
 
 import { handleContainerDraggingElementDragOver } from "@utils/event-listeners/drag-n-drop-listeners";
-import Gradient, {
-  GradientReturnType,
-} from "@utils/classes/states/index-gradients.class";
-import { CSSGradientReturnType } from "@utils/classes/states/css-gradients/index-css.class";
+import Gradient from "@utils/classes/states/index-gradients.class";
 import {
   switchGradientTypes,
   switchLanguage,
@@ -31,21 +30,12 @@ import {
   addSvgOptionsListeners,
   addCanvasOptionsListeners,
 } from "@utils/event-listeners/options-listeners";
-import CSSLinearGradient, {
-  CSSLinearGradientColorStop,
-} from "@utils/classes/states/css-gradients/linear/css-linear.class";
 import SVGLinearGradient from "@utils/classes/states/svg-gradients/linear/svg-linear.class";
 import CanvasLinearGradient from "@utils/classes/states/canvas-gradients/linear/canvas-linear.class";
 import CanvasRadialGradient from "@utils/classes/states/canvas-gradients/radial/canvas-radial.class";
-import CSSRadialGradient, {
-  CSSRadialGradientColorStop,
-} from "@utils/classes/states/css-gradients/radial/css-radial.class";
 import SVGRadialGradient from "@utils/classes/states/svg-gradients/radial/svg-radial.class";
-import CSSConicGradient, {
-  CSSConicGradientColorStop,
-} from "@utils/classes/states/css-gradients/conic/css-conic.class";
+import CSSConicGradient from "@utils/classes/states/css-gradients/conic/css-conic.class";
 import CanvasConicGradient from "@utils/classes/states/canvas-gradients/conic/canvas-conic.class";
-import { CSSGradientColorStop } from "@utils/classes/states/css-gradients/class-base/css-gradient-base.class";
 import {
   createCanvasGradient,
   createCssGradient,
@@ -107,7 +97,9 @@ function addEventListenersToGradientTypes() {
 }
 addEventListenersToGradientTypes();
 
-const canvas = selectFirstByClass<HTMLCanvasElement>("index__canvas-gradient");
+export const canvas = selectFirstByClass<HTMLCanvasElement>(
+  "index__gradient--canvas"
+);
 
 window.addEventListener("resize", handleCanvasResize);
 function handleCanvasResize() {
@@ -158,12 +150,12 @@ addOptionsEventListeners();
 const generateGradientButton = selectFirstByClass<HTMLButtonElement>(
   "menu__gradient-generator-button"
 );
-const cssGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
-  "index__css-gradient"
+export const cssGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
+  "index__gradient--css"
 );
 
-const svgGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
-  "index__svg-gradient"
+export const svgGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
+  "index__gradient--svg"
 );
 
 generateGradientButton.addEventListener("click", (e: MouseEvent) => {
@@ -187,9 +179,9 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       const svgGradient = createSvgGradient();
       const { html, reactNative } = svgGradient;
 
-      svgGradientBackgroundElement.innerHTML = html;
       log(html);
       log(reactNative);
+      svgGradientBackgroundElement.innerHTML = html;
       break;
     }
     case "canvas": {

@@ -1,12 +1,5 @@
 @use "../utils/" as *;
 
-/* 
-    Hides the element and all its descendants from view
- */
-.hide {
-    display: none !important;
-}
-
 /**
  * Visually hide an element, but leave it available for screen readers
 
@@ -46,6 +39,13 @@
 }
 
 /* 
+    Hides the element and all its descendants from view
+ */
+.hide {
+    display: none !important;
+}
+
+/* 
     Disables pointer (click on desktop and tap on mobile) events for the element and its descendants 
 */
 .no-pointer-events {
@@ -57,4 +57,8 @@
 
 .dragging {
     opacity: 25%;
+}
+
+.invisible {
+    visibility: hidden !important;
 }

@@ -92,7 +92,7 @@ SVG Radial gradient formal syntax:
 
     // Check if there are not enough stop colors to create a gradient
     if (amountOfStopColors < 2) {
-      return "none";
+      return "";
     }
 
     let colorStops: string = "";

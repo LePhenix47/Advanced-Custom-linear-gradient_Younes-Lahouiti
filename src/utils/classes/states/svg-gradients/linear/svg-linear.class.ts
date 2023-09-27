@@ -107,7 +107,7 @@ SVG Linear gradient formal syntax:
 
     const cannotCreateGradient: boolean = amountOfStopColors < 2;
     if (cannotCreateGradient) {
-      return "none";
+      return "";
     }
 
     let colorStops: string = "";

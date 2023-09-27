@@ -70,15 +70,18 @@ export type GradientInfos = {
     canvas: {
       linear: {};
       radial: {
-        innerX: string; // innerX should be a string
-        innerY: string; // innerY should be a string
-        radius: string; // radius should be a string
-        outerX: string; // outerX should be a string
-        outerY: string; // outerY should be a string
-        focalRadius: string; // focalRadius should be a string
+        innerX: string;
+        innerY: string;
+        radius: string;
+        outerX: string;
+        outerY: string;
+        focalRadius: string;
       };
-      conic: {};
-      common: {};
+      conic: {
+        startAngle: number;
+        centerX: number;
+        centerY: number;
+      };
     };
   };
 };
@@ -135,8 +138,11 @@ export const gradientInfos: GradientInfos = {
         outerY: "50%",
         focalRadius: "0%",
       },
-      conic: {},
-      common: {},
+      conic: {
+        centerX: 0,
+        centerY: 0,
+        startAngle: 0,
+      },
     },
   },
 };

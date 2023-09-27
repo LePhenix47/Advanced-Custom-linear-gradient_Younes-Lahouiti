@@ -46,7 +46,11 @@ import CSSConicGradient, {
 } from "@utils/classes/states/css-gradients/conic/css-conic.class";
 import CanvasConicGradient from "@utils/classes/states/canvas-gradients/conic/canvas-conic.class";
 import { CSSGradientColorStop } from "@utils/classes/states/css-gradients/class-base/css-gradient-base.class";
-import { createCssGradient } from "@utils/event-listeners/gradient-functions";
+import {
+  createCanvasGradient,
+  createCssGradient,
+  createSvgGradient,
+} from "@utils/event-listeners/gradient-functions";
 
 const menuToggleLabel = selectFirstByClass<HTMLLabelElement>(
   "index__menu-opener-label"
@@ -164,6 +168,7 @@ const svgGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
 
 generateGradientButton.addEventListener("click", (e: MouseEvent) => {
   const { language } = gradientInfos;
+  log("Click");
   switch (language) {
     case "css": {
       const cssGradient: string = createCssGradient();
@@ -179,11 +184,22 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       break;
     }
     case "svg": {
-      // const svgGradient:string = createSvgGradient();
+      const svgGradient = createSvgGradient();
+      const { html, reactNative } = svgGradient;
+
+      svgGradientBackgroundElement.innerHTML = html;
+      log(html);
+      log(reactNative);
       break;
     }
     case "canvas": {
-      // const canvasGradient = createCanvasGradient();
+      const canvasGradient = createCanvasGradient(canvas);
+      const { code, gradient } = canvasGradient;
+
+      log(code);
+      log(gradient);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       break;
     }
 

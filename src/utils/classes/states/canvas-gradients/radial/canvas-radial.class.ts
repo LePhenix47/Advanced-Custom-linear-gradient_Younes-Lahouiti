@@ -1,4 +1,5 @@
 import CanvasGradientBase, {
+  CanvasGradientColorStop,
   CanvasRadialGradientColorStop,
 } from "../class-base/canvas-gradient-base.class";
 
@@ -21,13 +22,13 @@ class CanvasRadialGradient extends CanvasGradientBase {
    * @param {number} x - The x-coordinate of the inner circle's center.
    * @param {number} y - The y-coordinate of the inner circle's center.
    */
-  setInnerCirclePosition(x: number, y: number): void {
-    this.innerCircle.x = x;
-    this.innerCircle.y = y;
+  setInnerCirclePosition(x: string, y: string): void {
+    this.innerCircle.x = Number(x.replaceAll("%", ""));
+    this.innerCircle.y = Number(y.replaceAll("%", ""));
   }
 
-  setInnerCircleRadius(radius: number): void {
-    this.innerCircle.radius = radius;
+  setInnerCircleRadius(radius: string): void {
+    this.innerCircle.radius = Number(radius.replaceAll("%", ""));
   }
   /**
    * Set the initial coordinates and radius of the inner circle.
@@ -35,13 +36,48 @@ class CanvasRadialGradient extends CanvasGradientBase {
    * @param {number} x - The x-coordinate of the inner circle's center.
    * @param {number} y - The y-coordinate of the inner circle's center.
    */
-  setOuterCirclePosition(x: number, y: number): void {
-    this.outerCircle.x = x;
-    this.outerCircle.y = y;
+  setOuterCirclePosition(x: string, y: string): void {
+    this.outerCircle.x = Number(x.replaceAll("%", ""));
+    this.outerCircle.y = Number(y.replaceAll("%", ""));
   }
 
-  setOuterCircleRadius(radius: number): void {
-    this.outerCircle.radius = radius;
+  setOuterCircleRadius(radius: string): void {
+    this.outerCircle.radius = Number(radius.replaceAll("%", ""));
+  }
+
+  private normalizeStopColorValues(stopColor: CanvasGradientColorStop) {
+    this.normalizeOpacity(stopColor);
+
+    this.normalizeOffset(stopColor);
+  }
+
+  /**
+   * Add a stop color to the linear gradient.
+   * @param {CSSLinearGradientColorStop} stopColor - The stop color to add.
+   *
+   * @throws {TypeError} If the stopColor object is missing required properties.
+   *
+   * @returns {void}
+   *
+   */
+  addStopColor(stopColor: CanvasGradientColorStop): void {
+    // The offset is a % which can be signed, can also be null if we don't want an offset
+    // The color opacity is clamped between 0 & 100
+    const properties: string[] = ["id", "color", "offset", "opacity"];
+    for (const property of properties) {
+      const doesNotHaveProperty: boolean = !stopColor.hasOwnProperty(property);
+      if (doesNotHaveProperty) {
+        throw new TypeError(
+          `Invalid stop color for the linear gradient, ${property} does not exist on the passed object`
+        );
+      }
+    }
+
+    this.normalizeStopColorValues(stopColor);
+
+    this.stopColors.push(stopColor);
+
+    this.sortStopColorsArrayById();
   }
 
   generateCanvasGradient(): { gradient: CanvasGradient; code: string | null } {
@@ -74,7 +110,7 @@ class CanvasRadialGradient extends CanvasGradientBase {
     let codeString: string = `
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const gradient = ctx.createLinearGradient(${normalizedX0}, ${normalizedY0}, ${normalizedX1}, ${normalizedY1});\n`;
+const gradient = ctx.createLinearGradient(${normalizedX0}, ${normalizedY0}, ${r0}, ${normalizedX1}, ${normalizedY1}, ${r1});\n`;
 
     for (let i = 0; i < this.stopColors.length; i++) {
       const stopColor: CanvasRadialGradientColorStop = this.stopColors[i];

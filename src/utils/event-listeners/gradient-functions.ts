@@ -1,3 +1,11 @@
+import {
+  CanvasConicGradientColorStop,
+  CanvasLinearGradientColorStop,
+  CanvasRadialGradientColorStop,
+} from "@utils/classes/states/canvas-gradients/class-base/canvas-gradient-base.class";
+import CanvasConicGradient from "@utils/classes/states/canvas-gradients/conic/canvas-conic.class";
+import CanvasLinearGradient from "@utils/classes/states/canvas-gradients/linear/canvas-linear.class";
+import CanvasRadialGradient from "@utils/classes/states/canvas-gradients/radial/canvas-radial.class";
 import CSSConicGradient, {
   CSSConicGradientColorStop,
 } from "@utils/classes/states/css-gradients/conic/css-conic.class";
@@ -212,17 +220,19 @@ function createSvgRadialGradient() {
   };
 }
 
-export function createCanvasGradient() {
+export function createCanvasGradient(canvas: HTMLCanvasElement) {
+  const context = canvas.getContext("2d");
+
   const { stopColors, type, options } = gradientInfos;
   switch (type) {
     case "linear": {
-      return createCanvasLinearGradient();
+      return createCanvasLinearGradient(context);
     }
     case "radial": {
-      return createCanvasRadialGradient();
+      return createCanvasRadialGradient(context);
     }
     case "conic": {
-      return createCanvasConicGradient();
+      return createCanvasConicGradient(context);
     }
 
     default:
@@ -230,18 +240,67 @@ export function createCanvasGradient() {
   }
 }
 
-function createCanvasLinearGradient() {
+function createCanvasLinearGradient(context: CanvasRenderingContext2D) {
   const { stopColors, type, options } = gradientInfos;
 
-  const { linear, common } = options.canvas;
+  const { linear } = options.canvas;
+
+  const linearGradient = new Gradient().create(
+    "canvas",
+    "linear",
+    context
+  ) as CanvasLinearGradient;
+
+  for (let i = 0; i < stopColors.length; i++) {
+    const stopColor = stopColors[i] as CanvasLinearGradientColorStop;
+
+    linearGradient.addStopColor(stopColor);
+  }
+
+  return linearGradient.generateCanvasGradient();
 }
-function createCanvasRadialGradient() {
+function createCanvasRadialGradient(context: CanvasRenderingContext2D) {
   const { stopColors, type, options } = gradientInfos;
 
-  const { radial, common } = options.canvas;
+  const { radial } = options.canvas;
+  const radialGradient = new Gradient().create(
+    "canvas",
+    "radial",
+    context
+  ) as CanvasRadialGradient;
+
+  radialGradient.setInnerCirclePosition(radial.innerX, radial.innerY);
+  radialGradient.setInnerCircleRadius(radial.radius);
+
+  radialGradient.setOuterCirclePosition(radial.outerX, radial.outerY);
+  radialGradient.setOuterCircleRadius(radial.focalRadius);
+
+  for (let i = 0; i < stopColors.length; i++) {
+    const stopColor = stopColors[i] as CanvasRadialGradientColorStop;
+
+    radialGradient.addStopColor(stopColor);
+  }
+
+  return radialGradient.generateCanvasGradient();
 }
-function createCanvasConicGradient() {
+function createCanvasConicGradient(context: CanvasRenderingContext2D) {
   const { stopColors, type, options } = gradientInfos;
 
-  const { conic, common } = options.canvas;
+  const { conic } = options.canvas;
+  const conicGradient = new Gradient().create(
+    "canvas",
+    "conic",
+    context
+  ) as CanvasConicGradient;
+
+  conicGradient.setStartAngle(conic.startAngle);
+  conicGradient.setCenterPosition(conic.centerX, conic.centerY);
+
+  for (let i = 0; i < stopColors.length; i++) {
+    const stopColor = stopColors[i] as CanvasConicGradientColorStop;
+
+    conicGradient.addStopColor(stopColor);
+  }
+
+  return conicGradient.generateCanvasGradient();
 }

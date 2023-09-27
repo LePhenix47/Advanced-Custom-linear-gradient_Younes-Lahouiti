@@ -10,7 +10,10 @@ type RadialGradientPosition = {
 export type CSSRadialGradientColorStop = {
   id: number;
   color: string;
-  offset: string | null;
+  offset: {
+    value: number;
+    unit: string;
+  };
   opacity: string;
 };
 

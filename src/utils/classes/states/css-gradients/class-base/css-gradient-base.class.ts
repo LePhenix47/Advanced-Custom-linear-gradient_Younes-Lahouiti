@@ -2,6 +2,7 @@ import { percentageToHex } from "@utils/helpers/number.helpers";
 import { CSSConicGradientColorStop } from "../conic/css-conic.class";
 import { CSSLinearGradientColorStop } from "../linear/css-linear.class";
 import { CSSRadialGradientColorStop } from "../radial/css-radial.class";
+import { log } from "@utils/helpers/console.helpers";
 
 export type CSSGradientColorStop =
   | CSSLinearGradientColorStop
@@ -64,7 +65,20 @@ class CSSGradientBase {
   ): void {
     const { offset } = stopColor;
 
-    const normalizedOffset: string = !offset ? "" : offset;
+    let normalizedOffset: string = "";
+
+    const hasNoOffset: boolean = !offset?.value || !offset?.unit;
+    if (hasNoOffset) {
+      // @ts-ignore
+      stopColor.offset = "";
+      return;
+    }
+
+    log({ offset });
+    const { value, unit } = offset;
+    normalizedOffset = `${value}${unit}`;
+
+    // @ts-ignore
     stopColor.offset = normalizedOffset;
   }
 

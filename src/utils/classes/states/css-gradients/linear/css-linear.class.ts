@@ -9,7 +9,10 @@ import CSSGradientBase from "../class-base/css-gradient-base.class";
 export type CSSLinearGradientColorStop = {
   id: number;
   color: string;
-  offset: string | null;
+  offset: {
+    value: number | null;
+    unit: string;
+  };
   opacity: string;
 };
 class CSSLinearGradient extends CSSGradientBase {

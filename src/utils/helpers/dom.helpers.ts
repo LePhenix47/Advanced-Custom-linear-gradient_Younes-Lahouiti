@@ -185,8 +185,10 @@ export function getChildren<TChildren extends HTMLElement | SVGElement>(
  * @param {HTMLElement} elementOfReference - The child element for which to find the parent.
  * @returns {HTMLElement} - The parent element of the child element, or null if the parent cannot be found.
  */
-export function getParent(elementOfReference: HTMLElement): HTMLElement {
-  return elementOfReference.parentElement;
+export function getParent<T extends HTMLElement>(
+  elementOfReference: HTMLElement
+): T {
+  return elementOfReference.parentElement as T;
 }
 
 /**

@@ -4,6 +4,7 @@ import {
   getClassListValues,
   getClone,
   getContentOfTemplate,
+  getParent,
   getStyleProperty,
   removeChildInParent,
   selectById,
@@ -240,6 +241,11 @@ function addEventListenersToNonConicRow(row: HTMLTableRowElement) {
     setOffsetInput(e, rowIndex);
   });
 
+  const offsetUnitSelect = selectQuery<HTMLSelectElement>("select", row);
+  offsetUnitSelect.addEventListener("change", (e: Event) => {
+    setOffsetInput(e, rowIndex);
+  });
+
   const opacityInput = selectQuery<HTMLInputElement>(
     "input[type=number]:is([min])",
     row
@@ -283,11 +289,13 @@ function addEventListenersToConicRow(row: HTMLTableRowElement) {
 export function setTableRowsByDelegation(e: MouseEvent): void {
   const clickedElement = e.target as HTMLElement;
 
+  log(clickedElement);
+
   const elementClasses: string[] = getClassListValues(clickedElement);
 
-  const isUpOrderChanger: boolean = elementClasses[0].includes("top");
-  const isDownOrderChanger: boolean = elementClasses[0].includes("bottom");
-  const isDeleteButton: boolean = elementClasses[0].includes("delete");
+  const isUpOrderChanger: boolean = elementClasses?.[0]?.includes("top");
+  const isDownOrderChanger: boolean = elementClasses?.[0]?.includes("bottom");
+  const isDeleteButton: boolean = elementClasses?.[0]?.includes("delete");
 
   const clickedTheTBodyItself: boolean = formatStringCase(
     clickedElement.tagName,
@@ -421,12 +429,30 @@ function setOpacityInput(e: Event, rowIndex: number): void {
 }
 
 function setOffsetInput(e: Event, rowIndex: number): void {
-  const input = e.currentTarget as HTMLInputElement;
+  const parentElement = getParent<HTMLDivElement>(
+    e.currentTarget as HTMLInputElement | HTMLSelectElement
+  );
+
+  log(e.currentTarget);
+
+  const offsetValueInput = selectQuery<HTMLInputElement>(
+    "input",
+    parentElement
+  );
 
   const { isNaN } = Number;
-  const formattedPercentageValue: string = isNaN(input.valueAsNumber)
+  const value: number | null = isNaN(offsetValueInput.valueAsNumber)
     ? null
-    : `${input.valueAsNumber}%`;
+    : offsetValueInput.valueAsNumber;
 
-  setStopColorPropertyById(rowIndex, "offset", formattedPercentageValue);
+  const offsetUnitSelect = selectQuery<HTMLSelectElement>(
+    "select",
+    parentElement
+  );
+  const unit: string = offsetUnitSelect.value;
+
+  setStopColorPropertyById(rowIndex, "offset", {
+    unit,
+    value,
+  });
 }

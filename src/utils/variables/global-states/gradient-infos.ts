@@ -5,7 +5,10 @@ import {
   GradientLanguage,
   GradientType,
 } from "@utils/classes/states/index-gradients.class";
-import { SVGGradientColorStop } from "@utils/classes/states/svg-gradients/index-svg.class";
+import {
+  SVGGradientColorStop,
+  SVGGradientTransformObject,
+} from "@utils/classes/states/svg-gradients/index-svg.class";
 import { log, table } from "@utils/helpers/console.helpers";
 import {
   getAttributeFrom,
@@ -60,7 +63,7 @@ export type GradientInfos = {
       };
       common: {
         gradientUnits: "userSpaceOnUse" | "objectBoundingBox"; // Limited values
-        transformFunctions: string; // transformFunctions should be a string
+        transformFunctions: SVGGradientTransformObject; // transformFunctions should be a string
         spreadMethod: "pad" | "reflect" | "repeat"; // Limited values
       };
     };
@@ -118,7 +121,7 @@ export const gradientInfos: GradientInfos = {
       },
       common: {
         gradientUnits: "objectBoundingBox",
-        transformFunctions: "",
+        transformFunctions: {},
         spreadMethod: "pad",
       },
     },

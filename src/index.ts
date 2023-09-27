@@ -46,6 +46,7 @@ import CSSConicGradient, {
 } from "@utils/classes/states/css-gradients/conic/css-conic.class";
 import CanvasConicGradient from "@utils/classes/states/canvas-gradients/conic/canvas-conic.class";
 import { CSSGradientColorStop } from "@utils/classes/states/css-gradients/class-base/css-gradient-base.class";
+import { createCssGradient } from "@utils/event-listeners/gradient-functions";
 
 const menuToggleLabel = selectFirstByClass<HTMLLabelElement>(
   "index__menu-opener-label"
@@ -149,92 +150,6 @@ function addOptionsEventListeners() {
   addCanvasOptionsListeners();
 }
 addOptionsEventListeners();
-
-function createCssGradient() {
-  const { stopColors, type, options } = gradientInfos;
-
-  const { linear, radial, conic, common } = options.css;
-  switch (type) {
-    case "linear": {
-      const linearGradients = new Gradient().create(
-        "css",
-        "linear"
-      ) as CSSLinearGradient;
-
-      linearGradients.setOrientation(linear.orientation);
-      linearGradients.isRepeating = common.isRepeating;
-
-      for (let i = 0; i < stopColors.length; i++) {
-        const stopColor = stopColors[i] as CSSLinearGradientColorStop;
-
-        const { color, id, opacity, offset } = stopColor;
-
-        linearGradients.addStopColor({ color, id, opacity, offset });
-      }
-
-      return linearGradients.generateCssGradient();
-    }
-    case "radial": {
-      const radialGradients = {
-        css: new Gradient().create("css", "radial") as CSSRadialGradient,
-      };
-      radialGradients.css.setPositionCoordinates({
-        start: radial.x,
-        end: radial.y,
-      });
-
-      radialGradients.css.setShape(radial.shape);
-
-      radialGradients.css.setSize(radial.size);
-
-      radialGradients.css.isRepeating = common.isRepeating;
-
-      for (let i = 0; i < stopColors.length; i++) {
-        const stopColor = stopColors[i] as CSSRadialGradientColorStop;
-
-        const { color, id, opacity, offset } = stopColor;
-        radialGradients.css.addStopColor({ color, id, opacity, offset });
-      }
-
-      return radialGradients.css.generateCssGradient();
-    }
-    case "conic": {
-      const conicGradients = new Gradient().create(
-        "css",
-        "conic"
-      ) as CSSConicGradient;
-
-      conicGradients.setOrientation(conic.orientation);
-
-      conicGradients.setPositionCoordinates({
-        start: conic.x,
-        end: conic.y,
-      });
-
-      conicGradients.isRepeating = common.isRepeating;
-
-      for (let i = 0; i < stopColors.length; i++) {
-        const stopColor = stopColors[i] as CSSConicGradientColorStop;
-
-        const { color, id, opacity, endAngle, startAngle, transitionAngle } =
-          stopColor;
-        conicGradients.addStopColor({
-          color,
-          id,
-          opacity,
-          endAngle,
-          startAngle,
-          transitionAngle,
-        });
-      }
-
-      return conicGradients.generateCssGradient();
-    }
-
-    default:
-      break;
-  }
-}
 
 const generateGradientButton = selectFirstByClass<HTMLButtonElement>(
   "menu__gradient-generator-button"

@@ -87,52 +87,53 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
             break;
         }
       } else {
-      }
-      switch (j) {
-        case 1: {
-          const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
-          paragraph.textContent = `${currentIndex}.`;
-          break;
-        }
-
-        case 2:
-        case 3:
-        case 4: {
-          const label = selectQuery<HTMLLabelElement>("label", cell);
-          const inputTypeArray = getAttributeFrom("for", label).split("-");
-          inputTypeArray.splice(0, 1);
-
-          const inputType: string = inputTypeArray[0];
-
-          const input = selectQuery<HTMLInputElement>("input", cell);
-
-          const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
-          setAttributeFrom("for", labelForAttributeValue, label);
-          setAttributeFrom("id", labelForAttributeValue, input);
-
-          const hasAlsoSelectElement: boolean = j === 3;
-          if (hasAlsoSelectElement) {
-            const select = selectQuery<HTMLSelectElement>("select", cell);
-            const labelForSelectElement = selectFirstByClass<HTMLLabelElement>(
-              "menu__unit-offset--label",
-              cell
-            );
-
-            const labelForSelectAttribute: string = `select-unit-${currentIndex}`;
-            setAttributeFrom(
-              "for",
-              labelForSelectAttribute,
-              labelForSelectElement
-            );
-            setAttributeFrom("id", labelForSelectAttribute, select);
-            /*
-             */
+        switch (j) {
+          case 1: {
+            const paragraph = selectQuery<HTMLParagraphElement>("p", cell);
+            paragraph.textContent = `${currentIndex}.`;
+            break;
           }
-          break;
-        }
 
-        default:
-          break;
+          case 2:
+          case 3:
+          case 4: {
+            const label = selectQuery<HTMLLabelElement>("label", cell);
+            const inputTypeArray = getAttributeFrom("for", label).split("-");
+            inputTypeArray.splice(0, 1);
+
+            const inputType: string = inputTypeArray[0];
+
+            const input = selectQuery<HTMLInputElement>("input", cell);
+
+            const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
+            setAttributeFrom("for", labelForAttributeValue, label);
+            setAttributeFrom("id", labelForAttributeValue, input);
+
+            const hasAlsoSelectElement: boolean = j === 3;
+            if (hasAlsoSelectElement) {
+              const select = selectQuery<HTMLSelectElement>("select", cell);
+              const labelForSelectElement =
+                selectFirstByClass<HTMLLabelElement>(
+                  "menu__unit-offset--label",
+                  cell
+                );
+
+              const labelForSelectAttribute: string = `select-unit-${currentIndex}`;
+              setAttributeFrom(
+                "for",
+                labelForSelectAttribute,
+                labelForSelectElement
+              );
+              setAttributeFrom("id", labelForSelectAttribute, select);
+              /*
+               */
+            }
+            break;
+          }
+
+          default:
+            break;
+        }
       }
     }
   }

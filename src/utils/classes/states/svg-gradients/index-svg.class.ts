@@ -8,7 +8,7 @@ export type SVGSpreadMethods = "pad" | "reflect" | "repeat";
 
 // Not type safe enough as you can set it to "lol(69)" and TS won't throw an error
 export type SVGGradientTransformObject = {
-  [TTransformFunction in SVGGradientTransformFunctions]?: number;
+  [TTransformFunction in SVGGradientTransformFunctions]?: string | number;
 };
 
 export type SVGGradientTransformFunctions =

@@ -19,6 +19,8 @@
 
         scrollbar-gutter: stable;
 
+        padding-right: 5px;
+
         &:hover {
             --_scrollbar-bg: rgba(255, 255, 255, 25%);
             --_scrollbar-thumb-bg: white;
@@ -49,7 +51,7 @@
         width: 85%;
         height: 80dvh;
 
-        translate: -100% -50%;
+        translate: calc(-100% - 5px) -50%;
         transition: translate 350ms ease-in-out;
 
 

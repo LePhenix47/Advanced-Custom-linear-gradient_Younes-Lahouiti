@@ -65,6 +65,26 @@ class SVGGradientBase {
   }
 
   /**
+   * Sets the gradient units for the radial gradient.
+   * @param {("objectBoundingBox"|"userSpaceOnUse")} units - The units for the gradient.
+   * @throws {TypeError} If an invalid units value is provided.
+   */
+  setGradientUnits(units: "objectBoundingBox" | "userSpaceOnUse"): void {
+    const validUnits: string[] = ["objectBoundingBox", "userSpaceOnUse"];
+
+    const hasInvalidArgument: boolean = !validUnits.includes(units);
+    if (hasInvalidArgument) {
+      throw new TypeError(
+        `Invalid gradient units, expected one of [${validUnits.join(
+          ", "
+        )}] but got ${units}`
+      );
+    }
+
+    this.gradientUnits = units;
+  }
+
+  /**
    * Set the gradient transform using an object of transform functions.
    *
    * @param {SVGGradientTransformObject} transform - The transform functions to apply.
@@ -146,7 +166,7 @@ class SVGGradientBase {
     this.stopColors.splice(indexToBeReplacedBy, 1, objectToBeReplacedBy);
   }
 
-  toReactNativeSvg(htmlSvg: string) {
+  static toReactNativeSvg(htmlSvg: string): string {
     const backSpaceRegex: RegExp = /[\n]+/g;
     const formattedSvgString: string = htmlSvg.replaceAll(backSpaceRegex, "");
 
@@ -194,19 +214,7 @@ class SVGGradientBase {
       } else {
         for (let j = 1; j < partialItems.length; j++) {
           const attribute: string[] = partialItems[j].split("=");
-          /*
-        It does the job fine with the tag attributes BUT:
 
-        We need to fix the issue where style attributes aren't formatted properly
-
-        because in React Native styles are created like this: 
-
-        ex:
-        <View style={[{
-          width: '420%',
-          borderRadius: 69
-        }]}></View>
-        */
           const [key, value]: string[] = attribute;
           const camelCaseKey: string = kebabToCamelCase(key);
 
@@ -252,8 +260,7 @@ class SVGGradientBase {
     // Join the modified SVG partials back into a single string
     const reactNativeSvg: string = arrayOfHtmlSvg.join("\n");
 
-    // Now you can use the reactNativeSvg as needed
-    console.log(reactNativeSvg);
+    return reactNativeSvg;
   }
 }
 

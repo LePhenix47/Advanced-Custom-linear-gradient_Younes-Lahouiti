@@ -31,6 +31,11 @@ export type GradientInfos = {
         x: string; // x should be a string
         y: string; // y should be a string
         shape: "circle" | "ellipse"; // Type is limited to these values
+        size:
+          | "closest-side"
+          | "closest-corner"
+          | "farthest-side"
+          | "farthest-corner";
       };
       conic: {
         orientation: number; // Orientation should be a number
@@ -88,6 +93,7 @@ export const gradientInfos: GradientInfos = {
         x: "50%",
         y: "50%",
         shape: "circle",
+        size: "closest-side",
       },
       conic: {
         orientation: 0,

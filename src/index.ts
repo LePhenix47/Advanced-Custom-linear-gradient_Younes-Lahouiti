@@ -184,6 +184,9 @@ function createCssGradient() {
       });
 
       radialGradients.css.setShape(radial.shape);
+
+      radialGradients.css.setSize(radial.size);
+
       radialGradients.css.isRepeating = common.isRepeating;
 
       for (let i = 0; i < stopColors.length; i++) {

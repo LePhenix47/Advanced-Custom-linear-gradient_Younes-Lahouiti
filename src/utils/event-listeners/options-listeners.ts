@@ -64,7 +64,7 @@ export function addCssOptionsListeners() {
 
   const radialCssOption: HTMLDivElement = cssGradientOptions[1];
   const shapeSelectElement = selectQuery<HTMLSelectElement>(
-    "select",
+    "select#css-radial-shape",
     radialCssOption
   );
 
@@ -73,6 +73,19 @@ export function addCssOptionsListeners() {
     gradientInfos.options.css.radial.shape = select.value as
       | "circle"
       | "ellipse";
+  });
+
+  const sizeSelectElement = selectQuery<HTMLSelectElement>(
+    "select#css-radial-size",
+    radialCssOption
+  );
+  sizeSelectElement.addEventListener("change", (e: Event) => {
+    const select = e.target as HTMLSelectElement;
+    gradientInfos.options.css.radial.size = select.value as
+      | "closest-side"
+      | "closest-corner"
+      | "farthest-side"
+      | "farthest-corner";
   });
 
   const radialGradientOffsetsPicker = selectQuery<HTMLDivElement>(

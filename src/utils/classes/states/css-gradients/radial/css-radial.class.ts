@@ -33,6 +33,7 @@ class CSSRadialGradient extends CSSGradientBase {
    * @type {RadialGradientPosition}
    */
   position: RadialGradientPosition;
+  size: "closest-side" | "closest-corner" | "farthest-side" | "farthest-corner";
 
   /**
    * An array of color stops for the radial gradient.
@@ -56,6 +57,8 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       start: "50%",
       end: "50%",
     };
+
+    this.size = "closest-side";
     this.stopColors = [];
   }
 
@@ -74,6 +77,33 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
     }
 
     this.shape = shape;
+  }
+
+  setSize(
+    sizeValue:
+      | "closest-side"
+      | "closest-corner"
+      | "farthest-side"
+      | "farthest-corner"
+  ) {
+    const validSizes: string[] = [
+      "closest-side",
+      "closest-corner",
+      "farthest-side",
+      "farthest-corner",
+    ];
+
+    const hasInvalidArgument: boolean = !validSizes.includes(sizeValue);
+
+    if (hasInvalidArgument) {
+      throw new TypeError(
+        `Invalid size for radial gradient, expected one of [${validSizes.join(
+          ", "
+        )}] but got ${sizeValue}`
+      );
+    }
+
+    this.size = sizeValue;
   }
 
   /**
@@ -152,7 +182,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       ? "repeating-radial-gradient("
       : "radial-gradient(";
 
-    radialGradientString += `${this.shape} at ${this.position.start} ${this.position.end}, `;
+    radialGradientString += `${this.size} ${this.shape} at ${this.position.start} ${this.position.end}, `;
 
     for (let i = 0; i < this.stopColors.length; i++) {
       //

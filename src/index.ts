@@ -112,7 +112,7 @@ handleCanvasResize();
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
 setInterval(() => {
-  table(gradientInfos.stopColors);
+  // table(gradientInfos.stopColors);
   // log(gradientInfos);
 }, 1_500);
 
@@ -167,10 +167,8 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       const svgGradient = createSvgGradient();
       const { html, reactNative } = svgGradient;
 
-      log(html);
-      log(reactNative);
       svgGradientBackgroundElement.innerHTML = html;
-      menuGradientCode.textContent = html;
+      menuGradientCode.textContent = html.trim();
 
       break;
     }
@@ -178,11 +176,9 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       const canvasGradient = createCanvasGradient(canvas);
       const { code, gradient } = canvasGradient;
 
-      log(code);
-      log(gradient);
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      menuGradientCode.textContent = code;
+      menuGradientCode.textContent = code.trim();
 
       break;
     }

@@ -99,6 +99,21 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
           case 4:
           case 5:
           case 6: {
+            const label = selectQuery<HTMLLabelElement>("label", cell);
+            const checkboxInput = selectQuery<HTMLInputElement>(
+              "input[type=checkbox]",
+              cell
+            );
+
+            const inputTypeArray: string[] = getAttributeFrom("for", label)
+              .split("-")
+              .slice(0, 3);
+
+            const labelForAttributeValue: string = `${inputTypeArray.join(
+              "-"
+            )}-${currentIndex}`;
+            setAttributeFrom("for", labelForAttributeValue, label);
+            setAttributeFrom("id", labelForAttributeValue, checkboxInput);
             break;
           }
           default:

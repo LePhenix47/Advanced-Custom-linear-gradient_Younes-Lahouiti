@@ -228,6 +228,8 @@
         }
     }
 
+    &__types-language {}
+
     &__table-container {
         pointer-events: all !important;
 
@@ -558,6 +560,9 @@
         padding-block: 5px;
         border-radius: 100vmax;
     }
+
+    &__gradient-code-container {}
+
 
     &__gradient-code {
         // &:empty {

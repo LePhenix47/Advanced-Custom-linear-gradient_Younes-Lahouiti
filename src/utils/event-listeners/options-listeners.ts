@@ -145,12 +145,22 @@ export function addCssOptionsListeners() {
 }
 
 export function addSvgOptionsListeners() {
-  const svgGradientOptions =
-    selectQueryAll<HTMLDivElement>(`.menu__options--svg`);
+  const svgGradientOptions = selectQueryAll<HTMLDivElement>(
+    `.menu__options--svg>*`
+  );
+
+  const linearGradientOptions: HTMLDivElement = svgGradientOptions[0];
+  const radialGradientOptions: HTMLDivElement = svgGradientOptions[1];
+  const commonGradientOptions: HTMLDivElement = svgGradientOptions[2];
 }
 
 export function addCanvasOptionsListeners() {
   const canvasGradientOptions = selectQueryAll<HTMLDivElement>(
-    `.menu__options--canvas`
+    `.menu__options--canvas>*`
   );
+
+  const linearGradientOptions: HTMLDivElement = canvasGradientOptions[0];
+  const radialGradientOptions: HTMLDivElement = canvasGradientOptions[1];
+  const conicGradientOptions: HTMLDivElement = canvasGradientOptions[2];
+  const commonGradientOptions: HTMLDivElement = canvasGradientOptions[3];
 }

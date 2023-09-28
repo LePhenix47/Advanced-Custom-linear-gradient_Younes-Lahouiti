@@ -208,6 +208,8 @@ class CSSConicGradient extends CSSGradientBase {
    * Generate the CSS conic gradient string based on the set parameters.
    * @returns {string} - The CSS conic gradient string.
    */
+  /*
+
   generateCssGradient(): string {
     const cannotCreateGradient: boolean = this.stopColors.length < 2;
     if (cannotCreateGradient) {
@@ -227,11 +229,53 @@ class CSSConicGradient extends CSSGradientBase {
 
       const isLastIndex: boolean = i === this.stopColors.length - 1;
       const commaSeparator: string = isLastIndex ? "" : ", ";
+    
+  [start angle]deg [end angle (optional)]deg, [transition angle (optional)]deg,
 
-      const formattedAngles: string = `${startAngle} ${endAngle} ${transitionAngle}`;
+  Doesn't properly work when the stop color does not have a start, end or transition angle
+
+  ex of a broken output: conic-gradient(from 90deg at 83% 10%, #ffffffFF  , , #000000FF 45deg 87deg, 180deg)
+
+      const formattedAngles: string = `${startAngle} ${endAngle}, ${transitionAngle}`;
 
       conicGradientString += `${color} ${formattedAngles}${commaSeparator}`;
     }
+    conicGradientString += ")";
+    return conicGradientString;
+  }
+   */
+
+  /**
+   * Generate the CSS conic gradient string based on the set parameters.
+   * @returns {string} - The CSS conic gradient string.
+   */
+  generateCssGradient(): string {
+    const cannotCreateGradient: boolean = this.stopColors.length < 2;
+    if (cannotCreateGradient) {
+      return "none";
+    }
+
+    let conicGradientString: string = this.isRepeating
+      ? "repeating-conic-gradient("
+      : "conic-gradient(";
+
+    conicGradientString += `from ${this.orientation}deg at ${this.position.start} ${this.position.end}, `;
+
+    for (let i = 0; i < this.stopColors.length; i++) {
+      const stopColor = this.stopColors[i] as CSSConicGradientColorStop;
+      const { color, startAngle, endAngle, transitionAngle } = stopColor;
+
+      const formattedAngles: string = `${startAngle}${
+        endAngle ? ` ${endAngle}` : ""
+      }${transitionAngle ? ` ${transitionAngle}` : ""}`;
+
+      conicGradientString += `${color} ${formattedAngles}`;
+
+      if (i !== this.stopColors.length - 1) {
+        conicGradientString += ", ";
+      }
+    }
+
     conicGradientString += ")";
     return conicGradientString;
   }

@@ -190,14 +190,10 @@ class SVGGradientBase {
     */
       const htmlSvgPartial: string = arrayOfHtmlSvg[i];
 
-      // log({htmlSvgPartial})
-
       // Split each SVG partial by whitespace
       const partialItems: string[] = htmlSvgPartial.split(
         /\s+(?=(?:(?:[^"]*"){2})*[^"]*$)/
       );
-
-      // log({partialItems})
 
       // Capitalize the first letter of the tag
       partialItems[0] = camelToPascalCase(partialItems[0]);

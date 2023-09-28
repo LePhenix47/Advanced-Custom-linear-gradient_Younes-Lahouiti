@@ -147,14 +147,10 @@ export function addCssOptionsListeners() {
 export function addSvgOptionsListeners() {
   const svgGradientOptions =
     selectQueryAll<HTMLDivElement>(`.menu__options--svg`);
-
-  log(svgGradientOptions);
 }
 
 export function addCanvasOptionsListeners() {
   const canvasGradientOptions = selectQueryAll<HTMLDivElement>(
     `.menu__options--canvas`
   );
-
-  log(canvasGradientOptions);
 }

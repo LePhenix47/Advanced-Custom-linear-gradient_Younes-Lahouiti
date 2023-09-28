@@ -360,6 +360,4 @@ export function setStopColorForConicGradient(
 
   //@ts-ignore
   gradientInfos.stopColors.push(stopColor);
-
-  log("Gradient infos:", gradientInfos.stopColors);
 }

@@ -12,6 +12,7 @@ import {
   degreesToRadians,
 } from "@utils/helpers/math.helpers";
 import SVGGradientBase from "../class-base/svg-gradient-base.class";
+import { log } from "@utils/helpers/console.helpers";
 
 /**
  * Class for creating SVG linear gradients.
@@ -116,10 +117,11 @@ SVG Linear gradient formal syntax:
       const stopColor: SVGGradientColorStop = this.stopColors[i];
       const { offset, color, opacity, id } = stopColor;
 
+      log(color);
+
       let normalizedOffset: string = offset;
       const colorHasNoOffset: boolean = offset === null;
       if (colorHasNoOffset) {
-        console.log(i / (amountOfStopColors - 1));
         normalizedOffset = `${(i / (amountOfStopColors - 1)) * 100}%`;
       }
       /*

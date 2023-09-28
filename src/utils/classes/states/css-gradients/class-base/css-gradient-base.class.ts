@@ -74,7 +74,6 @@ class CSSGradientBase {
       return;
     }
 
-    log({ offset });
     const { value, unit } = offset;
     normalizedOffset = `${value}${unit}`;
 
@@ -96,7 +95,7 @@ class CSSGradientBase {
     const formattedStartAngle: string = !startAngle ? "" : `${startAngle}deg`;
     stopColor.startAngle = formattedStartAngle;
 
-    const formattedEndAngle: string = !endAngle ? "" : `, ${endAngle}deg`;
+    const formattedEndAngle: string = !endAngle ? "" : `${endAngle}deg`;
     stopColor.endAngle = formattedEndAngle;
 
     const formattedTransitionAngle: string = !transitionAngle

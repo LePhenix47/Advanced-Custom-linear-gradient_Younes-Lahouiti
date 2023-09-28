@@ -303,15 +303,12 @@ class AnglePicker extends HTMLElement {
       );
 
       if (isAngleMarker) {
-        log("clicked angle marker!", elementClasses);
-
         const digitsString: RegExp = /\d+/g;
         const degrees: number = Number(
           elementClasses[1].match(digitsString)[0]
         );
 
         this.angle = degrees;
-        log({ degrees });
       }
     });
   }
@@ -401,8 +398,6 @@ customElements.define("angle-picker", AnglePicker);
 //   const mouseY: number = centerDotRect.y - e.y; // The inversion is needed here because JS uses the SVG coords system
 
 //   const angle: number = calculateAngle(mouseX, mouseY);
-
-//   // console.log(`${angle}deg`);
 
 // const { isPressing } = pointerInfos;
 // if (isPressing) {

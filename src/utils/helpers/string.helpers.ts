@@ -39,7 +39,6 @@ export function formatStyleAttribute(styleValue: string): string {
     .replaceAll(/\"/g, "")
     .split(";")
     .filter(Boolean);
-  log({ styleDeclarations });
 
   // Create an object to store the style properties
   const styleObject: Record<string, string> = {};

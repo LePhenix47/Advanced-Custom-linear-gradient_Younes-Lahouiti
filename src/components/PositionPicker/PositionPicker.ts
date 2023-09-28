@@ -203,7 +203,6 @@ class PositionPicker extends HTMLElement {
   }
 
   connectedCallback() {
-    log("Added the position picker to the DOM");
 
     const container = selectQuery<HTMLDivElement>(
       ".picker__container",
@@ -246,7 +245,6 @@ class PositionPicker extends HTMLElement {
   }
 
   disconnectedCallback() {
-    log("Removed the position picker from the DOM");
     this.cancelAnimation();
 
     const container = selectQuery<HTMLDivElement>(

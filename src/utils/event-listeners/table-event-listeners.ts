@@ -95,6 +95,12 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
             setAttributeFrom("id", labelForAttributeValue, input);
             break;
           }
+
+          case 4:
+          case 5:
+          case 6: {
+            break;
+          }
           default:
             break;
         }
@@ -286,8 +292,6 @@ function addEventListenersToNonConicRow(row: HTMLTableRowElement) {
   opacityInput.addEventListener("input", (e: Event) => {
     setOpacityInput(e, rowIndex);
   });
-
-  log(offsetInput, opacityInput);
 }
 
 function addEventListenersToConicRow(row: HTMLTableRowElement) {
@@ -296,7 +300,6 @@ function addEventListenersToConicRow(row: HTMLTableRowElement) {
     row
   );
   const rowIndex: number = Number(rowParagraphForIndex.innerText);
-  log(rowIndex);
   // Attach event listeners to color and number inputs in the new row
   const colorInput = selectQuery<HTMLInputElement>("input[type=color]", row);
   // Handle color input changes
@@ -340,8 +343,6 @@ function addEventListenersToConicRow(row: HTMLTableRowElement) {
  */
 export function setTableRowsByDelegation(e: MouseEvent): void {
   const clickedElement = e.target as HTMLElement;
-
-  log(clickedElement);
 
   const elementClasses: string[] = getClassListValues(clickedElement);
 
@@ -485,8 +486,6 @@ function setOffsetInput(e: Event, rowIndex: number): void {
     e.currentTarget as HTMLInputElement | HTMLSelectElement
   );
 
-  log(e.currentTarget);
-
   const offsetValueInput = selectQuery<HTMLInputElement>(
     "input",
     parentElement
@@ -511,7 +510,6 @@ function setOffsetInput(e: Event, rowIndex: number): void {
 
 function setAngleToConic(e: CustomEvent, rowIndex: number) {
   const { currentTarget } = e;
-  log(currentTarget);
   const parentElement = getAncestor<HTMLDivElement>(
     e.currentTarget as HTMLElement,
     "div"
@@ -528,15 +526,7 @@ function setAngleToConic(e: CustomEvent, rowIndex: number) {
     ? e.detail?.angle ?? 0
     : null;
 
-  // Log the checkbox status
-  console.log(`Checkbox checked: ${hasAngleCheckbox.checked}`);
-
-  // Log the angleInDegrees
-  console.log(`Angle in degrees: ${angleInDegrees}`);
-
   const [anglePickerTypeClass] = getClassListValues(anglePicker);
-  // Log other relevant information for debugging
-  console.log(`Angle picker type class: ${anglePickerTypeClass}`);
 
   const isStartingAngle: boolean = anglePickerTypeClass.includes("start");
 

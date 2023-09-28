@@ -551,11 +551,18 @@
         }
     }
 
+    &__gradient-generator-button {
+        background-color: #3b3b3b;
+
+        padding-inline: 10px;
+        padding-block: 5px;
+        border-radius: 100vmax;
+    }
 
     &__gradient-code {
-        &:empty {
-            display: none;
-        }
+        // &:empty {
+        //     display: none;
+        // }
 
         background-color: #1f1f1f;
 

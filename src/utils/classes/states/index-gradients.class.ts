@@ -41,7 +41,6 @@ class Gradient {
     gradientType: GradientType,
     context?: CanvasRenderingContext2D
   ): GradientReturnType {
-    log(language, gradientType);
     switch (language) {
       case "css": {
         return new CSSGradient().create(gradientType) as CSSGradientReturnType;

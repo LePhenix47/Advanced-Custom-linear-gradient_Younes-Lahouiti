@@ -131,7 +131,6 @@ const gradient = ctx.createLinearGradient(${normalizedX0}, ${normalizedY0}, ${no
     for (let i = 0; i < this.stopColors.length; i++) {
       const stopColor: CanvasLinearGradientColorStop = this.stopColors[i];
 
-      console.log(stopColor);
       const { color, offset } = stopColor;
 
       const numberOffset = offset as number;
@@ -140,8 +139,6 @@ const gradient = ctx.createLinearGradient(${normalizedX0}, ${normalizedY0}, ${no
       const defaultIndexOffset: number = isNaN(numberOffset)
         ? this.getOffsetByIndex(i, this.stopColors.length)
         : numberOffset;
-
-      console.log({ defaultIndexOffset });
 
       gradient.addColorStop(defaultIndexOffset, color);
 
@@ -193,8 +190,6 @@ export default CanvasLinearGradient;
 
 // // Generate the canvas gradient and code
 // const { gradient, code } = linearGradient.generateCanvasGradient();
-
-// console.log(code);
 
 // // Set the fill style to the gradient
 // ctx.fillStyle = gradient;

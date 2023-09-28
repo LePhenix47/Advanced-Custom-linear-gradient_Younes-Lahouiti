@@ -80,6 +80,21 @@ export function updateRows(tbody: HTMLTableSectionElement): void {
             paragraph.textContent = `${currentIndex}.`;
             break;
           }
+          case 2:
+          case 3: {
+            const label = selectQuery<HTMLLabelElement>("label", cell);
+            const inputTypeArray = getAttributeFrom("for", label).split("-");
+            inputTypeArray.splice(0, 1);
+
+            const inputType: string = inputTypeArray[0];
+
+            const input = selectQuery<HTMLInputElement>("input", cell);
+
+            const labelForAttributeValue: string = `input-${inputType}-${currentIndex}`;
+            setAttributeFrom("for", labelForAttributeValue, label);
+            setAttributeFrom("id", labelForAttributeValue, input);
+            break;
+          }
           default:
             break;
         }
@@ -311,7 +326,7 @@ function addEventListenersToConicRow(row: HTMLTableRowElement) {
   );
 
   for (const checkbox of checkboxesForAnglePickers) {
-    checkbox.addEventListener("input", (e: CustomEvent) => {
+    checkbox.addEventListener("changed", (e: CustomEvent) => {
       setAngleToConic(e, rowIndex);
     });
   }
@@ -530,7 +545,7 @@ function setAngleToConic(e: CustomEvent, rowIndex: number) {
   const isTransitionAngle: boolean =
     anglePickerTypeClass.includes("transition");
 
-  let angleProperty = "";
+  let angleProperty: string = "";
   if (isStartingAngle) {
     angleProperty = "startAngle";
   } else if (isEndingAngle) {

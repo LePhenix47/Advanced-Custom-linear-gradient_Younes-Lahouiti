@@ -277,6 +277,7 @@ export function setStopColorForNonConicGradient(
   gradientInfos.stopColors.push(stopColor);
 }
 
+// Needs to be implemented
 export function setStopColorForConicGradient(
   cells: HTMLTableCellElement[],
   currentIndex: number
@@ -298,6 +299,57 @@ export function setStopColorForConicGradient(
 
     switch (i) {
       case 2: {
+        // Handle color input (Assuming it's an <input type="color"> element)
+        const colorInput = selectQuery<HTMLInputElement>(
+          "input[type=color]",
+          cell
+        );
+        stopColor.color = colorInput.value;
+        break;
+      }
+      case 3: {
+        // Handle opacity input (Assuming it's an <input type="number"> element)
+        const opacityInput = selectQuery<HTMLInputElement>(
+          "input[type=number]",
+          cell
+        );
+        if (opacityInput) {
+          const opacityValue: number = opacityInput.valueAsNumber;
+
+          stopColor.opacity = `${opacityValue}%`;
+        }
+        break;
+      }
+
+      case 4:
+      case 5:
+      case 6: {
+        const isStartingAngle: boolean = i === 4;
+
+        const isEndingAngle: boolean = i === 5;
+
+        const isTransitionAngle: boolean = i === 6;
+
+        let angleProperty: string = "";
+        if (isStartingAngle) {
+          angleProperty = "startAngle";
+        } else if (isEndingAngle) {
+          angleProperty = "endAngle";
+        } else if (isTransitionAngle) {
+          angleProperty = "transitionAngle";
+        }
+
+        const anglePicker = selectQuery<HTMLElement>("angle-picker", cell);
+        const checkbox = selectQuery<HTMLInputElement>(
+          "input[type=checkbox]",
+          cell
+        );
+
+        const angleInDegrees: number | null = checkbox.checked
+          ? Number(getAttributeFrom("angle", anglePicker)) ?? 0
+          : null;
+
+        stopColor[angleProperty] = angleInDegrees;
         break;
       }
 
@@ -308,4 +360,6 @@ export function setStopColorForConicGradient(
 
   //@ts-ignore
   gradientInfos.stopColors.push(stopColor);
+
+  log("Gradient infos:", gradientInfos.stopColors);
 }

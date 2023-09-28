@@ -97,9 +97,9 @@ class CSSConicGradient extends CSSGradientBase {
    * @private
    */
   private isTransitionAngleValid(
-    startAngle: number,
-    endAngle: number,
-    transitionAngle: number
+    startAngle: string,
+    endAngle: string,
+    transitionAngle: string
   ): boolean {
     const hasNoTransitionAngle: boolean = transitionAngle === null;
     if (hasNoTransitionAngle) {
@@ -107,10 +107,10 @@ class CSSConicGradient extends CSSGradientBase {
     }
 
     const { isNaN } = Number;
-    const inputtedArguments: number[] = [startAngle, endAngle, transitionAngle];
+    const inputtedArguments: string[] = [startAngle, endAngle, transitionAngle];
 
-    for (const arg of inputtedArguments) {
-      const hasInvalidType: boolean = typeof arg !== "number";
+    for (let arg of inputtedArguments) {
+      const hasInvalidType: boolean = typeof arg !== "string";
       const hasNaNValue: boolean = isNaN(arg);
 
       const argumentIsInvalid: boolean = hasInvalidType || hasNaNValue;
@@ -123,8 +123,17 @@ class CSSConicGradient extends CSSGradientBase {
       }
     }
 
+    const formattedStartAngle: number = Number(
+      startAngle.replaceAll("deg", "")
+    );
+    const formattedEndAngle: number = Number(endAngle.replaceAll("deg", ""));
+    const formattedTransitionAngle: number = Number(
+      transitionAngle.replaceAll("deg", "")
+    );
+
     const isWithinRange: boolean =
-      transitionAngle >= startAngle && transitionAngle <= endAngle;
+      formattedTransitionAngle >= formattedStartAngle &&
+      formattedTransitionAngle <= formattedEndAngle;
 
     return isWithinRange;
   }
@@ -142,7 +151,7 @@ class CSSConicGradient extends CSSGradientBase {
    * @param {ConicGradientPosition} coordinates - The position coordinates.
    * @returns {void}
    */
-  setPositionCoordinates(coordinates: ConicGradientPosition) {
+  setPositionCoordinates(coordinates: ConicGradientPosition): void {
     const { start: coordsStart, end: coordsEnd } = coordinates;
 
     this.position.start = coordsStart;
@@ -185,9 +194,9 @@ class CSSConicGradient extends CSSGradientBase {
 
     const { startAngle, endAngle, transitionAngle } = stopColor;
     this.isTransitionAngleValid(
-      startAngle as number,
-      endAngle as number,
-      transitionAngle as number
+      startAngle as string,
+      endAngle as string,
+      transitionAngle as string
     );
 
     this.stopColors.push(stopColor);

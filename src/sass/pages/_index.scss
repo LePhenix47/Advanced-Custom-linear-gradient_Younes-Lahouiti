@@ -41,7 +41,7 @@
         container-name: menu;
 
         backdrop-filter: blur(20px);
-        background-image: linear-gradient(90deg, transparent, #7a7a7a4d);
+        background-color: #7a7a7a4d;
 
         background-attachment: fixed;
         background-size: cover;
@@ -110,8 +110,8 @@
         top: -2px;
         right: calc(-1 * var(--_size));
 
-        background-image: inherit;
-        backdrop-filter: blur(20px);
+        background-color: #7a7a7a4d;
+        backdrop-filter: blur(10px);
 
         border-radius: 5px;
         border-top-left-radius: 0px;

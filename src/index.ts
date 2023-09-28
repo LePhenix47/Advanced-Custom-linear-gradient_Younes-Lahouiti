@@ -41,6 +41,7 @@ import {
   createCssGradient,
   createSvgGradient,
 } from "@utils/event-listeners/gradient-functions";
+import { copyTextToClipBoard } from "@utils/helpers/string.helpers";
 
 const menuToggleLabel = selectFirstByClass<HTMLLabelElement>(
   "index__menu-opener-label"
@@ -158,6 +159,14 @@ export const svgGradientBackgroundElement = selectFirstByClass<HTMLDivElement>(
   "index__gradient--svg"
 );
 
+const menuGradientCode = selectFirstByClass<HTMLPreElement>(
+  "menu__gradient-code"
+);
+
+menuGradientCode.addEventListener("click", () => {
+  copyTextToClipBoard(menuGradientCode.innerText);
+});
+
 generateGradientButton.addEventListener("click", (e: MouseEvent) => {
   const { language } = gradientInfos;
   log("Click");
@@ -173,6 +182,8 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
         cssGradient,
         cssGradientBackgroundElement
       );
+
+      menuGradientCode.textContent = cssGradient;
       break;
     }
     case "svg": {
@@ -182,6 +193,8 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       log(html);
       log(reactNative);
       svgGradientBackgroundElement.innerHTML = html;
+      menuGradientCode.textContent = html;
+
       break;
     }
     case "canvas": {
@@ -192,6 +205,8 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       log(gradient);
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      menuGradientCode.textContent = code;
+
       break;
     }
 

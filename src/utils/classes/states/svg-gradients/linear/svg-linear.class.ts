@@ -117,9 +117,8 @@ SVG Linear gradient formal syntax:
       const stopColor: SVGGradientColorStop = this.stopColors[i];
       const { offset, color, opacity, id } = stopColor;
 
-      log(color);
-
-      let normalizedOffset: string = offset;
+      //@ts-ignore
+      let normalizedOffset: string = offset?.value / 100;
       const colorHasNoOffset: boolean = offset === null;
       if (colorHasNoOffset) {
         normalizedOffset = `${(i / (amountOfStopColors - 1)) * 100}%`;

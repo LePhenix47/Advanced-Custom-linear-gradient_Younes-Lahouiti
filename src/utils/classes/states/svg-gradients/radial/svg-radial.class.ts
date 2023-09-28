@@ -1,3 +1,4 @@
+import { log } from "@utils/helpers/console.helpers";
 import SVGGradientBase from "../class-base/svg-gradient-base.class";
 import SVGGradient, {
   SVGCoordsFromRadian,
@@ -101,10 +102,11 @@ SVG Radial gradient formal syntax:
       const stopColor: SVGGradientColorStop = this.stopColors[i];
       const { offset, color, opacity, id } = stopColor;
 
-      let normalizedOffset: string = offset;
+      log({ offset });
+      //@ts-ignore
+      let normalizedOffset: string = offset?.value / 100;
       const colorHasNoOffset: boolean = offset === null;
       if (colorHasNoOffset) {
-        console.log(i / (amountOfStopColors - 1));
         normalizedOffset = `${(i / (amountOfStopColors - 1)) * 100}%`;
       }
 

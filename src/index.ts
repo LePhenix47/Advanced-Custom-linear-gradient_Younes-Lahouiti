@@ -7,7 +7,7 @@ import {
   addNewRowEntry,
   setTableRowsByDelegation,
 } from "@utils/event-listeners/table-event-listeners";
-import { log } from "@utils/helpers/console.helpers";
+import { log, table } from "@utils/helpers/console.helpers";
 import {
   addClass,
   getChildren,
@@ -111,32 +111,9 @@ handleCanvasResize();
 
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
-export const linearGradients = {
-  svg: new Gradient().create("svg", "linear") as SVGLinearGradient,
-  canvas: new Gradient().create(
-    "canvas",
-    "linear",
-    ctx
-  ) as CanvasLinearGradient,
-};
-
-export const radialGradients = {
-  svg: new Gradient().create("svg", "radial") as SVGRadialGradient,
-  canvas: new Gradient().create(
-    "canvas",
-    "radial",
-    ctx
-  ) as CanvasRadialGradient,
-};
-
-export const conicGradients = {
-  css: new Gradient().create("css", "conic") as CSSConicGradient,
-  canvas: new Gradient().create("canvas", "conic", ctx) as CanvasConicGradient,
-};
-
 setInterval(() => {
-  // table(gradientInfos.stopColors);
-  log(gradientInfos);
+  table(gradientInfos.stopColors);
+  // log(gradientInfos);
 }, 1_500);
 
 function addOptionsEventListeners() {

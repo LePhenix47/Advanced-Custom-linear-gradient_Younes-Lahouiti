@@ -243,16 +243,13 @@
 
         min-height: 78px;
         height: 250px;
-        max-height: 750px;
 
         @include tablet-only {
             min-height: 250px;
-            max-height: 500px;
         }
 
         @include mobile-only {
             min-height: 250px;
-            max-height: 500px;
         }
 
         overflow-x: hidden;

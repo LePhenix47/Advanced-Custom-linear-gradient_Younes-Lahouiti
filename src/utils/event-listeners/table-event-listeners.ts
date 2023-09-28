@@ -21,7 +21,7 @@ import {
   resetStopColorsState,
   setStopColorPropertyById,
 } from "@utils/variables/global-states/gradient-infos";
-import { log } from "@utils/helpers/console.helpers";
+import { log, table, warn } from "@utils/helpers/console.helpers";
 
 export function resetTableRows() {
   const tableBody =
@@ -296,6 +296,25 @@ function addEventListenersToConicRow(row: HTMLTableRowElement) {
   opacityInput.addEventListener("input", (e: Event) => {
     setOpacityInput(e, rowIndex);
   });
+
+  const anglePickers = selectQueryAll<HTMLElement>("angle-picker", row);
+
+  for (const anglePicker of anglePickers) {
+    anglePicker.addEventListener("custom:angle-change", (e: CustomEvent) => {
+      setAngleToConic(e, rowIndex);
+    });
+  }
+
+  const checkboxesForAnglePickers = selectQueryAll<HTMLInputElement>(
+    "input[type=checkbox]",
+    row
+  );
+
+  for (const checkbox of checkboxesForAnglePickers) {
+    checkbox.addEventListener("input", (e: CustomEvent) => {
+      setAngleToConic(e, rowIndex);
+    });
+  }
 }
 
 /**
@@ -473,4 +492,53 @@ function setOffsetInput(e: Event, rowIndex: number): void {
     unit,
     value,
   });
+}
+
+function setAngleToConic(e: CustomEvent, rowIndex: number) {
+  const { currentTarget } = e;
+  log(currentTarget);
+  const parentElement = getAncestor<HTMLDivElement>(
+    e.currentTarget as HTMLElement,
+    "div"
+  );
+
+  const anglePicker = selectQuery<HTMLElement>("angle-picker", parentElement);
+
+  const hasAngleCheckbox = selectQuery<HTMLInputElement>(
+    "input[type=checkbox]",
+    parentElement
+  );
+
+  const angleInDegrees: number | null = hasAngleCheckbox.checked
+    ? e.detail?.angle ?? 0
+    : null;
+
+  // Log the checkbox status
+  console.log(`Checkbox checked: ${hasAngleCheckbox.checked}`);
+
+  // Log the angleInDegrees
+  console.log(`Angle in degrees: ${angleInDegrees}`);
+
+  const [anglePickerTypeClass] = getClassListValues(anglePicker);
+  // Log other relevant information for debugging
+  console.log(`Angle picker type class: ${anglePickerTypeClass}`);
+
+  const isStartingAngle: boolean = anglePickerTypeClass.includes("start");
+
+  const isEndingAngle: boolean = anglePickerTypeClass.includes("end");
+
+  const isTransitionAngle: boolean =
+    anglePickerTypeClass.includes("transition");
+
+  let angleProperty = "";
+  if (isStartingAngle) {
+    angleProperty = "startAngle";
+  } else if (isEndingAngle) {
+    angleProperty = "endAngle";
+  } else if (isTransitionAngle) {
+    angleProperty = "transitionAngle";
+  } else {
+    throw new Error(`Invalid angle type, received: ${anglePickerTypeClass}`);
+  }
+  setStopColorPropertyById(rowIndex, angleProperty, angleInDegrees);
 }

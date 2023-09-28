@@ -244,7 +244,7 @@ class AnglePicker extends HTMLElement {
     this.setAttribute("angle", angleAsString);
 
     // Dispatch a custom event when the angle changes
-    const angleChangedEvent = new CustomEvent("custom:angle-changed", {
+    const angleChangedEvent = new CustomEvent("custom:angle-change", {
       detail: { angle: newAngle },
       composed: true, // This is a web component this we need to make go through the shadow DOM
     });

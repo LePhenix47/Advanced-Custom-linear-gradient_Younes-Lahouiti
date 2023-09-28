@@ -554,4 +554,16 @@
         }
     }
 
+
+    &__gradient-code {
+        &:empty {
+            display: none;
+        }
+
+        background-color: #1f1f1f;
+
+        padding: 10px;
+        border-radius: 10px;
+    }
+
 }

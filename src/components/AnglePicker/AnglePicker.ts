@@ -211,17 +211,17 @@ templateElement.innerHTML = /*html */ `
 
 class AnglePicker extends HTMLElement {
   pointerInfos: { x: number; y: number; isPressing: boolean };
+
   constructor() {
     super();
-    //We create the container that holds the web component
+    // We create the container that holds the web component
     const shadowRoot = this.attachShadow({ mode: "open" });
 
-    //We clone the template
+    // We clone the template
     const clonedTemplate = templateElement.content.cloneNode(true);
-    //We add it as a child of our web component
+    // We add it as a child of our web component
     shadowRoot.appendChild(clonedTemplate);
 
-    //
     this.pointerInfos = {
       x: NaN,
       y: NaN,
@@ -230,7 +230,7 @@ class AnglePicker extends HTMLElement {
   }
 
   static get observedAttributes() {
-    //We indicate the list of attributes that the custom element wants to observe for changes.
+    // We indicate the list of attributes that the custom element wants to observe for changes.
     return ["angle"];
   }
 
@@ -242,6 +242,13 @@ class AnglePicker extends HTMLElement {
   set angle(newAngle: number) {
     const angleAsString: string = newAngle.toString();
     this.setAttribute("angle", angleAsString);
+
+    // Dispatch a custom event when the angle changes
+    const angleChangedEvent = new CustomEvent("custom:angle-changed", {
+      detail: { angle: newAngle },
+      composed: true, // This is a web component this we need to make go through the shadow DOM
+    });
+    this.dispatchEvent(angleChangedEvent);
   }
 
   connectedCallback() {

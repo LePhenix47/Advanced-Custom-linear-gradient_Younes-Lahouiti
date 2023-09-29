@@ -159,6 +159,13 @@ class PositionPicker extends HTMLElement {
   set x(newValue: number) {
     const stringifiedValue: string = newValue.toString();
     this.setAttribute("x", stringifiedValue);
+
+    // Dispatch a custom event when the angle changes
+    const positionChangeEvent = new CustomEvent("custom:position-change", {
+      detail: { offsetX: newValue, offsetY: this.y },
+      composed: true, // This is a web component this we need to make go through the shadow DOM
+    });
+    this.dispatchEvent(positionChangeEvent);
   }
 
   get y() {
@@ -168,6 +175,13 @@ class PositionPicker extends HTMLElement {
   set y(newValue: number) {
     const stringifiedValue: string = newValue.toString();
     this.setAttribute("y", stringifiedValue);
+
+    // Dispatch a custom event when the angle changes
+    const positionChangeEvent = new CustomEvent("custom:position-change", {
+      detail: { offsetX: this.x, offsetY: newValue },
+      composed: true, // This is a web component this we need to make go through the shadow DOM
+    });
+    this.dispatchEvent(positionChangeEvent);
   }
 
   get title() {
@@ -203,7 +217,6 @@ class PositionPicker extends HTMLElement {
   }
 
   connectedCallback() {
-
     const container = selectQuery<HTMLDivElement>(
       ".picker__container",
       this.shadowRoot

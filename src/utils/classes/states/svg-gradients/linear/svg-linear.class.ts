@@ -67,7 +67,7 @@ SVG Linear gradient formal syntax:
    * @returns {void}
    */
   setOrientation(orientation: number): void {
-    const radAngle = degreesToRadians(orientation);
+    const radAngle = degreesToRadians(orientation + 90);
 
     this.orientationCoords = calculateCoordsFromRadian(radAngle);
   }

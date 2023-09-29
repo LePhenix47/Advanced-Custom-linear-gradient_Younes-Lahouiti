@@ -154,7 +154,20 @@ export function addSvgOptionsListeners() {
   );
 
   const linearGradientOptions: HTMLDivElement = svgGradientOptions[0];
+  const svgLinearGradientAnglePicker = selectQuery(
+    "angle-picker",
+    linearGradientOptions
+  );
+
+  svgLinearGradientAnglePicker.addEventListener(
+    "custom:angle-change",
+    (e: CustomEvent) => {
+      gradientInfos.options.svg.linear.orientation = e.detail.angle;
+    }
+  );
+
   const radialGradientOptions: HTMLDivElement = svgGradientOptions[1];
+
   const commonGradientOptions: HTMLDivElement = svgGradientOptions[2];
 
   const gradientUnitsSelect = selectQuery<HTMLSelectElement>(
@@ -201,6 +214,15 @@ export function addSvgOptionsListeners() {
     "select#svg-spread-method",
     commonGradientOptions
   );
+
+  spreadMethodSelect.addEventListener("change", (e: Event) => {
+    const select = e.currentTarget as HTMLSelectElement;
+
+    gradientInfos.options.svg.common.spreadMethod = select.value as
+      | "pad"
+      | "reflect"
+      | "repeat";
+  });
 }
 
 export function addCanvasOptionsListeners() {

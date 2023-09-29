@@ -9,7 +9,12 @@ import {
   getParent,
   selectByClass,
 } from "@utils/helpers/dom.helpers";
-import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
+import {
+  addTransformToGradientInfos,
+  deleteTransformToGradientInfos,
+  getTransformValues,
+  gradientInfos,
+} from "@utils/variables/global-states/gradient-infos";
 
 /**
  * Creates and configures a MutationObserver to monitor specified attributes of an HTMLElement.
@@ -181,11 +186,16 @@ export function addSvgOptionsListeners() {
           return transformFunction === dataAttributeFunction;
         });
 
+      const transformObject = getTransformValues(fieldSetToModify);
       const hasNowChosenFunction: boolean = checkbox.checked;
       if (hasNowChosenFunction) {
         removeClass(fieldSetToModify, "hide");
+
+        addTransformToGradientInfos(transformObject);
       } else {
         addClass(fieldSetToModify, "hide");
+
+        deleteTransformToGradientInfos(transformObject);
       }
     });
   }

@@ -9,6 +9,7 @@ import {
   SVGGradientColorStop,
   SVGGradientTransformObject,
 } from "@utils/classes/states/svg-gradients/index-svg.class";
+import { copyArray } from "@utils/helpers/array.helpers";
 import { log, table } from "@utils/helpers/console.helpers";
 import {
   getAttributeFrom,
@@ -17,6 +18,12 @@ import {
   selectQueryAll,
   setAttributeFrom,
 } from "@utils/helpers/dom.helpers";
+import { getObjectValues } from "@utils/helpers/object.helpers";
+
+type TransformFunction = {
+  functionName: string;
+  value: number | string | object;
+};
 
 export type GradientInfos = {
   language: "css" | "svg" | "canvas"; // Language is limited to these values
@@ -63,7 +70,7 @@ export type GradientInfos = {
       };
       common: {
         gradientUnits: "userSpaceOnUse" | "objectBoundingBox"; // Limited values
-        transformFunctions: { functionName: string; value: number | string }[]; // transformFunctions should be a string
+        transformFunctions: TransformFunction[]; // transformFunctions should be a string
         spreadMethod: "pad" | "reflect" | "repeat"; // Limited values
       };
     };
@@ -151,6 +158,102 @@ export const gradientInfos: GradientInfos = {
     },
   },
 };
+
+/**
+ * Removes duplicates from an array of transform objects based on the `functionName` property.
+ * @param {TransformFunction[]} transforms - The array of transform objects.
+ * @returns {TransformFunction[]} An array with duplicates removed.
+ */
+export function removeDuplicateTransformsByFunctionName(
+  transforms: TransformFunction[]
+): TransformFunction[] {
+  const seenFunctionNames = {};
+
+  // Array.from()
+  const copiedArray = copyArray(transforms);
+
+  const filteredOutArray = copiedArray
+    .reverse()
+    .reduce((uniqueTransforms, transform) => {
+      const isUnique: boolean = !seenFunctionNames[transform.functionName];
+      if (isUnique) {
+        seenFunctionNames[transform.functionName] = true;
+        uniqueTransforms[transform.functionName] = transform;
+      }
+      return uniqueTransforms;
+    }, {});
+
+  // Object.values()
+  const objectKeyNames = getObjectValues(filteredOutArray);
+
+  return objectKeyNames;
+}
+
+export function addTransformToGradientInfos(transform: TransformFunction) {
+  gradientInfos.options.svg.common.transformFunctions.push(transform);
+
+  gradientInfos.options.svg.common.transformFunctions =
+    removeDuplicateTransformsByFunctionName(
+      gradientInfos.options.svg.common.transformFunctions
+    );
+}
+
+export function deleteTransformToGradientInfos(transform: TransformFunction) {
+  const currentTransforms = gradientInfos.options.svg.common.transformFunctions;
+
+  const indexToDelete: number =
+    gradientInfos.options.svg.common.transformFunctions.findIndex(
+      (currentTransform) => {
+        return currentTransform.functionName === transform.functionName;
+      }
+    );
+
+  const hasFoundIndex: boolean = indexToDelete !== -1;
+  if (hasFoundIndex) {
+    // Use splice to remove the transform from the array
+    gradientInfos.options.svg.common.transformFunctions =
+      currentTransforms.splice(indexToDelete, 1);
+  } else {
+    throw new Error(`Invalid transform function inputted ${transform}`);
+  }
+  // ADD logic to remove that transform inputted as an argument
+}
+
+/**
+ * Retrieves the values of the chosen transform based on the type.
+ * @param {HTMLFieldSetElement} fieldSet - The fieldset containing the transform inputs.
+ * @return {TransformFunction} The transform function object with functionName and value.
+ */
+export function getTransformValues(
+  fieldSet: HTMLFieldSetElement
+): TransformFunction {
+  const dataAttributeFunction: string | null = fieldSet.dataset.transform;
+  if (!dataAttributeFunction) {
+    throw new Error("Fieldset does not have a valid data-transform attribute.");
+  }
+
+  const transformType = dataAttributeFunction.trim();
+  const inputs = fieldSet.querySelectorAll<HTMLInputElement>(
+    'input[type="number"]'
+  );
+  const values: Record<string, number | string> = {};
+
+  inputs.forEach((input) => {
+    const paramName = input.name;
+    const paramValue = input.value.trim();
+    if (paramValue !== "") {
+      values[paramName] = Number(paramValue);
+    }
+  });
+
+  return {
+    functionName: transformType,
+    value:
+      Object.keys(values).length === 1
+        ? values[Object.keys(values)[0]][0]
+        : values,
+  };
+}
 
 /*
 ex:

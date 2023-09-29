@@ -114,7 +114,7 @@ const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 function DEBUG_AND_TEST() {
   setInterval(() => {
     // table(gradientInfos.stopColors);
-    log(gradientInfos);
+    log(gradientInfos.options.svg.common.transformFunctions);
   }, 1_500);
 
   setTimeout(() => {

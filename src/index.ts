@@ -113,7 +113,7 @@ const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
 setInterval(() => {
   // table(gradientInfos.stopColors);
-  // log(gradientInfos);
+  log(gradientInfos);
 }, 1_500);
 
 function addOptionsEventListeners() {
@@ -164,21 +164,24 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       break;
     }
     case "svg": {
-      const svgGradient = createSvgGradient();
-      const { html, reactNative } = svgGradient;
+      const { html, reactNative } = createSvgGradient();
 
       svgGradientBackgroundElement.innerHTML = html;
-      menuGradientCode.textContent = html.trim();
+      menuGradientCode.textContent = !html.length
+        ? "Cannot create a gradient with less than 2 stops color hints"
+        : html.trim();
 
       break;
     }
     case "canvas": {
-      const canvasGradient = createCanvasGradient(canvas);
-      const { code, gradient } = canvasGradient;
+      const { code, gradient } = createCanvasGradient(canvas);
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      menuGradientCode.textContent = code.trim();
+
+      menuGradientCode.textContent = !code.length
+        ? "Cannot create a gradient with less than 2 stops color hints"
+        : code.trim();
 
       break;
     }

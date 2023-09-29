@@ -1,6 +1,7 @@
 import { percentageToHex } from "@utils/helpers/number.helpers";
 import CSSGradient from "../index-css.class";
 import CSSGradientBase from "../class-base/css-gradient-base.class";
+import { formatStringSpacing } from "@utils/helpers/string.helpers";
 
 /**
  * Class for creating CSS linear gradients
@@ -122,8 +123,8 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
       linearGradientString += `${color} ${offset}${commaSeparator}`;
     }
-    linearGradientString += ")";
-    return linearGradientString;
+    linearGradientString = linearGradientString.trim() + ")";
+    return formatStringSpacing(linearGradientString);
   }
 }
 

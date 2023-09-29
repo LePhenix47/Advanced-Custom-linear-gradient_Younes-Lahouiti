@@ -1,3 +1,4 @@
+import { formatStringSpacing } from "@utils/helpers/string.helpers";
 import CSSGradientBase from "../class-base/css-gradient-base.class";
 
 type ConicGradientPosition = {
@@ -271,13 +272,14 @@ class CSSConicGradient extends CSSGradientBase {
 
       conicGradientString += `${color} ${formattedAngles}`;
 
-      if (i !== this.stopColors.length - 1) {
+      const isNotLastStopColorHint: boolean = i !== this.stopColors.length - 1;
+      if (isNotLastStopColorHint) {
         conicGradientString += ", ";
       }
     }
 
-    conicGradientString += ")";
-    return conicGradientString;
+    conicGradientString = conicGradientString.trim() + ")";
+    return formatStringSpacing(conicGradientString);
   }
 }
 export default CSSConicGradient;

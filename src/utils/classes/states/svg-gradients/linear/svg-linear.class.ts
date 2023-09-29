@@ -132,7 +132,7 @@ SVG Linear gradient formal syntax:
       Then the 1st one should have a default offset of 0% and the second of 100%
       */
       colorStops += /* html */ `
-      <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" data-stop-id=${id} />
+      <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" />
       `;
     }
 

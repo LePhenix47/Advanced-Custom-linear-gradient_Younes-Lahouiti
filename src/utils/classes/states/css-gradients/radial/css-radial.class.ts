@@ -1,6 +1,7 @@
 import { percentageToHex } from "@utils/helpers/number.helpers";
 import CSSGradient from "../index-css.class";
 import CSSGradientBase from "../class-base/css-gradient-base.class";
+import { formatStringSpacing } from "@utils/helpers/string.helpers";
 
 type RadialGradientPosition = {
   start: string;
@@ -33,7 +34,12 @@ class CSSRadialGradient extends CSSGradientBase {
    * @type {RadialGradientPosition}
    */
   position: RadialGradientPosition;
-  size: "closest-side" | "closest-corner" | "farthest-side" | "farthest-corner";
+  size:
+    | ""
+    | "closest-side"
+    | "closest-corner"
+    | "farthest-side"
+    | "farthest-corner";
 
   /**
    * An array of color stops for the radial gradient.
@@ -58,7 +64,7 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       end: "50%",
     };
 
-    this.size = "closest-side";
+    this.size = "";
     this.stopColors = [];
   }
 
@@ -86,7 +92,9 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
       | "farthest-side"
       | "farthest-corner"
   ) {
+    const emptyString: string = "";
     const validSizes: string[] = [
+      emptyString,
       "closest-side",
       "closest-corner",
       "farthest-side",
@@ -194,8 +202,8 @@ For the stop colors, we can set the opacity by changing the HEX into an RGBA val
 
       radialGradientString += `${color} ${offset}${commaSeparator}`;
     }
-    radialGradientString += ")";
-    return radialGradientString;
+    radialGradientString = radialGradientString.trim() + ")";
+    return formatStringSpacing(radialGradientString);
   }
 }
 

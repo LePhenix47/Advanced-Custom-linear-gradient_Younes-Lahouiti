@@ -111,7 +111,7 @@ SVG Radial gradient formal syntax:
       }
 
       colorStops += /* html */ `
-      <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" data-stop-id="${id}" />
+      <stop offset="${normalizedOffset}" style="stop-color: ${color}; stop-opacity: ${opacity}" />
     `;
     }
 

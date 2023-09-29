@@ -29,6 +29,26 @@ export function kebabToCamelCase(string: string): string {
 }
 
 /**
+ * Formats the spacing of letters, words, and punctuation marks in a given string.
+ *
+ * @param {string} string - The input string to format.
+ * @returns {string} - The formatted string with consistent spacing.
+ */
+export function formatStringSpacing(string: string): string {
+  // Fix multiple spaces between words
+  const stringSpacingFix: string = string.replaceAll(/\s+/g, " ");
+
+  // Fix spacing around punctuation marks
+  const punctuationSpacingFix: string = stringSpacingFix.replaceAll(
+    /\s*([,.!?;:])\s*/g,
+    "$1 "
+  );
+
+  // Trim any leading or trailing spaces
+  return punctuationSpacingFix.trim();
+}
+
+/**
  * Formats a string containing inline CSS style declarations to a JavaScript object as a string **(not JSON)**
  * @param {string} styleValue - The string containing style declarations.
  * @returns {string} A string representation of a JavaScript object containing the style properties.

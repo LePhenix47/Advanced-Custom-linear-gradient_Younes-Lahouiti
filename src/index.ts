@@ -182,15 +182,18 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
         cssGradientBackgroundElement
       );
 
-      menuGradientCode.textContent = cssGradient;
+      menuGradientCode.textContent =
+        cssGradient === "none"
+          ? "Cannot create a CSS gradient with less than 2 stop color hints"
+          : cssGradient;
       break;
     }
     case "svg": {
       const { html, reactNative } = createSvgGradient();
 
       svgGradientBackgroundElement.innerHTML = html;
-      menuGradientCode.textContent = !html.length
-        ? "Cannot create a gradient with less than 2 stops color hints"
+      menuGradientCode.textContent = !html?.length
+        ? "Cannot create an SVG gradient with less than 2 stop color hints"
         : html.trim();
 
       break;
@@ -201,8 +204,8 @@ generateGradientButton.addEventListener("click", (e: MouseEvent) => {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      menuGradientCode.textContent = !code.length
-        ? "Cannot create a gradient with less than 2 stops color hints"
+      menuGradientCode.textContent = !code?.length
+        ? "Cannot create a canvas gradient with less than 2 stop color hints"
         : code.trim();
 
       break;

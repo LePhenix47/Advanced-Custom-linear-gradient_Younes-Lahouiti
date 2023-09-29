@@ -158,6 +158,7 @@ function createSvgLinearGradient() {
 
   linearGradients.setOrientation(linear.orientation);
 
+  // @ts-ignore
   linearGradients.setGradientTransform(common.transformFunctions);
 
   linearGradients.setGradientUnits(common.gradientUnits);
@@ -189,6 +190,7 @@ function createSvgRadialGradient() {
     "radial"
   ) as SVGRadialGradient;
 
+  // @ts-ignore
   radialGradients.setGradientTransform(common.transformFunctions);
 
   radialGradients.setGradientUnits(common.gradientUnits);

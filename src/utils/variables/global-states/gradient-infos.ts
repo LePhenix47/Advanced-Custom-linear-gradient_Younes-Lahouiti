@@ -63,7 +63,7 @@ export type GradientInfos = {
       };
       common: {
         gradientUnits: "userSpaceOnUse" | "objectBoundingBox"; // Limited values
-        transformFunctions: SVGGradientTransformObject; // transformFunctions should be a string
+        transformFunctions: { functionName: string; value: number | string }[]; // transformFunctions should be a string
         spreadMethod: "pad" | "reflect" | "repeat"; // Limited values
       };
     };
@@ -124,7 +124,12 @@ export const gradientInfos: GradientInfos = {
       },
       common: {
         gradientUnits: "objectBoundingBox",
-        transformFunctions: {},
+        transformFunctions: [
+          {
+            functionName: "rotate",
+            value: 0,
+          },
+        ],
         spreadMethod: "pad",
       },
     },

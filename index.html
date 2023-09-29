@@ -271,8 +271,264 @@
                   </dialog>
 
                   <form class="menu__options-svg--common-chosen-transforms">
-                    <p>Chosen functions</p>
+                    <!-- Matrix Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="matrix">
+                      <legend>matrix:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        a:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        b:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        c:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        d:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        tx:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        ty:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Matrix3D Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="matrix3d">
+                      <legend>matrix3d:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        a1:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        b1:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <!-- Continue with other matrix3d values -->
+                    </fieldset>
+
+                    <!-- Perspective Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="perspective">
+                      <legend>perspective (px):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Value:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Rotate Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="rotate">
+                      <legend>rotate (deg):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Angle:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Rotate3D Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="rotate3d">
+                      <legend>rotate3d (deg):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        z:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Angle:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- RotateX Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="rotateX">
+                      <legend>rotateX (deg):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Angle:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- RotateY Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="rotateY">
+                      <legend>rotateY (deg):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Angle:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- RotateZ Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="rotateZ">
+                      <legend>rotateZ (deg):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        Angle:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Scale Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="scale">
+                      <legend>scale:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" placeholder="sx" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" placeholder="sy" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Scale3D Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="scale3d">
+                      <legend>scale3d:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" placeholder="sx" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" placeholder="sy" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        z:
+                        <input type="number" name="chosen-transform" placeholder="sz" />
+                      </label>
+                    </fieldset>
+
+                    <!-- ScaleX Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="scaleX">
+                      <legend>scaleX:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- ScaleY Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="scaleY">
+                      <legend>scaleY:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- ScaleZ Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="scaleZ">
+                      <legend>scaleZ:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        z:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Skew Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="skew">
+                      <legend>skew:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x (deg):
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y (deg):
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- SkewX Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="skewX">
+                      <legend>skewX:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x (deg):
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- SkewY Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="skewY">
+                      <legend>skewY:</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y (deg):
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Translate Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="translate">
+                      <legend>translate(%):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- Translate3d Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="translate3d">
+                      <legend>translate3d (%):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        z:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- TranslateX Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="translateX">
+                      <legend>translateX (%):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        x:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- TranslateY Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="translateY">
+                      <legend>translateY (%):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        y:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+                    <!-- TranslateZ Transform -->
+                    <fieldset class="menu__options-svg--common-transform hide" data-transform="translateZ">
+                      <legend>translateZ (%):</legend>
+                      <label class="menu__options-svg--common-chosen-transforms-labels">
+                        z:
+                        <input type="number" name="chosen-transform" />
+                      </label>
+                    </fieldset>
+
+
                   </form>
+
+
                 </div>
 
                 <label for="svg-spread-method">Spread method:</label>

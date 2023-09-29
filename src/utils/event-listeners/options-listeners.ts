@@ -6,6 +6,8 @@ import {
   selectFirstByClass,
   addClass,
   removeClass,
+  getParent,
+  selectByClass,
 } from "@utils/helpers/dom.helpers";
 import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
 
@@ -148,7 +150,45 @@ export function addCssOptionsListeners() {
 }
 
 const dialogElement = selectQuery<HTMLDialogElement>("dialog#transform-dialog");
+const chosenTransformsFormElement = selectFirstByClass<HTMLFormElement>(
+  "menu__options-svg--common-chosen-transforms"
+);
+
+const transformFieldSetsArray = selectByClass<HTMLFieldSetElement>(
+  "menu__options-svg--common-transform",
+  chosenTransformsFormElement
+);
+
 export function addSvgOptionsListeners() {
+  const transformFunctionCheckboxes = selectQueryAll<HTMLInputElement>(
+    "input[type=checkbox]",
+    dialogElement
+  );
+
+  for (const checkbox of transformFunctionCheckboxes) {
+    checkbox.addEventListener("change", (e: Event) => {
+      const checkbox = e.currentTarget as HTMLInputElement;
+
+      const label = getParent<HTMLLabelElement>(checkbox);
+
+      const transformFunction: string = label.innerText;
+
+      log("Checkbox change on:", transformFunction);
+
+      const fieldSetToModify: HTMLFieldSetElement =
+        transformFieldSetsArray.find((fieldSet: HTMLFieldSetElement) => {
+          const dataAttributeFunction: string = fieldSet.dataset.transform;
+          return transformFunction === dataAttributeFunction;
+        });
+
+      const hasNowChosenFunction: boolean = checkbox.checked;
+      if (hasNowChosenFunction) {
+        removeClass(fieldSetToModify, "hide");
+      } else {
+        addClass(fieldSetToModify, "hide");
+      }
+    });
+  }
   const svgGradientOptions = selectQueryAll<HTMLDivElement>(
     `.menu__options--svg>*`
   );
@@ -167,6 +207,35 @@ export function addSvgOptionsListeners() {
   );
 
   const radialGradientOptions: HTMLDivElement = svgGradientOptions[1];
+
+  const [circlePositionPicker, focalPositionPicker] =
+    selectQueryAll<HTMLElement>("position-picker", radialGradientOptions);
+
+  createMutationObserver(
+    circlePositionPicker,
+    ["x", "y"],
+    (attribute: string, mutation: MutationRecord) => {
+      const radialPositionProperty: string =
+        mutation.attributeName === "x" ? "centerX" : "centerY";
+
+      gradientInfos.options.svg.radial[
+        radialPositionProperty
+      ] = `${attribute}%`;
+    }
+  );
+
+  createMutationObserver(
+    focalPositionPicker,
+    ["x", "y"],
+    (attribute: string, mutation: MutationRecord) => {
+      const radialPositionProperty: string =
+        mutation.attributeName === "x" ? "focalX" : "focalY";
+
+      gradientInfos.options.svg.radial[
+        radialPositionProperty
+      ] = `${attribute}%`;
+    }
+  );
 
   const commonGradientOptions: HTMLDivElement = svgGradientOptions[2];
 

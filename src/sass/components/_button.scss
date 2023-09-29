@@ -1,0 +1,20 @@
+@use "../utils/" as *;
+
+.button {
+    color: white;
+    background-color: #3b3b3b;
+
+    padding-inline: 10px;
+    padding-block: 5px;
+
+    border-radius: 100vmax;
+
+    &:hover {
+        filter: contrast(80%);
+    }
+
+    &:active {
+
+        filter: contrast(65%);
+    }
+}

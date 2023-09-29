@@ -1,9 +1,12 @@
 @use "../utils/" as *;
 
 * {
+    --_scrollbar-track-bg: transparent;
+
     --_scrollbar-bg: var(--scrollbar-track-bg-color);
     --_scrollbar-border-radius: 100vmax;
     --_scrollbar-width: 10px;
+    --_scrollbar-margin-block: 0px;
 
     --_scrollbar-thumb-border: 3px solid var(--bg-primary);
 
@@ -16,6 +19,13 @@
         border-radius: var(--_scrollbar-border-radius);
 
         width: var(--_scrollbar-width);
+        margin-block: var(--_scrollbar-margin-block);
+    }
+
+    &::-webkit-scrollbar-track {
+        margin-block: var(--_scrollbar-margin-block);
+
+        background-color: var(--_scrollbar-track-bg);
     }
 
     &::-webkit-scrollbar-thumb {

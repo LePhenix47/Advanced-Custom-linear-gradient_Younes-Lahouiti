@@ -1,0 +1,54 @@
+@use "../utils/" as *;
+
+.dialog {
+    width: 80%;
+
+    min-height: 60%;
+
+    &__form--container {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        height: 100%;
+
+        padding: 15px;
+    }
+
+    &__legend--title {
+        width: 100%;
+        text-align: center;
+    }
+
+    &__fieldset--labels-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        margin-bottom: 10px;
+
+    }
+
+    &__label--function {
+        display: inline-flex;
+        gap: 10px;
+
+        &>input {
+            order: -1
+        }
+    }
+
+    &__fieldset--buttons-container {
+        width: 100%;
+
+        @include center-flex(15px);
+
+        &>button {
+            flex: 1
+        }
+    }
+
+    &::backdrop {
+        backdrop-filter: brightness(50%);
+    }
+}

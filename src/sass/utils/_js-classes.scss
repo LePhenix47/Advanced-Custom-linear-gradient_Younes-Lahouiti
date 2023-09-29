@@ -62,3 +62,29 @@
 .invisible {
     visibility: hidden !important;
 }
+
+//Animation classes
+.fade-in {
+    @include fade-in-animation-properties;
+
+    &::backdrop {
+        @include fade-in-animation-properties;
+    }
+
+    &::-webkit-backdrop {
+        @include fade-in-animation-properties;
+    }
+}
+
+.fade-out {
+    @include fade-out-animation-properties;
+
+    &::backdrop {
+        @include fade-out-animation-properties;
+
+    }
+
+    &::-webkit-backdrop {
+        @include fade-out-animation-properties;
+    }
+}

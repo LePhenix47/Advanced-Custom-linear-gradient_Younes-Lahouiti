@@ -105,7 +105,7 @@
           </div>
 
           <div class="menu__table-container">
-            <button type="button" class="menu__add-color-button">
+            <button type="button" class="button menu__add-color-button">
               Add Color
             </button>
             <table class="menu__table">
@@ -173,126 +173,106 @@
 
 
                 <div class="menu__options-svg--common-transforms">
-                  <button>Choose transform functions</button>
-                  <dialog id="transformDialog">
-                    <form id="transformForm">
-                      <fieldset>
-                        <legend>SVG Gradient Transform Functions</legend>
-                        <label>
+                  <button class="button menu__options-add-transform-button">Choose transform functions</button>
+                  <dialog class="dialog" id="transform-dialog">
+                    <form class="dialog__form--container" id="transformForm">
+                      <fieldset class="dialog__fieldset--labels-container">
+                        <legend class="dialog__legend--title">SVG Gradient Transform Functions</legend>
+                        <label class="dialog__label--function">
                           matrix
-                          <input type="checkbox" name="transform" value="matrix">
+                          <input type="checkbox" name="transform" value="matrix" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           matrix3d
-                          <input type="checkbox" name="transform" value="matrix3d">
+                          <input type="checkbox" name="transform" value="matrix3d" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           perspective
-                          <input type="checkbox" name="transform" value="perspective">
+                          <input type="checkbox" name="transform" value="perspective" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           rotate
-                          <input type="checkbox" name="transform" value="rotate">
+                          <input type="checkbox" name="transform" value="rotate" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           rotate3d
-                          <input type="checkbox" name="transform" value="rotate3d">
+                          <input type="checkbox" name="transform" value="rotate3d" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           rotateX
-                          <input type="checkbox" name="transform" value="rotateX">
+                          <input type="checkbox" name="transform" value="rotateX" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           rotateY
-                          <input type="checkbox" name="transform" value="rotateY">
+                          <input type="checkbox" name="transform" value="rotateY" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           rotateZ
-                          <input type="checkbox" name="transform" value="rotateZ">
+                          <input type="checkbox" name="transform" value="rotateZ" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           scale
-                          <input type="checkbox" name="transform" value="scale">
+                          <input type="checkbox" name="transform" value="scale" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           scale3d
-                          <input type="checkbox" name="transform" value="scale3d">
+                          <input type="checkbox" name="transform" value="scale3d" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           scaleX
-                          <input type="checkbox" name="transform" value="scaleX">
+                          <input type="checkbox" name="transform" value="scaleX" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           scaleY
-                          <input type="checkbox" name="transform" value="scaleY">
+                          <input type="checkbox" name="transform" value="scaleY" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           scaleZ
-                          <input type="checkbox" name="transform" value="scaleZ">
+                          <input type="checkbox" name="transform" value="scaleZ" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           skew
-                          <input type="checkbox" name="transform" value="skew">
+                          <input type="checkbox" name="transform" value="skew" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           skewX
-                          <input type="checkbox" name="transform" value="skewX">
+                          <input type="checkbox" name="transform" value="skewX" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           skewY
-                          <input type="checkbox" name="transform" value="skewY">
+                          <input type="checkbox" name="transform" value="skewY" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           translate
-                          <input type="checkbox" name="transform" value="translate">
+                          <input type="checkbox" name="transform" value="translate" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           translate3d
-                          <input type="checkbox" name="transform" value="translate3d">
+                          <input type="checkbox" name="transform" value="translate3d" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           translateX
-                          <input type="checkbox" name="transform" value="translateX">
+                          <input type="checkbox" name="transform" value="translateX" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           translateY
-                          <input type="checkbox" name="transform" value="translateY">
+                          <input type="checkbox" name="transform" value="translateY" />
                         </label>
-                        <br>
-                        <label>
+                        <label class="dialog__label--function">
                           translateZ
-                          <input type="checkbox" name="transform" value="translateZ">
+                          <input type="checkbox" name="transform" value="translateZ" />
                         </label>
-                        <br>
                         <!-- Add more checkboxes for other functions here -->
                       </fieldset>
-                      <button type="submit">Apply</button>
+                      <fieldset class="dialog__fieldset--buttons-container">
+                        <button class="button" id="close-dialog">Close</button>
+                      </fieldset>
                     </form>
-                    <button id="closeDialog">Close</button>
                   </dialog>
 
-                  <div class="menu__options-svg--common-chosen-transforms">
-
-                  </div>
+                  <form class="menu__options-svg--common-chosen-transforms">
+                    <p>Chosen functions</p>
+                  </form>
                 </div>
 
                 <label for="svg-spread-method">Spread method:</label>
@@ -332,7 +312,7 @@
           </div>
 
           <div class="menu__gradient-code-container">
-            <button class="menu__gradient-generator-button">Generate gradient</button>
+            <button class="button menu__gradient-generator-button">Generate gradient</button>
 
             <p>Generated code:</p>
             <pre class="menu__gradient-code">Generated code will appear here</pre>

@@ -111,10 +111,32 @@ handleCanvasResize();
 
 const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
 
-setInterval(() => {
-  // table(gradientInfos.stopColors);
-  log(gradientInfos);
-}, 1_500);
+function DEBUG_AND_TEST() {
+  setInterval(() => {
+    // table(gradientInfos.stopColors);
+    log(gradientInfos);
+  }, 1_500);
+
+  setTimeout(() => {
+    // Set the value property to the value of the option you want to select
+    languageSelectElement.selectedIndex = 0; // Replace "optionValue" with the actual value of the option you want to select
+
+    // Create a new "change" event
+    const changeEvent = new Event("change", {
+      bubbles: true, // Allow the event to bubble up the DOM tree
+      cancelable: true, // Allow the event to be canceled
+    });
+
+    // Dispatch the "change" event on the <select> element
+    languageSelectElement.dispatchEvent(changeEvent);
+
+    const gradientTransformAddButton = selectFirstByClass<HTMLButtonElement>(
+      "menu__options-add-transform-button"
+    );
+    // gradientTransformAddButton.click();
+  });
+}
+DEBUG_AND_TEST();
 
 function addOptionsEventListeners() {
   addCssOptionsListeners();

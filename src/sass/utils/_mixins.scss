@@ -114,6 +114,22 @@
 }
 
 // ---------------------------------------------------------------- //
+// For JS classes
+@mixin fade-in-animation-properties {
+    animation-name: fade-in;
+    animation-duration: 250ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+}
+
+@mixin fade-out-animation-properties {
+    @include fade-in-animation-properties;
+
+    animation-direction: reverse;
+}
+
+// ---------------------------------------------------------------- //
 // Element specific mixins
 @mixin circle-style {
     aspect-ratio: 1;

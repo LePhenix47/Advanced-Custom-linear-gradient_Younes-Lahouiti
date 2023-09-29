@@ -3,6 +3,9 @@ import {
   selectQueryAll,
   selectQuery,
   getAttributeFrom,
+  selectFirstByClass,
+  addClass,
+  removeClass,
 } from "@utils/helpers/dom.helpers";
 import { gradientInfos } from "@utils/variables/global-states/gradient-infos";
 
@@ -144,6 +147,7 @@ export function addCssOptionsListeners() {
   // Add observers for radial and conic options as needed using createMutationObserver function.
 }
 
+const dialogElement = selectQuery<HTMLDialogElement>("dialog#transform-dialog");
 export function addSvgOptionsListeners() {
   const svgGradientOptions = selectQueryAll<HTMLDivElement>(
     `.menu__options--svg>*`
@@ -152,6 +156,51 @@ export function addSvgOptionsListeners() {
   const linearGradientOptions: HTMLDivElement = svgGradientOptions[0];
   const radialGradientOptions: HTMLDivElement = svgGradientOptions[1];
   const commonGradientOptions: HTMLDivElement = svgGradientOptions[2];
+
+  const gradientUnitsSelect = selectQuery<HTMLSelectElement>(
+    "select#svg-gradient-units",
+    commonGradientOptions
+  );
+
+  gradientUnitsSelect.addEventListener("change", (e: Event) => {
+    const select = e.currentTarget as HTMLSelectElement;
+    gradientInfos.options.svg.common.gradientUnits = select.value as
+      | "userSpaceOnUse"
+      | "objectBoundingBox";
+  });
+
+  const gradientTransformAddButton = selectFirstByClass<HTMLButtonElement>(
+    "menu__options-add-transform-button"
+  );
+
+  gradientTransformAddButton.addEventListener("click", (e: MouseEvent) => {
+    dialogElement.showModal();
+    addClass(dialogElement, "fade-in");
+
+    setTimeout(() => {
+      removeClass(dialogElement, "fade-in");
+    }, 300);
+  });
+  const closeModalButton = selectQuery<HTMLButtonElement>(
+    "button#close-dialog",
+    dialogElement
+  );
+
+  closeModalButton.addEventListener("click", (e: MouseEvent) => {
+    e.preventDefault();
+
+    addClass(dialogElement, "fade-out");
+
+    setTimeout(() => {
+      dialogElement.close();
+      removeClass(dialogElement, "fade-out");
+    }, 300);
+  });
+
+  const spreadMethodSelect = selectQuery<HTMLSelectElement>(
+    "select#svg-spread-method",
+    commonGradientOptions
+  );
 }
 
 export function addCanvasOptionsListeners() {

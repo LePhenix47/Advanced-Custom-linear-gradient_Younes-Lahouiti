@@ -19,6 +19,8 @@
 
         scrollbar-gutter: stable;
 
+        --_scrollbar-margin-block: 35px 0px;
+
         padding-right: 5px;
 
         &:hover {
@@ -26,7 +28,8 @@
             --_scrollbar-thumb-bg: white;
         }
 
-        --_scrollbar-bg: transparent;
+
+        --_scrollbar-bg: transparent !important;
         --_scrollbar-border-radius: 10px;
 
         --_scrollbar-thumb-border: none;
@@ -210,23 +213,7 @@
 
     color: white;
 
-    &__add-color-button {
-        background-color: #3b3b3b;
-
-        padding-inline: 10px;
-        padding-block: 5px;
-
-        border-radius: 100vmax;
-
-        &:hover {
-            filter: contrast(80%);
-        }
-
-        &:active {
-
-            filter: contrast(65%);
-        }
-    }
+    &__add-color-button {}
 
     &__types-language {}
 
@@ -553,13 +540,7 @@
         }
     }
 
-    &__gradient-generator-button {
-        background-color: #3b3b3b;
-
-        padding-inline: 10px;
-        padding-block: 5px;
-        border-radius: 100vmax;
-    }
+    &__gradient-generator-button {}
 
     &__gradient-code-container {}
 
